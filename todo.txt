@@ -1,0 +1,2 @@
+TODO:
+ * Valider migrations: https://youtu.be/3qlnR9hK-lQ?t=2025
