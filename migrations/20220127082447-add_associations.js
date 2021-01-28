@@ -23,7 +23,6 @@ module.exports = {
                     model: 'users', // Tabell som fremmednøkkel refererer til
                     key: 'id'      // Primærnøkkel som fremmednøkkel refererer til
                 },
-                allowNull: false
             }).then(async () => {
             // 2. Exercise belongsTo diffeculty_level || diffeculty_level hasMany Excercise
             await queryInterface.addColumn(
@@ -49,7 +48,8 @@ module.exports = {
                         model: 'ranks',
                         key: 'id'
                     },
-                    allowNull: false
+                    allowNull: false,
+                    defaultValue: 1
                 }
             )
         }).then(async () => {
@@ -62,8 +62,7 @@ module.exports = {
                     references: {
                         model: 'avatars',
                         key: 'id'
-                    },
-                    allowNull: false,
+                    }
                 }
             )
         }).then(async () => {
@@ -153,8 +152,8 @@ module.exports = {
         }).then(async () => {
             // 9
             await queryInterface.removeColumn(
-                'user_id',
-                'logins'
+                'logins',
+                'user_id'
             )
         })
     }
