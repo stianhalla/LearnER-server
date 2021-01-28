@@ -11,8 +11,8 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.STRING
+      description: { // HTML formatert oppgave beskrivelse
+        type: Sequelize.TEXT
       },
       solution: {
         type: Sequelize.JSON
@@ -21,28 +21,37 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false
       },
-      points: {
-        type: Sequelize.INTEGER
+      extra_points: { // Ekstra poeng man får for å løse denne oppgaven
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
       },
       tags: {
         type: Sequelize.STRING
       },
-      difficulty: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      feedback: {
+      // Ekstra ord som kan godtas (oppgaver uten hjelp, bygger json synonymer)
+      extra_relation_names: {
         type: Sequelize.STRING
       },
-      feedback_penalty: {
+      extra_entity_names: {
+        type: Sequelize.STRING
+      },
+      extra_attribute_names: {
+        type: Sequelize.STRING
+      },
+      hint: { // HTML formatert hint
+        type: Sequelize.TEXT
+      },
+      hint_penalty: { // Hvor mye poeng man mister for å bruke hintet over (prosent)
         type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: 0
       },
-      updatedAt: {
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
