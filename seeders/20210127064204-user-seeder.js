@@ -23,7 +23,7 @@ module.exports = {
         avatar_id: avatarId,
         username: faker.internet.userName(),
         email: faker.internet.email(),
-        password: 'passord123',
+        password: '$2b$10$8nGNh2p6MNzcpR7B7kRRVuE.6to4OXk/6xyBwb5T5QW/vgU6eQtdu', // passord123
         type: faker.random.number({'min': 1,'max': 2}),
         verified: faker.random.boolean(),
         selected_notation: faker.random.number({'min': 1,'max': 2}),

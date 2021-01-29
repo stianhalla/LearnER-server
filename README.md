@@ -11,8 +11,9 @@ DB_USER=
 DB_PASSWORD=
 DB_NAME=
 DB_PORT=
+DB_DIALECT=
 NODE_ENV=development
-PORT=
+PORT=3090
 ```
 ### 3. Lag config.js fil (hjemmekatalog)
 ```
