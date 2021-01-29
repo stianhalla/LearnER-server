@@ -5,16 +5,17 @@
 const passport = require('passport')
 const Authentication = require('./controllers/authentication')
 const AUTH = '/api/auth/'
-const passportService = require('./services/passport')
+const passportServices = require('./services/passport') // Blir brukt, ikke fjern!
 
 // Middleware for å sette på autentisering på routes
-const requireAuth = passport.authenticate('jwt', {session: false}) // krever token i header
+const requireUserPrivileges = passport.authenticate('user-rule', {session: false})
+const requireTeacherPrivileges = passport.authenticate('teacher-rule', {session: false})
 const requireSignin = passport.authenticate('local', {session: false}) // krever email og passord
 
 const router = (app) => {
 
     // Test route
-    app.get('/', requireAuth, (req, res) => {
+    app.get('/', requireTeacherPrivileges, (req, res) => {
         res.send({hi : 'there'})
     })
 
