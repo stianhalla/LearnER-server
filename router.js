@@ -1,11 +1,15 @@
 /**
  * Håndterer requests
  * */
-
 const passport = require('passport')
-const Authentication = require('./controllers/authentication')
-const AUTH = '/api/auth/'
 const passportServices = require('./services/passport') // Blir brukt, ikke fjern!
+
+const AuthController = require('./controllers/authentication')
+const UserController = require('./controllers/user')
+
+const AUTH = '/api/auth' // Eneste route uten flertall
+const USERS = '/api/users'
+const TEST = '/api/test'
 
 // Middleware for å sette på autentisering på routes
 const requireUserPrivileges = passport.authenticate('user-rule', {session: false})
@@ -14,14 +18,19 @@ const requireSignin = passport.authenticate('local', {session: false}) // krever
 
 const router = (app) => {
 
-    // Test route
-    app.get('/', requireTeacherPrivileges, (req, res) => {
+    // TEST
+    app.get(TEST,  (req, res) => {
         res.send({hi : 'there'})
     })
 
-    app.post(AUTH + 'signin', requireSignin, Authentication.signin)
+    // AUTH
+    app.post(AUTH + '/signin', requireSignin, AuthController.signin)
+    app.post(AUTH + '/signup', AuthController.signup)
 
-    app.post(AUTH + 'signup', Authentication.signup)
+    //USERS
+    app.get(USERS, UserController.index)
+
+    // Route som håndterer resten TODO
 }
 
 module.exports = router;

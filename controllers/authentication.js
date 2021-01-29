@@ -12,8 +12,8 @@ const tokenForUser = (user) => {
     return jwt.encode({ sub: user.id, iat: timestamp}, config.secret)
 }
 
-// Bruker local passport strategi
-const signup = (req, res, next) =>{
+// Oppretter en ny bruker og logger den inn
+exports.signup = (req, res, next) =>{
     const email = req.body.email;
     const password = req.body.password;
     const username = req.body.username;
@@ -24,11 +24,9 @@ const signup = (req, res, next) =>{
         .catch(err => { res.status(422).send(err) })
 }
 
-// Bruker jwt passport strategi
-const signin = (req, res, next) => {
+// Logger inn en bruker
+exports.signin = (req, res, next) => {
     const user = req.user // Kommer fra done(null, user) i passport
     res.json({ token: tokenForUser(user) })
 }
 
-exports.signup = signup;
-exports.signin = signin;

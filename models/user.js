@@ -14,11 +14,13 @@ module.exports = (sequelize, DataTypes) => {
       }); // Fremmednøkkel hos exercise tabell
 
       this.belongsTo(Avatar, {
-        foreignKey: { field:'avatar_id', defaultValue: 1 }, // Bruker starter med avatar 1
+        foreignKey: { name: 'avatar_id', defaultValue: 1 }, // Bruker starter med avatar 1
+        as: 'avatar' // Navnet som vises ved include
       })
 
       this.belongsTo(Rank, {
-        foreignKey: { field:'rank_id', defaultValue: 1 }, // Bruker starter med rank 1
+        foreignKey: { name:'rank_id', defaultValue: 1 }, // Bruker starter med rank 1
+        as: 'rank' // Navnet som vises ved include
       })
 
       this.hasMany(Answer, {
@@ -38,6 +40,16 @@ module.exports = (sequelize, DataTypes) => {
     // Metode for å sjekke passord
     async comparePassword(candidatePassword){
       return bcrypt.compare(candidatePassword, this.password);
+    }
+
+    // Fjerner valgte felter fra json objektet ved json response
+    toJSON() {
+      return {
+        ...this.get(),
+        password: undefined,
+        avatar_id: undefined,
+        rank_id: undefined
+      }
     }
   }
 
