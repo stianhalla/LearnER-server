@@ -16,6 +16,16 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'avatar_id'
       })
     }
+
+    // Fjerner valgte felter fra json objektet ved json response
+    toJSON() {
+      return {
+        ...this.get(),
+        created_at: undefined,
+        updated_at: undefined
+      }
+    }
+
   };
   Avatar.init({
     filename: DataTypes.STRING

@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Message',
     tableName: 'messages',
     updatedAt: 'updated_at',
-    createdAt: 'signed_in_at'
+    createdAt: 'created_at'
   });
   return Message;
 };

@@ -20,13 +20,14 @@ exports.signup = (req, res, next) =>{
 
     // Lager en ny buker i databasen og returnerer en jwt token for innlogging
     User.create({ username, email, password })
-        .then(user => { res.json({ token: tokenForUser(user) }) })
-        .catch(err => { res.status(422).send(err) })
+        .then(user =>  res.json({ token: tokenForUser(user) }) )
+        .catch(err =>  res.status(403).send(err.errors) )
 }
 
 // Logger inn en bruker
 exports.signin = (req, res, next) => {
     const user = req.user // Kommer fra done(null, user) i passport
-    res.json({ token: tokenForUser(user) })
+    return res.json({ token: tokenForUser(user) });
 }
+
 

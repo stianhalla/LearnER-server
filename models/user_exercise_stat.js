@@ -16,6 +16,14 @@ module.exports = (sequelize, DataTypes) => {
       })
 
     }
+    // Fjerner valgte felter fra json objektet ved json response
+    toJSON() {
+      return {
+        ...this.get(),
+        created_at: undefined,
+        updated_at: undefined
+      }
+    }
   };
   User_exercise_stat.init({
     completed: DataTypes.BOOLEAN,

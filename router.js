@@ -28,7 +28,7 @@ const router = (app) => {
     app.post(AUTH + '/signup', AuthController.signup)
 
     //USERS
-    app.get(USERS, UserController.index)
+    app.get(USERS, requireUserPrivileges ,UserController.index)
 
     // Route som håndterer resten TODO
 }

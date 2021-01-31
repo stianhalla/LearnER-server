@@ -50,7 +50,9 @@ module.exports = (sequelize, DataTypes) => {
         ...this.get(),
         password: undefined,
         avatar_id: undefined,
-        rank_id: undefined
+        rank_id: undefined,
+        created_at: undefined,
+        updated_at: undefined
       }
     }
   }

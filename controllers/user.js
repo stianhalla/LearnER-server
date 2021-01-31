@@ -9,8 +9,8 @@ exports.index = (req, res, next) => {
     const users = User.findAll({
         include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}]
     })
-        .then(users => { res.json(users) })
-        .catch(err => { res.status(422).json(err) })
+        .then(users => res.json(users))
+        .catch(err => res.status(500).json(err) )
 }
 
 // Henter en valgt bruker

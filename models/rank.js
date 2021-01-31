@@ -11,7 +11,14 @@ module.exports = (sequelize, DataTypes) => {
         through: 'rank_has_avatars',
         foreignKey: 'rank_id'
       })
-
+    }
+    // Fjerner valgte felter fra json objektet ved json response
+    toJSON() {
+      return {
+        ...this.get(),
+        created_at: undefined,
+        updated_at: undefined
+      }
     }
   };
   Rank.init({

@@ -10,6 +10,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'difficulty_level_id'
       })
     }
+    // Fjerner valgte felter fra json objektet ved json response
+    toJSON() {
+      return {
+        ...this.get(),
+        created_at: undefined,
+        updated_at: undefined
+      }
+    }
   };
   Difficulty_level.init({
     name: DataTypes.STRING,
