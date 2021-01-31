@@ -1,3 +1,5 @@
+const { notation, userType} = require('../config/types')
+
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -24,7 +26,7 @@ module.exports = {
       type:{ // Student = 1, Lærer = 2
         type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 1
+        defaultValue: userType.STUDENT
       },
       verified: { // Om bruker har blitt verifisert av lærer
         type: Sequelize.BOOLEAN,
@@ -34,7 +36,7 @@ module.exports = {
       selected_notation: { // 1 = ER, 2 = UML 3 = forenklet ER, 4 er til utviddelse
         type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 1
+        defaultValue: notation.ER
       },
       score:{
         type: Sequelize.INTEGER,

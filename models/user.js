@@ -1,3 +1,5 @@
+const { notation, userType} = require('../config/types')
+
 'use strict';
 
 const { Model } = require('sequelize');
@@ -81,7 +83,7 @@ module.exports = (sequelize, DataTypes) => {
     type: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 1,
+      defaultValue: userType.STUDENT,
       validate:{
         isNumeric: true,
         len: [1, 3] // 1 = student, 2 = lærer , 3 er til utviddelse
@@ -95,7 +97,7 @@ module.exports = (sequelize, DataTypes) => {
     selected_notation: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 1,
+      defaultValue: notation.ER,
       validate:{
         isNumeric: true,
         len: [1, 4] // 1 = ER, 2 = UML 3 = forenklet ER, 4 er til utviddelse
