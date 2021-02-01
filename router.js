@@ -20,7 +20,7 @@ const router = (app) => {
 
     // TEST
     app.get(TEST,  (req, res) => {
-        res.send({hi : 'there'})
+        return res.send({hi : 'there'})
     })
 
     // AUTH
@@ -29,6 +29,7 @@ const router = (app) => {
 
     //USERS
     app.get(USERS, requireUserPrivileges ,UserController.index)
+    app.get(USERS + '/:id', requireUserPrivileges ,UserController.show)
 
     // Route som håndterer resten TODO
 }
