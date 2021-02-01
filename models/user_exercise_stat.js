@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ Exercise, User }) {
 
       this.belongsTo(Exercise, {
-        foreignKey: 'exercise_id'
+        foreignKey: 'exercise_id',
       })
 
       this.belongsTo(User, {

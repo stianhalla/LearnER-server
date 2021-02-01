@@ -43,7 +43,7 @@ const jwtTeacher = new JwtStrategy(jwtOptions, (payload, done) => {
 })
 
 // Setter opp lokal strategi (for autenisering av email og passord)
-const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
+const localSignIn = new LocalStrategy(localOptions, (email, password, done) => {
     User.findOne({ where: { email }}) // Ser om email finnes i databasen
         .then(async user => {
             if(!user){ return done(null, false) }
@@ -59,4 +59,4 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
 // Velg strategi med passport
 passport.use('user-rule', jwtUser)
 passport.use('teacher-rule', jwtTeacher)
-passport.use(localLogin) // Sjekker om vi kan gi bruker en jwt token (ved innlogging)
+passport.use(localSignIn) // Sjekker om vi kan gi bruker en jwt token (ved innlogging)

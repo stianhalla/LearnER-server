@@ -1,9 +1,9 @@
-const { notation, userType} = require('../config/types')
-
 'use strict';
 
 const { Model } = require('sequelize');
 const bcrypt = require('bcrypt')
+const { notation, userType} = require('../config/types')
+
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -49,7 +49,6 @@ module.exports = (sequelize, DataTypes) => {
       return {
         ...this.get(),
         password: undefined,
-        avatar_id: undefined,
         rank_id: undefined,
         created_at: undefined,
         updated_at: undefined
@@ -70,7 +69,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate:{
         notEmpty: true,
-        min: 8
+        len: { args: [8], msg: 'Password needs to be at least 8 characters'}
       }
     },
     email: {
@@ -79,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate:{
         isEmail: true,
-        notEmpty: true
+        notEmpty: true,
       }
     },
     type: {
@@ -88,28 +87,40 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: userType.STUDENT,
       validate:{
         isNumeric: true,
-        len: [1, 3] // 1 = student, 2 = lærer , 3 er til utviddelse
+        notEmpty: true,
+        is: [userType.STUDENT, userType.TEACHER] // 1 = student, 2 = lærer
       }
     },
     verified: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
+      validate: {
+        notEmpty: true,
+        isBoolean(val){
+          if(typeof val !== 'boolean'){
+            throw new Error('Only boolean values are allowed!')
+          }
+        }
+      }
     },
     selected_notation: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: notation.ER,
       validate:{
-        isNumeric: true,
-        len: [1, 4] // 1 = ER, 2 = UML 3 = forenklet ER, 4 er til utviddelse
+        notEmpty: true,
+        is: [notation.ER, notation.UML, notation.SIMPLIFIED_ER], // 1 = ER, 2 = UML 3 = forenklet ER
       }
     },
     score: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
-      validate: { isNumeric: true }
+      validate: {
+        notEmpty:true,
+        isNumeric: true
+      }
     }
   }, {
     sequelize,

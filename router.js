@@ -19,8 +19,8 @@ const requireSignin = passport.authenticate('local', {session: false}) // krever
 const router = (app) => {
 
     // TEST
-    app.get(TEST,  (req, res) => {
-        return res.send({hi : 'there'})
+    app.get(TEST, requireUserPrivileges, (req, res) => {
+        return res.send({hi : req.user})
     })
 
     // AUTH
@@ -30,6 +30,7 @@ const router = (app) => {
     //USERS
     app.get(USERS, requireUserPrivileges ,UserController.index)
     app.get(USERS + '/:id', requireUserPrivileges ,UserController.show)
+    app.patch(USERS + '/:id', requireUserPrivileges ,UserController.update)
 
     // Route som håndterer resten TODO
 }

@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
 
       this.belongsToMany(Avatar, {
         through: 'rank_has_avatars',
-        foreignKey: 'rank_id'
+        foreignKey: 'rank_id',
+        as: 'avatars'
       })
     }
     // Fjerner valgte felter fra json objektet ved json response

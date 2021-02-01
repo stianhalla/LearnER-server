@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
 
       this.belongsToMany(Rank, {
         through: 'rank_has_avatars',
-        foreignKey: 'avatar_id'
+        foreignKey: 'avatar_id',
+        as: 'ranks'
       })
 
       this.hasMany(User, {

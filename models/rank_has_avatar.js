@@ -8,11 +8,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ Rank, Avatar }) {
 
       this.belongsTo(Avatar, {
-        foreignKey: 'avatar_id'
+        foreignKey: 'avatar_id',
+        as: 'avatar' // Navn som vises i include
       })
 
       this.belongsTo(Rank, {
-        foreignKey: 'rank_id'
+        foreignKey: 'rank_id',
+        as: 'rank' // Navn som vises i include
       })
     }
     // Fjerner valgte felter fra json objektet ved json response
@@ -25,7 +27,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Rank_has_avatar.init({
-    // Kun fremmednøkkler og primærnøkkler
+    rank_id: {
+      type:DataTypes.INTEGER,
+      primaryKey: true
+    },
+    avatar_id: {
+      type:DataTypes.INTEGER,
+      primaryKey: true
+    }
   }, {
     sequelize,
     modelName: 'Rank_has_avatar',

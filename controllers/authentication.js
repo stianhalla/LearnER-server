@@ -23,9 +23,10 @@ exports.signup = (req, res, next) =>{
     // Lager en ny buker i databasen og returnerer en jwt token for innlogging
     User.create({ username, email, password })
         .then(user =>  res.json(new SuccRes(
-            'User created',
-            { token: tokenForUser(user) }
-            )) )
+                'User created',
+                { token: tokenForUser(user) }
+            )
+        ))
         .catch(err =>  res.status(err.status || 422).json(new ErrRes(
                 err.message || 'Server error',
                 err.errors.map(error => error.message)

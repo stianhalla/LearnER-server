@@ -4,9 +4,10 @@
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const morgan = require('morgan');
 const router = require('./router');
-const cors = require('cors');
+
 
 // App Setup
 const app = express();
