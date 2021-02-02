@@ -23,6 +23,8 @@ module.exports = {
                     model: 'users', // Tabell som fremmednøkkel refererer til
                     key: 'id'      // Primærnøkkel som fremmednøkkel refererer til
                 },
+                allowNull: true,
+                onDelete: 'SET NULL'
             }).then(async () => {
             // 2. Exercise belongsTo diffeculty_level || diffeculty_level hasMany Excercise
             await queryInterface.addColumn(

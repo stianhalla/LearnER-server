@@ -31,6 +31,7 @@ const router = (app) => {
     app.get(USERS, requireUserPrivileges ,UserController.index)
     app.get(USERS + '/:id', requireUserPrivileges ,UserController.show)
     app.patch(USERS + '/:id', requireUserPrivileges ,UserController.update)
+    app.delete(USERS + '/:id', requireUserPrivileges, UserController.destroy)
 
     // Route som håndterer resten TODO
 }

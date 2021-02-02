@@ -108,7 +108,20 @@ exports.update = async (req, res, next) => {
 
 // Sletter en valgt bruker
 exports.destroy = (req, res, next) => {
+    const user = req.user;
+    const candidatId = parseInt(req.params.id);
+    // Sjekker om bruker prøver å slette sin egen bruker
+    if(user.id !== candidatId) {
+        return res.sendStatus(401);
+    }
 
+    user.destroy().then(deleted =>{
+        console.log(deleted)
+        return res.json(new SuccRes('User deleted', null))
+    }).catch(err => {
+        if (!err.errors) return res.status(500).json(new ErrRes(err.name, [err.message]))
+        new ErrRes(err.name, err.errors.map(error => error.message))
+    });
 }
 
 /**

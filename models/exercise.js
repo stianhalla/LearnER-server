@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ User, Difficulty_level, Answer }) {
       // En oppgave tilghører en bruker (forfatter)
       this.belongsTo(User, {
-        foreignKey: 'author_id'
+        foreignKey: 'author_id',
       }); // Fremmednøkkel i exercises tabellen
 
       this.belongsTo(Difficulty_level, {

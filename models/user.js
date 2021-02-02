@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
       // En bruker kan være forfatter for mange oppgaver
       this.hasMany(Exercise, {
-        foreignKey: 'author_id'
+        foreignKey: 'author_id',
       }); // Fremmednøkkel hos exercise tabell
 
       this.belongsTo(Avatar, {
@@ -88,7 +88,11 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         isNumeric: true,
         notEmpty: true,
-        is: [userType.STUDENT, userType.TEACHER] // 1 = student, 2 = lærer
+        isUserType(val){
+          if( ![userType.STUDENT, userType.TEACHER].includes(val) ){
+            throw new Error(`Wrong value for user type, valid values is ${userType.STUDENT} and ${userType.TEACHER}`)
+          }
+        }
       }
     },
     verified: {
@@ -110,7 +114,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: notation.ER,
       validate:{
         notEmpty: true,
-        is: [notation.ER, notation.UML, notation.SIMPLIFIED_ER], // 1 = ER, 2 = UML 3 = forenklet ER
+        isNotation(val){
+          if( ![notation.ER, notation.UML, notation.SIMPLIFIED_ER].includes(val) ){
+            throw new Error(`Wrong value for user type, valid values is ${notation.ER}, ${notation.UML} and ${notation.SIMPLIFIED_ER} `)
+          }
+        }
       }
     },
     score: {

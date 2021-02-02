@@ -27,11 +27,14 @@ exports.signup = (req, res, next) =>{
                 { token: tokenForUser(user) }
             )
         ))
-        .catch(err =>  res.status(err.status || 422).json(new ErrRes(
-                err.message || 'Server error',
+        .catch(err =>  {
+            console.log(err)
+            res.status(422).json(new ErrRes(
+                err.name,
                 err.errors.map(error => error.message)
+                )
             )
-        ))
+        })
 }
 
 // Logger inn en bruker

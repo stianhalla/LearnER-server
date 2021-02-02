@@ -7,8 +7,9 @@ module.exports = {
 
       const data = [];
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 1; i < 4; i++) {
           data.push({
+              id: i,
               name: `Rank ${i + 1}`,
               points_required: 10 * i,
               created_at: new Date(),
