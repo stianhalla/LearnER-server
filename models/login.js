@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Login.init({
-    slett: DataTypes.STRING
+
   }, {
     sequelize,
     modelName: 'Login',

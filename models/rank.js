@@ -23,8 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Rank.init({
-    name: DataTypes.STRING,
-    points_required: DataTypes.INTEGER
+    name: {
+      type: DataTypes.STRING
+    },
+    points_required: {
+      type: DataTypes.INTEGER
+    }
   }, {
     sequelize,
     tableName: 'ranks',

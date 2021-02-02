@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.JSON,
       validate:{ // TODO sjekk korekt JSON format
-        notEmpty: true,
+        notEmpty: {msg: 'Field `answer` cannot be empty'},
       }
     },
     points: {
@@ -43,18 +43,27 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isBoolean(val){
           if(typeof val !== 'boolean'){
-            throw new Error('Only boolean values are allowed!')
+            throw new Error('Only boolean values are allowed')
           }
         }
       }
     } ,
     with_help: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate:{
+        notEmpty: {msg: 'Field `with_help` cannot be empty'},
+        isBoolean(val){
+          if(typeof val !== 'boolean'){
+            throw new Error('Only boolean values are allowed')
+          }
+        }
+      }
     },
     progression: {
       type: DataTypes.INTEGER,
       validate: {
-        len: [0,100]
+        len: {args: [0-100], msg: 'Field `progression` must be between 0 and 100'}
       }
     },
     times_checked: {
@@ -64,10 +73,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate:{
-        notEmpty: true,
+        notEmpty: {msg: 'Field `exercise_id` cannot be empty'},
         isInteger(val){
           if( !Number.isInteger(val) ){
-            throw new Error('exercise_id has to be of type Integer')
+            throw new Error('Field `exercise_id` must be of type Integer')
           }
         }
       }

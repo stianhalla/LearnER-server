@@ -54,10 +54,12 @@ exports.create = (req, res, next) => {
     const reqBody = {
         answer: req.body.answer,
         exercise_id: req.body.exercise_id,
-        user_id : req.user.id
+        user_id : req.user.id,
+        with_help: req.body.with_help
     }
 
     Answer.create(reqBody).then(answer => {
+        // TODO Oppdater eller opprett rad i user_exercise_stats (øk attempts til 1)
         return res.json(new SuccRes('Answer created', answer))
     }).catch(err => {
         if (!err.errors) return res.status(500).json(new ErrRes(err.name, [err.message]))
@@ -79,8 +81,26 @@ exports.update = (req, res, next) => {
             return res.sendStatus(401)
         }
 
+        let times_checked = answer.times_checked;
+        let hint_used = answer.hint_used
+
+        if(req.body.hint_cliked){
+            hint_used = true;
+        }
+        if(req.body.check_cliked){
+            times_checked += 1;
+        }
+
+        // TODO Øk progression (0 - 100%)
+        // TODO Sjekk og øk penalty_recived
+        // TODO Beregn poeng når progression === 100% (oppgaven er løst)
+        // TODO Sett til completed i user_exercise_stats og set completed_at til nå
+
+
         const reqBody = {
-            answer: req.body.answer
+            answer: req.body.answer,
+            times_checked,
+            hint_used
         }
 
         const updatedAnswer = await answer.update(reqBody)

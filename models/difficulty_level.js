@@ -20,8 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Difficulty_level.init({
-    name: DataTypes.STRING,
-    points: DataTypes.INTEGER
+    name: {
+      type: DataTypes.STRING
+    },
+    points: {
+      type: DataTypes.INTEGER
+    }
   }, {
     sequelize,
     tableName: 'difficulty_levels',

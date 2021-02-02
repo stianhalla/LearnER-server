@@ -10,11 +10,21 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Message.init({
-    msg_key: DataTypes.STRING(30),
-    msg_level: DataTypes.INTEGER,
-    msg_lang: DataTypes.STRING(3),
-    msg_alt: DataTypes.STRING(3),
-    msg_text: DataTypes.STRING(10000)
+    msg_key: {
+      type: DataTypes.STRING(30)
+    },
+    msg_level: {
+      type: DataTypes.INTEGER
+    },
+    msg_lang: {
+      type: DataTypes.STRING(3)
+    },
+    msg_alt: {
+      type: DataTypes.STRING(3)
+    },
+    msg_text: {
+      type: DataTypes.STRING(10000)
+    }
   }, {
     sequelize,
     modelName: 'Message',

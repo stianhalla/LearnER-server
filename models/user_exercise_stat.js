@@ -26,8 +26,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User_exercise_stat.init({
-    completed: DataTypes.BOOLEAN,
-    attempts: DataTypes.INTEGER
+    completed: {
+      type: DataTypes.BOOLEAN
+    },
+    attempts: {
+      type: DataTypes.INTEGER
+    }
   }, {
     sequelize,
     modelName: 'User_exercise_stat',

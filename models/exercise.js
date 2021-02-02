@@ -34,17 +34,39 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Exercise.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    solution: DataTypes.JSON,
-    public: DataTypes.BOOLEAN,
-    extra_points: DataTypes.INTEGER,
-    tags: DataTypes.STRING,
-    extra_relation_names: DataTypes.STRING,
-    extra_entity_names: DataTypes.STRING,
-    extra_attribute_names: DataTypes.STRING,
-    hint: DataTypes.TEXT,
-    hint_penalty: DataTypes.INTEGER
+    title: {
+      type: DataTypes.STRING
+    },
+    description: {
+      type: DataTypes.STRING
+    },
+    solution: {
+      type: DataTypes.JSON
+    },
+    public: {
+      type: DataTypes.BOOLEAN
+    },
+    extra_points: {
+      type: DataTypes.INTEGER
+    },
+    tags: {
+      type: DataTypes.STRING
+    },
+    extra_relation_names: {
+      type: DataTypes.STRING
+    },
+    extra_entity_names: {
+      type: DataTypes.STRING
+    },
+    extra_attribute_names: {
+      type: DataTypes.STRING
+    },
+    hint: {
+      type: DataTypes.TEXT
+    },
+    hint_penalty: {
+      type: DataTypes.INTEGER
+    }
   }, {
     sequelize,
     tableName: 'exercises',

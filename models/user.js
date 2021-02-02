@@ -61,14 +61,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true
+        notEmpty: {msg: 'Field `username` cannot be empty'},
+        maxChar(val){
+          if(val.toString().length > 32){
+            throw new Error('Maximum 32 characters allowed in username')
+          }
+        }
       }
     },
     password: { // Blir 'hashet' i beforeSave hook
       type: DataTypes.STRING,
       allowNull: false,
       validate:{
-        notEmpty: true,
+        notEmpty: {msg: 'Field `password` cannot be empty'},
         len: { args: [8], msg: 'Password needs to be at least 8 characters'}
       }
     },
@@ -77,8 +82,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       validate:{
-        isEmail: true,
-        notEmpty: true,
+        isEmail: {msg: 'Email must be a valid email'},
+        notEmpty: {msg: 'Field `email` cannot be empty'}
       }
     },
     type: {
@@ -86,8 +91,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: userType.STUDENT,
       validate:{
-        isNumeric: true,
-        notEmpty: true,
+        isNumeric: {msg: 'Field `type` must be of type Integer'},
+        notEmpty: {msg: 'Field `type` cannot be empty'},
         isUserType(val){
           if( ![userType.STUDENT, userType.TEACHER].includes(val) ){
             throw new Error(`Wrong value for user type, valid values is ${userType.STUDENT} and ${userType.TEACHER}`)
@@ -100,10 +105,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: false,
       validate: {
-        notEmpty: true,
+        notEmpty: {msg: 'Field `verified` cannot be empty'},
         isBoolean(val){
           if(typeof val !== 'boolean'){
-            throw new Error('Only boolean values are allowed!')
+            throw new Error('Only boolean values are allowed')
           }
         }
       }
@@ -113,7 +118,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: notation.ER,
       validate:{
-        notEmpty: true,
+        notEmpty: {msg: 'Field `selected_notation` cannot be empty'},
         isNotation(val){
           if( ![notation.ER, notation.UML, notation.SIMPLIFIED_ER].includes(val) ){
             throw new Error(`Wrong value for user type, valid values is ${notation.ER}, ${notation.UML} and ${notation.SIMPLIFIED_ER} `)
@@ -126,8 +131,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 0,
       validate: {
-        notEmpty:true,
-        isNumeric: true
+        notEmpty:{ msg: 'Field `score` cannot be empty'},
+        isNumeric: {msg: 'Field `score` must be of type Integer'}
       }
     }
   }, {

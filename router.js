@@ -6,7 +6,7 @@ const passportServices = require('./services/passport') // Blir brukt, ikke fjer
 
 const AuthController = require('./controllers/authentication')
 const UserController = require('./controllers/user')
-const AnswerController = require('./controllers/answers')
+const AnswerController = require('./controllers/answer')
 const AvatarController = require('./controllers/avatar')
 
 const AUTH = '/api/auth' // Eneste route uten flertall
