@@ -25,13 +25,53 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Answer.init({
-    answer: DataTypes.JSON,
-    points: DataTypes.INTEGER,
-    penalty_recived: DataTypes.INTEGER,
-    hint_used: DataTypes.BOOLEAN,
-    with_help: DataTypes.BOOLEAN,
-    progression: DataTypes.INTEGER,
-    times_checked: DataTypes.INTEGER
+    answer: {
+      allowNull: false,
+      type: DataTypes.JSON,
+      validate:{ // TODO sjekk korekt JSON format
+        notEmpty: true,
+      }
+    },
+    points: {
+      type: DataTypes.INTEGER
+    },
+    penalty_recived: {
+      type: DataTypes.INTEGER
+    },
+    hint_used: {
+      type: DataTypes.BOOLEAN,
+      validate: {
+        isBoolean(val){
+          if(typeof val !== 'boolean'){
+            throw new Error('Only boolean values are allowed!')
+          }
+        }
+      }
+    } ,
+    with_help: {
+      type: DataTypes.BOOLEAN
+    },
+    progression: {
+      type: DataTypes.INTEGER,
+      validate: {
+        len: [0,100]
+      }
+    },
+    times_checked: {
+      type: DataTypes.INTEGER
+    },
+    exercise_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate:{
+        notEmpty: true,
+        isInteger(val){
+          if( !Number.isInteger(val) ){
+            throw new Error('exercise_id has to be of type Integer')
+          }
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Answer',

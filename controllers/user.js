@@ -13,9 +13,9 @@ exports.index = (req, res, next) => {
         include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}]
     })
         .then(users => {
-            if (!users) {
-                return res.status(500).json(new ErrRes(
-                    'Server error',
+            if (!users || users.length === 0) {
+                return res.status(404).json(new ErrRes(
+                    'Not Found',
                     ['Can not find any users']
                 ))
             }
@@ -25,7 +25,8 @@ exports.index = (req, res, next) => {
             ));
         })
         .catch(err => {
-            return res.status(err.status || 422).json(new ErrRes(
+            if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
+            return res.status(422).json(new ErrRes(
                 err.message,
                 err.errors.map(error => error.message)
             ));
@@ -39,8 +40,8 @@ exports.show = (req, res, next) => {
     })
         .then(user => {
             if (!user) {
-                return res.status(500).json(new ErrRes(
-                    'Server error',
+                return res.status(404).json(new ErrRes(
+                    'Not Found',
                     ['Can not find user']
                 ))
             }
@@ -49,10 +50,13 @@ exports.show = (req, res, next) => {
                 user
             ));
         })
-        .catch(err => res.status(err.status || 422).json(new ErrRes(
-            err.message,
-            err.errors.map(error => error.message)
-        )))
+        .catch(err => {
+            if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
+            return res.status(422).json(new ErrRes(
+                err.message,
+                err.errors.map(error => error.message)
+            ))
+        })
 }
 
 // Oppdaterer en valgt bruker
@@ -94,9 +98,7 @@ exports.update = async (req, res, next) => {
         // Bruker oppdatert
         return res.json(new SuccRes('User updated', updatedUser))
     }).catch(err => {
-        // Database feil
-        if (!err.errors) return res.status(500).json(new ErrRes(err.name, [err.message]))
-        // Validerings feil
+        if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
         return res.status(422).json(new ErrRes(
             err.name,
             err.errors.map(error => error.message)
@@ -116,12 +118,14 @@ exports.destroy = (req, res, next) => {
     }
 
     user.destroy().then(deleted =>{
-        console.log(deleted)
         return res.json(new SuccRes('User deleted', null))
     }).catch(err => {
-        if (!err.errors) return res.status(500).json(new ErrRes(err.name, [err.message]))
-        new ErrRes(err.name, err.errors.map(error => error.message))
-    });
+        if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
+        return res.status(422).json(new ErrRes(
+            err.name,
+            err.errors.map(error => error.message)
+        ))
+    })
 }
 
 /**
