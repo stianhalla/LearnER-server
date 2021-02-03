@@ -1,23 +1,47 @@
 'use strict';
 
-const faker = require('faker')
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+      const ranks = [];
 
-      const data = [];
+      ranks.push({
+         id: 1,
+         name: "Nybegynner",
+         points_required: 0,
+         created_at: new Date(),
+         updated_at: new Date()
+      });
+      ranks.push({
+          id: 2,
+          name: "Amatør",
+          points_required: 20000,
+          created_at: new Date(),
+          updated_at: new Date()
+      });
+      ranks.push({
+          id: 3,
+          name: "Dyktig",
+          points_required: 40000,
+          created_at: new Date(),
+          updated_at: new Date()
+      });
+      ranks.push({
+          id: 4,
+          name: "Ekspert",
+          points_required: 70000,
+          created_at: new Date(),
+          updated_at: new Date()
+      });
+      ranks.push({
+          id: 5,
+          name: "Mester",
+          points_required: 100000,
+          created_at: new Date(),
+          updated_at: new Date()
+      });
 
-      for (let i = 1; i < 4; i++) {
-          data.push({
-              id: i,
-              name: `Rank ${i + 1}`,
-              points_required: 10 * i,
-              created_at: new Date(),
-              updated_at: new Date()
-          })
-      }
 
-      await queryInterface.bulkInsert('ranks', data, {});
+      await queryInterface.bulkInsert('ranks', ranks, {});
 
   },
 

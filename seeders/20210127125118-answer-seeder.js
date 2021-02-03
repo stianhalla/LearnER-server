@@ -8,7 +8,7 @@ module.exports = {
 
       const data = [];
 
-      for(let i = 1; i < 3; i++){
+      for(let i = 1; i < 40; i++){
 
           const jsonData = '{"test": "test"}';
 

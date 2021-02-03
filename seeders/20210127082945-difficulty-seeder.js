@@ -6,12 +6,12 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
 
     const data = [];
-    const diffLevels = ['Lett', 'Middels', 'Vanskelig', 'Ekstra Vanskelgi']
+    const diffLevels = ['Lett', 'Middels', 'Vanskelig', 'Ekstra Vanskelig']
 
     for(let i = 0; i < 3 ; i++){
       data.push({
         name: diffLevels[i],
-        points: 10 * i,
+        points: 100 * i,
         created_at: new Date(),
         updated_at: new Date()
       })

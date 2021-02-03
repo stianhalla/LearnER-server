@@ -8,7 +8,7 @@ module.exports = {
 
       const data = [];
 
-      for(let i = 1; i < 4; i++){
+      for(let i = 1; i < 11; i++){
 
         const jsonData = '{"test" : "test"}';
         const html = `<p>${faker.lorem.paragraph()}</p>`
