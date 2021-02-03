@@ -1,7 +1,7 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+const { notNullMsg, notEmptyMsg, isIntMsg} = require('../config/validations')
+
 module.exports = (sequelize, DataTypes) => {
   class Rank extends Model {
 
@@ -24,10 +24,21 @@ module.exports = (sequelize, DataTypes) => {
   };
   Rank.init({
     name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg}
+      }
     },
     points_required: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
+      }
     }
   }, {
     sequelize,

@@ -1,6 +1,16 @@
 /**
  * Fil med konstanter
  * */
+const notation = { ER: 1, UML: 2, SIMPLIFIED_ER: 3 };
+const userType = { STUDENT: 1, TEACHER: 2};
+const defaultValue = {
+    AVATAR: 1,
+    RANK: 1,
+    VERIFIED: false,
+    NOTATION: notation.ER,
+    USER_TYPE: userType.STUDENT
+}
 
-module.exports.notation = { ER: 1, UML: 2, SIMPLIFIED_ER: 3 };
-module.exports.userType = { STUDENT: 1, TEACHER: 2}
+module.exports.notation = notation;
+module.exports.userType = userType;
+module.exports.defaultValue = defaultValue;

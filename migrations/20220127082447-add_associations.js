@@ -8,6 +8,7 @@
  *   - Bruk komandoen: sequelize migration:generate --name add-associations
  *   - Lim inn i den nye fila
  * */
+const { defaultValue } = require('../config/types')
 
 'use strict';
 
@@ -51,7 +52,7 @@ module.exports = {
                         key: 'id'
                     },
                     allowNull: false,
-                    defaultValue: 1
+                    defaultValue: defaultValue.RANK
                 }
             )
         }).then(async () => {
@@ -64,7 +65,8 @@ module.exports = {
                     references: {
                         model: 'avatars',
                         key: 'id'
-                    }
+                    },
+                    defaultValue: defaultValue.AVATAR
                 }
             )
         }).then(async () => {

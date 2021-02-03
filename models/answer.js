@@ -1,7 +1,7 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+const { isJSON, notNullMsg, isIntMsg, notEmptyMsg, isBoolean, lenMsg } = require('../config/validations')
+
 module.exports = (sequelize, DataTypes) => {
   class Answer extends Model {
 
@@ -26,59 +26,87 @@ module.exports = (sequelize, DataTypes) => {
   };
   Answer.init({
     answer: {
-      allowNull: false,
       type: DataTypes.JSON,
-      validate:{ // TODO sjekk korekt JSON format
-        notEmpty: {msg: 'Field `answer` cannot be empty'},
+      validate:{
+        isJSON
       }
     },
     points: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
+      }
     },
     penalty_recived: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
+      }
     },
     hint_used: {
       type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
       validate: {
-        isBoolean(val){
-          if(typeof val !== 'boolean'){
-            throw new Error('Only boolean values are allowed')
-          }
-        }
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isBoolean
       }
     } ,
     with_help: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      validate:{
-        notEmpty: {msg: 'Field `with_help` cannot be empty'},
-        isBoolean(val){
-          if(typeof val !== 'boolean'){
-            throw new Error('Only boolean values are allowed')
-          }
-        }
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isBoolean
       }
     },
     progression: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
       validate: {
-        len: {args: [0-100], msg: 'Field `progression` must be between 0 and 100'}
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg},
+        len: {args: [0, 100], msg: lenMsg}
       }
     },
     times_checked: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
+      }
     },
     exercise_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate:{
-        notEmpty: {msg: 'Field `exercise_id` cannot be empty'},
-        isInteger(val){
-          if( !Number.isInteger(val) ){
-            throw new Error('Field `exercise_id` must be of type Integer')
-          }
-        }
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
+      }
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
       }
     }
   }, {

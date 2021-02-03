@@ -1,7 +1,7 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+const { notNullMsg, notEmptyMsg} = require('../config/validations')
+
 module.exports = (sequelize, DataTypes) => {
   class Avatar extends Model {
 
@@ -29,7 +29,14 @@ module.exports = (sequelize, DataTypes) => {
 
   };
   Avatar.init({
-    filename: DataTypes.STRING
+    filename: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg}
+      }
+    }
   }, {
     sequelize,
     tableName: 'avatars',

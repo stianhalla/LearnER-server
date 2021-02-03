@@ -1,7 +1,7 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+const { notNullMsg, notEmptyMsg, isJSON, isBoolean, isIntMsg} = require('../config/validations')
+
 module.exports = (sequelize, DataTypes) => {
   class Exercise extends Model {
 
@@ -41,13 +41,30 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     solution: {
-      type: DataTypes.JSON
+      type: DataTypes.JSON,
+      validate: {
+        isJSON
+      }
     },
     public: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isBoolean
+      }
     },
     extra_points: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
+      }
     },
     tags: {
       type: DataTypes.STRING
@@ -65,7 +82,29 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     hint_penalty: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
+      }
+    },
+    author_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isInt: {msg: isIntMsg}
+      }
+    },
+    difficulty_level_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
+      }
     }
   }, {
     sequelize,

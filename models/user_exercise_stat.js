@@ -1,7 +1,7 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+const { isDateMsg, notNullMsg, notEmptyMsg, isIntMsg, isBoolean} = require('../config/validations')
+
 module.exports = (sequelize, DataTypes) => {
   class User_exercise_stat extends Model {
 
@@ -26,11 +26,39 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User_exercise_stat.init({
+    user_id: {
+      type:DataTypes.INTEGER,
+      primaryKey: true
+    },
+    exercise_id: {
+      type:DataTypes.INTEGER,
+      primaryKey: true
+    },
     completed: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isBoolean
+      }
+    },
+    completed_at:{
+      type: DataTypes.DATE,
+      validate:{
+        isDate: {msg: isDateMsg}
+      }
     },
     attempts: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
+      }
     }
   }, {
     sequelize,

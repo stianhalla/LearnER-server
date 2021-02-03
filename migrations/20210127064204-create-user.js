@@ -1,4 +1,4 @@
-const { notation, userType} = require('../config/types')
+const { defaultValue } = require('../config/types')
 
 'use strict';
 module.exports = {
@@ -26,17 +26,17 @@ module.exports = {
       type:{ // Student = 1, Lærer = 2
         type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: userType.STUDENT
+        defaultValue: defaultValue.USER_TYPE
       },
       verified: { // Om bruker har blitt verifisert av lærer
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: defaultValue.VERIFIED
       },
       selected_notation: { // 1 = ER, 2 = UML 3 = forenklet ER, 4 er til utviddelse
         type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: notation.ER
+        defaultValue: defaultValue.NOTATION
       },
       score:{
         type: Sequelize.INTEGER,
