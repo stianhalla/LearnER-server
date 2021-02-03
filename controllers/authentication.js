@@ -7,6 +7,7 @@ const config = require('../config')
 const { User, Login } = require('../models')
 const ErrRes = require('../config/ErrorResponse')
 const SuccRes = require('../config/SuccessResponse')
+const { notFoundErr } = require('../config/validations')
 
 // Genererer en jwt-token
 const tokenForUser = (user) => {
@@ -23,6 +24,8 @@ exports.signup = (req, res, next) =>{
     // Lager en ny buker i databasen og returnerer en jwt token for innlogging
     User.create({ username, email, password })
         .then( async user =>  {
+
+            if(!user || user.length === 0){return res.status(404).json(notFoundErr)}
 
             // Sender med rank og avatar
             const jsonUser = user.toJSON();
@@ -47,11 +50,7 @@ exports.signup = (req, res, next) =>{
         })
         .catch(err =>  {
             if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
-            return res.status(422).json(new ErrRes(
-                    err.name,
-                    err.errors.map(error => error.message)
-                )
-            )
+            return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
         })
 }
 
@@ -59,10 +58,7 @@ exports.signup = (req, res, next) =>{
 exports.signin = async (req, res, next) => {
     const user = req.user // Kommer fra done(null, user) i passport
 
-    if(!user){ return res.status(404).json(new ErrRes(
-        'Not Found',
-        ['Can not find user']
-    ))}
+    if(!user || user.length === 0){return res.status(404).json(new ErrRes('Not Found',['Cannot find user to sign in']));}
 
     // Sender med rank og avatar
     const jsonUser = user.toJSON();

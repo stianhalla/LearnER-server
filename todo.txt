@@ -1,6 +1,5 @@
 TODO:
- * Gjøre kontrollere mer generisk
  * Planlegge spilllogikk implementasjon
  * Planlegge admin fase
- * Planlegge ny JSON oppsett 
+ * Planlegge ny JSON oppsett
 

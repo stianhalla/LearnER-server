@@ -5,11 +5,15 @@
 const ErrRes = require('../config/ErrorResponse')
 const SuccRes = require('../config/SuccessResponse')
 const { Avatar, Rank } = require('../models')
+const { notFoundErr } = require('../config/validations')
 
 // Viser alle avatarer som bruker har låst opp
 exports.index = (req, res, next) => {
 
     Rank.findByPk(req.user.rank_id).then(async rank => {
+
+        if(!rank || rank.length === 0){return res.status(404).json(notFoundErr);}
+
         const avatars = await rank.getAvatars({
             joinTableAttributes: [] // Fjerner jointable fra json
         });
@@ -21,21 +25,22 @@ exports.index = (req, res, next) => {
 
         return res.json(new SuccRes('Avatars fetched', avatars))
     }).catch(err => {
-        if (!err.errors) return res.status(500).json(new ErrRes(err.name, [err.message]))
-        return res.status(422).json(new ErrRes(
-            err.name,
-            err.errors.map(error => error.message)
-        ))
+        if (!err.errors){return res.status(500).json(new ErrRes(err.name, [err.message]));}
+        return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
     })
 }
 
 // Viser en ønsket avatar utifra de avatarene som bruker har låst opp
 exports.show = (req, res, next) => {
-    const candidateId = parseInt(req.params.id)
+
+    const avatarId = parseInt(req.params.id)
 
     Rank.findByPk(req.user.rank_id).then(async rank => {
+
+        if(!rank || rank.length === 0){return res.status(404).json(notFoundErr);}
+
         const avatar = await rank.getAvatars({
-            where: {id: candidateId },
+            where: {id: avatarId },
             joinTableAttributes: [] // Fjerner jointable fra json
         });
 
@@ -46,11 +51,8 @@ exports.show = (req, res, next) => {
 
         return res.json(new SuccRes('Avatar fetched', avatar))
     }).catch(err => {
-        if (!err.errors) return res.status(500).json(new ErrRes(err.name, [err.message]))
-        return res.status(422).json(new ErrRes(
-            err.name,
-            err.errors.map(error => error.message)
-        ))
+        if (!err.errors){return res.status(500).json(new ErrRes(err.name, [err.message]));}
+        return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
     })
 
 }

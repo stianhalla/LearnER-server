@@ -2,8 +2,9 @@
  * Her kan man endre teksten på validerings melllinger.
  * */
 const {userType, notation} = require('./types')
+const ErrRes = require('./ErrorResponse')
 
-// Validerings tekster (for built in validation msg felt)
+// Validerings tekster (for built-in validation msg felt)
 module.exports.notNullMsg = 'Field cannot be null';
 module.exports.notEmptyMsg = 'Field cannot be empty';
 module.exports.isEmailMsg = 'Email must be a valid email';
@@ -39,3 +40,6 @@ module.exports.isUsername = (val) => {
         throw new Error('Minimum 2 characters allowed in username')
     }
 }
+
+// Ferdig error objekt
+module.exports.notFoundErr = new ErrRes('Not Found',['Resource not found']);
