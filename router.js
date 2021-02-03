@@ -56,7 +56,10 @@ const router = (app) => {
     app.get(EXERCISES, requireUserPrivileges, ExerciseController.index)
     app.get(EXERCISES + "/:id", requireUserPrivileges, ExerciseController.show)
 
-    // Route som håndterer resten TODO
+    //404 Route (Alltid behold denne som siste route)
+    app.get('*', function(req, res){
+        res.status(404).send('<h1>404 Nothing here</h1>');
+    });
 }
 
 module.exports = router;
