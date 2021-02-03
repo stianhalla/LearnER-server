@@ -9,10 +9,12 @@ module.exports = (sequelize, DataTypes) => {
       // En oppgave tilghører en bruker (forfatter)
       this.belongsTo(User, {
         foreignKey: 'author_id',
+        as: 'author'
       }); // Fremmednøkkel i exercises tabellen
 
       this.belongsTo(Difficulty_level, {
-        foreignKey: 'difficulty_level_id'
+        foreignKey: 'difficulty_level_id',
+        as: 'difficulty_level'
       });
 
       this.hasMany(Answer, {
@@ -28,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     toJSON() {
       return {
         ...this.get(),
+        difficulty_level_id: undefined,
+        author_id: undefined,
         created_at: undefined,
         updated_at: undefined
       }

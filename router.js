@@ -8,11 +8,13 @@ const AuthController = require('./controllers/authentication')
 const UserController = require('./controllers/user')
 const AnswerController = require('./controllers/answer')
 const AvatarController = require('./controllers/avatar')
+const ExerciseController = require('./controllers/exercise')
 
 const AUTH = '/api/auth' // Eneste route uten flertall
 const USERS = '/api/users'
 const ANSWERS = '/api/answers'
 const AVATARS = '/api/avatars'
+const EXERCISES = '/api/exercises'
 const TEST = '/api/test'
 
 
@@ -34,6 +36,7 @@ const router = (app) => {
 
     // USERS
     app.get(USERS, requireUserPrivileges ,UserController.index)
+    app.get(USERS + '/me', requireUserPrivileges ,UserController.me)
     app.get(USERS + '/:id', requireUserPrivileges ,UserController.show)
     app.patch(USERS + '/:id', requireUserPrivileges ,UserController.update)
     app.delete(USERS + '/:id', requireUserPrivileges, UserController.destroy)
@@ -48,6 +51,10 @@ const router = (app) => {
     // AVATARS
     app.get(AVATARS, requireUserPrivileges, AvatarController.index)
     app.get(AVATARS + "/:id", requireUserPrivileges, AvatarController.show)
+
+    // EXERCISES
+    app.get(EXERCISES, requireUserPrivileges, ExerciseController.index)
+    app.get(EXERCISES + "/:id", requireUserPrivileges, ExerciseController.show)
 
     // Route som håndterer resten TODO
 }

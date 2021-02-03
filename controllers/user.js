@@ -59,6 +59,32 @@ exports.show = (req, res, next) => {
         })
 }
 
+// Henter innloget bruker
+exports.me = (req, res, next) => {
+    User.findByPk(req.user.id, {
+        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}]
+    })
+        .then(user => {
+            if (!user) {
+                return res.status(404).json(new ErrRes(
+                    'Not Found',
+                    ['Can not find user']
+                ))
+            }
+            return res.json(new SuccRes(
+                'User fetched',
+                user
+            ));
+        })
+        .catch(err => {
+            if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
+            return res.status(422).json(new ErrRes(
+                err.message,
+                err.errors.map(error => error.message)
+            ))
+        })
+}
+
 // Oppdaterer en valgt bruker
 exports.update = async (req, res, next) => {
     const user = req.user;

@@ -1,5 +1,6 @@
 TODO:
- * Fikse alle unauthorizd responser (passport) eller la det være
- * Lage sti for Exercise
- * Lage sti for å hente info om egenbruker
- * Returner bruker objekt ved innloggin/registrering
+ * Gjøre kontrollere mer generisk
+ * Planlegge spilllogikk implementasjon
+ * Planlegge admin fase
+ * Planlegge ny JSON oppsett 
+

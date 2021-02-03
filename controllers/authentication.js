@@ -22,14 +22,27 @@ exports.signup = (req, res, next) =>{
 
     // Lager en ny buker i databasen og returnerer en jwt token for innlogging
     User.create({ username, email, password })
-        .then(user =>  {
+        .then( async user =>  {
 
-            // Bruker logges automatiks på, så logges innloggingen i logins tabell
-            Login.create({user_id: user.id}) // Gjøres async
+            // Sender med rank og avatar
+            const jsonUser = user.toJSON();
+            try {
+                jsonUser.avatar = await user.getAvatar();
+                jsonUser.rank = await user.getRank();
+            }catch (err){
+                console.log("Fikk ikke hentet ut avatar og rank fra database")
+            }
+
+            try {
+                // Bruker logges automatiks på, så logges innloggingen i logins tabell
+                await Login.create({user_id: user.id})
+            }catch (err){
+                console.log("Fikk ikke logget innlogginen til datasen")
+            }
 
             return res.json(new SuccRes(
                 'User created',
-                { token: tokenForUser(user) }
+                { token: tokenForUser(user), user: jsonUser }
             ))
         })
         .catch(err =>  {
@@ -43,19 +56,33 @@ exports.signup = (req, res, next) =>{
 }
 
 // Logger inn en bruker
-exports.signin =  (req, res, next) => {
+exports.signin = async (req, res, next) => {
     const user = req.user // Kommer fra done(null, user) i passport
+
     if(!user){ return res.status(404).json(new ErrRes(
         'Not Found',
         ['Can not find user']
     ))}
 
+    // Sender med rank og avatar
+    const jsonUser = user.toJSON();
+    try {
+        jsonUser.avatar = await user.getAvatar();
+        jsonUser.rank = await user.getRank();
+    }catch (err){
+        console.log("Fikk ikke hentet ut avatar og rank fra database")
+    }
+
     // Innlogging logges
-    Login.create({user_id: user.id}) // Gjøres async
+    try {
+        await Login.create({user_id: user.id})
+    }catch (err){
+        console.log("Fikk ikke logget innlogginen til datasen")
+    }
 
     return res.json(new SuccRes(
         'User signed in',
-        { token: tokenForUser(user) }
+        { token: tokenForUser(user), user : jsonUser }
     ));
 }
 
