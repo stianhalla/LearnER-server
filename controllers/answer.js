@@ -6,6 +6,8 @@ const ErrRes = require('../config/ErrorResponse')
 const SuccRes = require('../config/SuccessResponse')
 const { Answer } = require('../models')
 const { notFoundErr } = require('../config/validations')
+const { beforeAnswerUpdate } = require('../utilities/gamification')
+const { onAnswerCreated } = require('../utilities/statistic')
 
 // Henter alle besvarelsene til innlogget bruker
 exports.index = (req, res, next) => {
@@ -46,10 +48,10 @@ exports.create = (req, res, next) => {
         with_help: req.body.with_help
     }
 
-    Answer.create(reqBody).then(answer => {
+    Answer.create(reqBody).then( async answer => {
         if(!answer || answer.length === 0){return res.status(404).json(notFoundErr);}
 
-        // TODO Oppdater eller opprett rad i user_exercise_stats (øk attempts til 1)
+        await onAnswerCreated(answer); // Incrementer antall forsøk i statisikk tabell
 
         return res.json(new SuccRes('Answer created', answer));
     }).catch(err => {
@@ -79,26 +81,24 @@ exports.update = (req, res, next) => {
             times_checked += 1;
         }
 
-        // TODO Øk progression (0 - 100%)
-        // TODO Sjekk og øk penalty_recived
-        // TODO Beregn poeng når progression === 100% (oppgaven er løst)
-        // TODO Sett til completed i user_exercise_stats og set completed_at til nå
-
-
         const reqBody = {
             answer: req.body.answer,
             times_checked,
             hint_used
         }
 
-        // Prøver å oppdatere besvarelse
-        try {
-            const updatedAnswer = await answer.update(reqBody)
-            return res.json(new SuccRes('Answer updated', updatedAnswer))
-        }catch (err){
-            if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
-            return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
-        } // Fanger feil ved oppdatering av besvarelse
+        // Oppdaterer tabeller knyttet til spill logikk
+        if(req.body.answer){ // Kun hvis requesten inneholder json besvarelse
+            const start = new Date();
+            await beforeAnswerUpdate(req.user, answer);
+            const end = new Date();
+            console.log("Tid for spill logikk: ", end - start , "ms");
+        }
+
+        // Oppdatere besvarelse
+        const updatedAnswer = await answer.update(reqBody)
+        return res.json(new SuccRes('Answer updated', updatedAnswer))
+
 
     }).catch(err => {
         if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
@@ -116,14 +116,9 @@ exports.destroy = (req, res, next) => {
 
         if(!answer || answer.length === 0){return res.status(404).json(notFoundErr);}
 
-        // Prøver å slette besvarelse
-        try {
-            await answer.destroy();
-            return res.json(new SuccRes('Answer deleted', null))
-        }catch (err){
-            if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
-            return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
-        } // Fanger feil ved sletting av besvarelse
+        // Slettter besvarelse
+        await answer.destroy();
+        return res.json(new SuccRes('Answer deleted', null))
 
     }).catch(err => {
         if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}

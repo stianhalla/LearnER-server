@@ -96,6 +96,7 @@ module.exports = {
                         key: 'id'
                     },
                     allowNull: false,
+                    onDelete: 'CASCADE' // Sletter besvarelser knyttet til en slettet oppgave
                 }
             )
         })

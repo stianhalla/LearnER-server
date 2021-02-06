@@ -11,6 +11,7 @@ module.exports = {
           model: 'users',
           key: 'id'
         },
+        onDelete: 'CASCADE' // Sletter rader knyttet til bruker som slettes
       },
       // 11 user_exercise_stat belongsTo Exercise
       exercise_id: {
@@ -21,6 +22,7 @@ module.exports = {
           model: 'exercises',
           key: 'id'
         },
+        onDelete: 'CASCADE' // Sletter rader knyttet til slettet oppgave
       },
       completed: {
         type: Sequelize.BOOLEAN,
