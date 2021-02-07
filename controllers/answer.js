@@ -6,7 +6,7 @@ const ErrRes = require('../config/ErrorResponse')
 const SuccRes = require('../config/SuccessResponse')
 const { Answer } = require('../models')
 const { notFoundErr } = require('../config/validations')
-const { beforeAnswerUpdate } = require('../utilities/gamification')
+const { onJsonAnswerRecived } = require('../utilities/gamification')
 const { onAnswerCreated } = require('../utilities/statistic')
 
 // Henter alle besvarelsene til innlogget bruker
@@ -60,8 +60,8 @@ exports.create = (req, res, next) => {
     })
 }
 
-// Oppdaterer valgt besvarelse tilknyttet innlogget buker
-exports.update = (req, res, next) => {
+// Sjekker om besvarelse kan evalueres til completed, og eventulet oppdaterer databsen
+exports.evaluate = (req, res, next) => {
 
     const answerId = parseInt(req.params.id);
 
@@ -71,34 +71,18 @@ exports.update = (req, res, next) => {
 
         if(!answer || answer.length === 0){return res.status(404).json(notFoundErr);}
 
-        let times_checked = answer.times_checked;
-        let hint_used = answer.hint_used
+        if(!req.body.answer){res.status(404).json(new ErrRes('Not found', ['Request does not contain a JSON answer']))}
 
-        if(req.body.hint_cliked){
-            hint_used = true;
-        }
-        if(req.body.check_cliked){
-            times_checked += 1;
-        }
+        answer.answer = req.body.answer;
+        const resMessage = await onJsonAnswerRecived(req.user, answer); // Om alt går som det skal, så oppdaterer metoden databasen automatiks.
 
-        const reqBody = {
-            answer: req.body.answer,
-            times_checked,
-            hint_used
+        if(resMessage.status === 'error'){
+            return res.status(422).json(new ErrRes(resMessage.name, resMessage.message));
         }
 
-        // Oppdaterer tabeller knyttet til spill logikk
-        if(req.body.answer){ // Kun hvis requesten inneholder json besvarelse
-            const start = new Date();
-            await beforeAnswerUpdate(req.user, answer);
-            const end = new Date();
-            console.log("Tid for spill logikk: ", end - start , "ms");
+        if(resMessage.status === 'success') {
+            return res.json(new SuccRes(resMessage.name, resMessage.message));
         }
-
-        // Oppdatere besvarelse
-        const updatedAnswer = await answer.update(reqBody)
-        return res.json(new SuccRes('Answer updated', updatedAnswer))
-
 
     }).catch(err => {
         if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
@@ -125,6 +109,67 @@ exports.destroy = (req, res, next) => {
         return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
     }) // // Fanger feil ved leting etter besvarelse
 
+}
+
+// Lager gitt JSON besvarelse i db
+exports.save = (req, res, next) => {
+
+    const answerId = parseInt(req.params.id);
+
+    Answer.findOne({
+        where: {id: answerId, user_id: req.user.id}
+    }).then( async answer => {
+
+        if(!answer || answer.length === 0){return res.status(404).json(notFoundErr);}
+
+        const reqBody = {
+            answer: req.body.answer
+        }
+
+        // Lager json besvarelse
+        const updatedAnswer = await answer.update(reqBody)
+        return res.json(new SuccRes('Answer updated', updatedAnswer))
+
+    }).catch(err => {
+        if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
+        return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
+    }) // Fanger feil
+}
+
+// Oppdaterer hint_used eller inkrementerer times_checked
+exports.update = (req, res, next) => {
+
+    const answerId = parseInt(req.params.id);
+
+    Answer.findOne({
+        where: {id: answerId, user_id: req.user.id}
+    }).then( async answer => {
+
+        if(!answer || answer.length === 0){return res.status(404).json(notFoundErr);}
+
+        let times_checked = answer.times_checked;
+        let hint_used = answer.hint_used
+
+        if(req.body.hint_cliked){
+            hint_used = true;
+        }
+        if(req.body.check_cliked){
+            times_checked += 1;
+        }
+
+        const reqBody = {
+            times_checked,
+            hint_used
+        }
+
+        // Oppdatere besvarelse
+        const updatedAnswer = await answer.update(reqBody)
+        return res.json(new SuccRes('Answer updated', updatedAnswer))
+
+    }).catch(err => {
+        if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
+        return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
+    }) // Fanger feil
 }
 
 
