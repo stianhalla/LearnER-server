@@ -20,7 +20,7 @@ module.exports = {
           return 3;
         case randomScore < 100000:
           return 4;
-        case ranScore > 100000:
+        case randomScore > 100000:
           return 5;
       }
     }

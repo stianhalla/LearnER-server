@@ -5,14 +5,97 @@ module.exports = {
 
         const data = [];
 
-        for(let i = 1; i <= 5; i++){
-            data.push({
-                rank_id: i,
-                avatar_id: i,
-                created_at: new Date(),
-                updated_at: new Date()
-            })
-        }
+        data.push({
+            rank_id: 1,
+            avatar_id: 1,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 2,
+            avatar_id: 1,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 2,
+            avatar_id: 2,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 3,
+            avatar_id: 1,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 3,
+            avatar_id: 2,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 3,
+            avatar_id: 3,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 4,
+            avatar_id: 1,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 4,
+            avatar_id: 2,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 4,
+            avatar_id: 3,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 4,
+            avatar_id: 4,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 5,
+            avatar_id: 1,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 5,
+            avatar_id: 2,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 5,
+            avatar_id: 3,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 5,
+            avatar_id: 4,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+        data.push({
+            rank_id: 5,
+            avatar_id: 5,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+
 
 
         await queryInterface.bulkInsert('rank_has_avatars', data, {});
