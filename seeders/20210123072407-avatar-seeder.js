@@ -7,7 +7,7 @@ module.exports = {
 
       const data = [];
 
-      for(let i = 1; i < 4; i++){
+      for(let i = 1; i < 6; i++){
           data.push({
               id: i,
               filename: faker.image.avatar(),

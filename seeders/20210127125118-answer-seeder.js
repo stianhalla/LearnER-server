@@ -8,19 +8,17 @@ module.exports = {
 
       const data = [];
 
-      for(let i = 1; i < 40; i++){
+      const jsonData = '{}';
 
-          const jsonData = '{"test": "test"}';
+      const userId = await User.findOne({ order: Sequelize.literal('rand()') }).then( user => {
+          return user.id;
+      });
 
-          const userId = await User.findOne({ order: Sequelize.literal('rand()') }).then( user => {
-              return user.id;
-          });
+      const exerciseId = await Exercise.findOne({ order: Sequelize.literal('rand()') }).then( exercise => {
+          return exercise.id;
+      });
 
-          const exerciseId = await Exercise.findOne({ order: Sequelize.literal('rand()') }).then( exercise => {
-              return exercise.id;
-          });
-
-          data.push({
+      data.push({
           user_id: userId,
           exercise_id: exerciseId,
           answer: jsonData,
@@ -32,8 +30,7 @@ module.exports = {
           times_checked: 0,
           created_at: new Date(),
           updated_at: new Date()
-        })
-      }
+        });
 
       await queryInterface.bulkInsert('answers', data, {});
   },
