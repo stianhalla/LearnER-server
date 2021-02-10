@@ -9,10 +9,12 @@ module.exports = (sequelize, DataTypes) => {
 
       this.belongsTo(Exercise, {
         foreignKey: 'exercise_id',
+        as: 'exercise'
       })
 
       this.belongsTo(User, {
-        foreignKey: 'user_id'
+        foreignKey: 'user_id',
+        as: 'user'
       })
 
     }

@@ -9,7 +9,7 @@ const { lenPwdMsg, isIntMsg, isEmailMsg, notNullMsg, notEmptyMsg, isNotation, is
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
 
-    static associate({ Exercise, Avatar, Answer, Login, Rank }) {
+    static associate({ Exercise, Avatar, Answer, Login, Rank, User_exercise_stat }) {
 
       // En bruker kan være forfatter for mange oppgaver
       this.hasMany(Exercise, {
@@ -35,8 +35,9 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       this.belongsToMany(Exercise, {
-        through: 'user_exercise_stats',
-        foreignKey: 'user_id'
+        through: User_exercise_stat,
+        foreignKey: 'user_id',
+        as: 'exercises'
       })
     }
 

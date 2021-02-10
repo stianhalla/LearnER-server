@@ -5,7 +5,7 @@ const { notNullMsg, notEmptyMsg, isJSON, isBoolean, isIntMsg} = require('../conf
 module.exports = (sequelize, DataTypes) => {
   class Exercise extends Model {
 
-    static associate({ User, Difficulty_level, Answer }) {
+    static associate({ User, Difficulty_level, Answer, User_exercise_stat }) {
       // En oppgave tilghører en bruker (forfatter)
       this.belongsTo(User, {
         foreignKey: 'author_id',
@@ -22,8 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       this.belongsToMany(User, {
-        through: 'user_exercise_stats',
-        foreignKey: 'exercise_id'
+        through: User_exercise_stat,
+        foreignKey: 'exercise_id',
+        as: 'users'
       })
     }
     // Fjerner valgte felter fra json objektet ved json response
