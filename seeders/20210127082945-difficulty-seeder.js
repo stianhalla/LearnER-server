@@ -22,5 +22,6 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('difficulty_levels', null, {});
+    await queryInterface.sequelize.query('ALTER TABLE difficulty_levels AUTO_INCREMENT = 1');
   }
 };
