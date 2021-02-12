@@ -103,5 +103,6 @@ module.exports = {
 
     down: async (queryInterface, Sequelize) => {
         await queryInterface.bulkDelete('rank_has_avatars', null, {});
+        await queryInterface.sequelize.query('ALTER TABLE difficulty_levels AUTO_INCREMENT = 1');
     }
 };
