@@ -38,6 +38,24 @@ exports.show = (req, res, next) => {
     })
 }
 
+// Henter den siste besvarelsen til en bruker ved gitt besvarelse
+exports.showByExerciseId = (req, res, next) => {
+    const exerciseId = parseInt(req.params.exercise_id)
+    Answer.findOne({
+        order: [
+            ['id', 'DESC'],
+        ],
+        where: { user_id: req.user.id, exercise_id: exerciseId}
+    }).then(answer => {
+        if(!answer || answer.length === 0){return res.status(404).json(new ErrRes('Not Found',['Cannot find answer']));}
+
+        return res.json(new SuccRes('Answer fetched', answer));
+    }).catch(err => {
+        if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
+        return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
+    })
+}
+
 // Oppretter en besvarelse tilknyttet innlogget bruker
 exports.create = (req, res, next) => {
 

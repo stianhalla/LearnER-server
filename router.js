@@ -44,6 +44,7 @@ const router = (app) => {
     // ANSWERS
     app.get(ANSWERS, requireUserPrivileges, AnswerController.index)
     app.get(ANSWERS + "/:id", requireUserPrivileges, AnswerController.show)
+    app.get(ANSWERS + "/with/:exercise_id", requireUserPrivileges, AnswerController.showByExerciseId)
     app.post(ANSWERS, requireUserPrivileges, AnswerController.create)
     app.patch(ANSWERS + "/:id", requireUserPrivileges, AnswerController.update)
     app.patch(ANSWERS + "/:id/save", requireUserPrivileges, AnswerController.save)
