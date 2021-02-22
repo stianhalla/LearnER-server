@@ -47,6 +47,6 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
       await queryInterface.bulkDelete('ranks', null, {});
-      await queryInterface.sequelize.query('ALTER TABLE difficulty_levels AUTO_INCREMENT = 1');
+      await queryInterface.sequelize.query('ALTER TABLE ranks AUTO_INCREMENT = 1');
   }
 };
