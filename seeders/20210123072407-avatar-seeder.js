@@ -1,7 +1,5 @@
 'use strict';
 
-const faker = require('faker')
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
@@ -10,7 +8,7 @@ module.exports = {
       for(let i = 1; i < 6; i++){
           data.push({
               id: i,
-              filename: faker.image.avatar(),
+              filename: `rank${i}.png`,
               created_at: new Date(),
               updated_at: new Date()
           })
