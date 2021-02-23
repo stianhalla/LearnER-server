@@ -8,6 +8,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      chapter_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'sql_quiz_chapters',
+          key: 'id'
+        },
+        allowNull: false,
+        onDelete: 'CASCADE' // Sletter alle spørsmål knyttet til et kapittel
+      },
       text: {
         allowNull: false,
         type: Sequelize.STRING
@@ -15,6 +24,10 @@ module.exports = {
     })
   },
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.removeColumn(
+        'sql_quiz_questions',
+        'chapter_id'
+    );
     await queryInterface.dropTable('sql_quiz_questions');
   }
 };
