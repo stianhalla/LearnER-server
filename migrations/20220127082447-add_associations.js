@@ -2,7 +2,7 @@
  * Migrasjonsfil som håndterer forhold mellom entiteter.
  *
  * Viktig att dette er den siste migration fila (kjøres til slutt),
- * Lages nye migrasjoner skal denne fila lages på nytt (kopieres):
+ * Lages nye migrasjoner etter 20 januar 2022, skal denne fila lages på nytt (kopieres):
  *   - Kopier innhold på fila
  *   - Slett denne fila
  *   - Bruk komandoen: sequelize migration:generate --name add-associations
