@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'SQL_quiz_alternative',
-    tableName: 'SQL_quiz_alternatives'
+    tableName: 'sql_quiz_alternatives'
   });
   return SQL_quiz_alternative;
 };

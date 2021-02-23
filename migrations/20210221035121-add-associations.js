@@ -117,39 +117,6 @@ module.exports = {
               }
           )
         })
-        .then(async () => {
-          // 10. sql_quiz_alternative belongsTo sql_quiz_question || question has many alternatives
-          await queryInterface.addColumn(
-              'SQL_quiz_alternatives',
-              'question_id',
-              {
-                type: Sequelize.INTEGER,
-                references: {
-                  model: 'SQL_quiz_questions',
-                  key: 'id'
-                },
-                allowNull: false,
-                onDelete: 'CASCADE' // Sletter alle alternativer knyttet til et spørsmål
-              }
-          )
-        })
-        // 11 og 12 i create-sql-question-has-resource
-        .then(async () => {
-          // 13. sql_quiz_question belongsTo sql_quiz_chapter || chapter has many questions
-          await queryInterface.addColumn(
-              'SQL_quiz_questions',
-              'chapter_id',
-              {
-                type: Sequelize.INTEGER,
-                references: {
-                  model: 'SQL_quiz_chapters',
-                  key: 'id'
-                },
-                allowNull: false,
-                onDelete: 'CASCADE' // Sletter alle spørsmål knyttet til et kapittel
-              }
-          )
-        })
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -192,18 +159,6 @@ module.exports = {
       await queryInterface.removeColumn(
           'logins',
           'user_id'
-      )
-    }).then(async () => {
-      // 10
-      await queryInterface.removeColumn(
-          'SQL_quiz_alternatives',
-          'question_id'
-      )
-    }).then(async () => {
-      // 13
-      await queryInterface.removeColumn(
-          'SQL_quiz_questions',
-          'chapter_id'
       )
     })
   }

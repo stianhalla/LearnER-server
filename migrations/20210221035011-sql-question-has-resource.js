@@ -1,13 +1,13 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('SQL_question_has_resources', {
+    await queryInterface.createTable('sql_question_has_resources', {
       question_id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER,
         references: {
-          model: 'SQL_quiz_questions',
+          model: 'sql_quiz_questions',
           key: 'id'
         }
       },
@@ -16,13 +16,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
         references: {
-          model: 'SQL_quiz_resources',
+          model: 'sql_quiz_resources',
           key: 'id'
         }
       }
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('SQL_question_has_resources');
+    await queryInterface.dropTable('sql_question_has_resources');
   }
 };
