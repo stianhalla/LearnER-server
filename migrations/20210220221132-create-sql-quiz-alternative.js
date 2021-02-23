@@ -17,25 +17,19 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      question_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'sql_quiz_questions',
+          key: 'id'
+        },
+        allowNull: false,
+        onDelete: 'CASCADE' // Sletter alle alternativer knyttet til et spørsmål
+      },
       correct: {
         allowNull: false,
         type: Sequelize.BOOLEAN
       }
-    }).then(async () => {
-      // 10. sql_quiz_alternative belongsTo sql_quiz_question || question has many alternatives
-      await queryInterface.addColumn(
-          'sql_quiz_alternatives',
-          'question_id',
-          {
-            type: Sequelize.INTEGER,
-            references: {
-              model: 'sql_quiz_questions',
-              key: 'id'
-            },
-            allowNull: false,
-            onDelete: 'CASCADE' // Sletter alle alternativer knyttet til et spørsmål
-          }
-      )
     });
   },
   down: async (queryInterface, Sequelize) => {
