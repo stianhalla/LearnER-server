@@ -39,11 +39,12 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('sql_quiz_alternatives').then(async () => {
-      await queryInterface.removeColumn(
-          'sql_quiz_alternatives',
-          'question_id'
-      )
-    });
+    await queryInterface.removeColumn(
+        'sql_quiz_alternatives',
+        'question_id'
+    )
+    await queryInterface.dropTable('sql_quiz_alternatives');
   }
+
+
 };

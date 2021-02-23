@@ -57,12 +57,12 @@ module.exports = {
       title: "13. Lagrede programmer"
     });
 
-    await queryInterface.bulkInsert('SQL_quiz_chapters', chapters, {});
+    await queryInterface.bulkInsert('sql_quiz_chapters', chapters, {});
 
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('SQL_quiz_chapters', null, {});
-    await queryInterface.sequelize.query('ALTER TABLE SQL_quiz_chapters AUTO_INCREMENT = 1');
+    await queryInterface.bulkDelete('sql_quiz_chapters', null, {});
+    await queryInterface.sequelize.query('ALTER TABLE sql_quiz_chapters AUTO_INCREMENT = 1');
   }
 };

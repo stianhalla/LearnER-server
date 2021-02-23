@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {msg: notEmptyMsg}
       },
       text: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
         validate: {
           notNull: {msg: notNullMsg},
