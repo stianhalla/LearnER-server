@@ -3,16 +3,16 @@ const {Model} = require('sequelize');
 const { notNullMsg, notEmptyMsg} = require('../config/validations');
 
 module.exports = (sequelize, DataTypes) => {
-  class SQL_quiz_chapter extends Model {
-    static associate({SQL_quiz_question}) {
+  class Db_quiz_chapter extends Model {
+    static associate({Db_quiz_question}) {
 
-      this.hasMany(SQL_quiz_question, {
+      this.hasMany(Db_quiz_question, {
         foreignKey: 'chapter_id',
       });
 
     }
-  };
-  SQL_quiz_chapter.init({
+  }
+  Db_quiz_chapter.init({
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'SQL_quiz_chapter',
-    tableName: 'sql_quiz_chapters'
+    modelName: 'Db_quiz_chapter',
+    tableName: 'db_quiz_chapters'
   });
-  return SQL_quiz_chapter;
+  return Db_quiz_chapter;
 };
