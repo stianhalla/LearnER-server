@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
+    timestamps:false,
     modelName: 'Db_quiz_resource',
     tableName: 'db_quiz_resources'
   });

@@ -9,6 +9,10 @@ const UserController = require('./controllers/user')
 const AnswerController = require('./controllers/answer')
 const AvatarController = require('./controllers/avatar')
 const ExerciseController = require('./controllers/exercise')
+const ChapterController = require('./controllers/chapter')
+const QuestionController = require('./controllers/question')
+const AlternativeController = require('./controllers/alternatives')
+const QuestionResourceController = require('./controllers/question_resource')
 
 const AUTH = '/api/auth' // Eneste route uten flertall
 const USERS = '/api/users'
@@ -16,6 +20,10 @@ const ANSWERS = '/api/answers'
 const AVATARS = '/api/avatars'
 const EXERCISES = '/api/exercises'
 const TEST = '/api/test'
+const CHAPTERS = '/api/chapters'
+const QUESTIONS = '/api/questions'
+const ALTERNATIVES = '/api/alternatives'
+const QUESTION_RESOURCE = '/api/questionResource'
 
 
 // Middleware for å sette på autentisering på routes
@@ -58,6 +66,18 @@ const router = (app) => {
     // EXERCISES
     app.get(EXERCISES, requireUserPrivileges, ExerciseController.index)
     app.get(EXERCISES + "/:id", requireUserPrivileges, ExerciseController.show)
+
+    //CHAPTERS
+    app.get(CHAPTERS, requireUserPrivileges, ChapterController.index)
+
+    //QUESTIONS
+    app.get(QUESTIONS + "/:chapter_id", requireUserPrivileges, QuestionController.index)
+
+    //ALTERNATIVE
+    app.get(ALTERNATIVES + "/:question_id", requireUserPrivileges, AlternativeController.index)
+
+    //QUESTION_RESOURCE
+    app.get(QUESTION_RESOURCE + "/:question_id", requireUserPrivileges, QuestionResourceController.index)
 
     //404 Route (Alltid behold denne som siste route)
     app.get('*', function(req, res){

@@ -5,8 +5,8 @@ module.exports = {
     const resources = [];
 
     resources.push({
-        question_id: 5,
-        resource_id: 1
+      question_id: 5,
+      resource_id: 1
     });
     resources.push({
       question_id: 6,

@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Db_quiz_question',
     tableName: 'Db_quiz_questions'
   });

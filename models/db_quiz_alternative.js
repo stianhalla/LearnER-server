@@ -17,13 +17,6 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   Db_quiz_alternative.init({
-    alternative_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: {msg: notNullMsg}
-      }
-    },
     value: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -51,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Db_quiz_alternative',
     tableName: 'db_quiz_alternatives'
   });
