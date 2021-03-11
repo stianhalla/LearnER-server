@@ -11,7 +11,6 @@ const AvatarController = require('./controllers/avatar')
 const ExerciseController = require('./controllers/exercise')
 const ChapterController = require('./controllers/chapter')
 const QuestionController = require('./controllers/question')
-const AlternativeController = require('./controllers/alternatives')
 const QuestionResourceController = require('./controllers/question_resource')
 
 const AUTH = '/api/auth' // Eneste route uten flertall
@@ -22,7 +21,6 @@ const EXERCISES = '/api/exercises'
 const TEST = '/api/test'
 const CHAPTERS = '/api/chapters'
 const QUESTIONS = '/api/questions'
-const ALTERNATIVES = '/api/alternatives'
 const QUESTION_RESOURCE = '/api/questionResource'
 
 
@@ -70,11 +68,8 @@ const router = (app) => {
     //CHAPTERS
     app.get(CHAPTERS, requireUserPrivileges, ChapterController.index)
 
-    //QUESTIONS
+    //QUESTIONS WITH ALTERNATIVES
     app.get(QUESTIONS + "/:chapter_id", requireUserPrivileges, QuestionController.index)
-
-    //ALTERNATIVE
-    app.get(ALTERNATIVES + "/:question_id", requireUserPrivileges, AlternativeController.index)
 
     //QUESTION_RESOURCE
     app.get(QUESTION_RESOURCE + "/:question_id", requireUserPrivileges, QuestionResourceController.index)
