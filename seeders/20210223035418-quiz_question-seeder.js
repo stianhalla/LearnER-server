@@ -53,12 +53,12 @@ module.exports = {
       text: 'Anta alle registreringsnumre som skal lagres i en bildatabase består av 2 bokstaver og 5 siffer. Hvilken datatype er mest hensiktsmessig å bruke?'
     });
 
-    await queryInterface.bulkInsert('sql_quiz_questions', questions, {});
+    await queryInterface.bulkInsert('db_quiz_questions', questions, {});
 
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('sql_quiz_questions', null, {});
-    await queryInterface.sequelize.query('ALTER TABLE sql_quiz_questions AUTO_INCREMENT = 1');
+    await queryInterface.bulkDelete('db_quiz_questions', null, {});
+    await queryInterface.sequelize.query('ALTER TABLE db_quiz_questions AUTO_INCREMENT = 1');
   }
 };

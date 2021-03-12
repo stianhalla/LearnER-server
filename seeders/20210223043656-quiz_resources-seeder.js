@@ -45,12 +45,12 @@ module.exports = {
           '</tbody></table>'
     });
 
-    await queryInterface.bulkInsert('sql_quiz_resources', resources, {});
+    await queryInterface.bulkInsert('db_quiz_resources', resources, {});
 
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('sql_quiz_resources', null, {});
-    await queryInterface.sequelize.query('ALTER TABLE sql_quiz_resources AUTO_INCREMENT = 1');
+    await queryInterface.bulkDelete('db_quiz_resources', null, {});
+    await queryInterface.sequelize.query('ALTER TABLE db_quiz_resources AUTO_INCREMENT = 1');
   }
 };

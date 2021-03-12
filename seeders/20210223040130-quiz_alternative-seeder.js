@@ -293,12 +293,12 @@ module.exports = {
       correct: false
     });
 
-    await queryInterface.bulkInsert('sql_quiz_alternatives', alternatives, {});
+    await queryInterface.bulkInsert('db_quiz_alternatives', alternatives, {});
 
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('sql_quiz_alternatives', null, {});
-    await queryInterface.sequelize.query('ALTER TABLE sql_quiz_alternatives AUTO_INCREMENT = 1');
+    await queryInterface.bulkDelete('db_quiz_alternatives', null, {});
+    await queryInterface.sequelize.query('ALTER TABLE db_quiz_alternatives AUTO_INCREMENT = 1');
   }
 };

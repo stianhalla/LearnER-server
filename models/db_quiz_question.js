@@ -2,28 +2,28 @@
 const {Model} = require('sequelize');
 const { notNullMsg, notEmptyMsg} = require('../config/validations');
 module.exports = (sequelize, DataTypes) => {
-  class SQL_quiz_question extends Model {
+  class Db_quiz_question extends Model {
 
-    static associate({SQL_quiz_chapter, SQL_quiz_resource, SQL_quiz_alternative}) {
+    static associate({Db_quiz_chapter, Db_quiz_resource, Db_quiz_alternative}) {
 
-      this.belongsToMany(SQL_quiz_resource, {
-        through: 'sql_question_has_resource',
+      this.belongsToMany(Db_quiz_resource, {
+        through: 'db_question_has_resource',
         foreignKey: 'question_id',
         as: 'question'
       });
 
-      this.hasMany(SQL_quiz_alternative, {
+      this.hasMany(Db_quiz_alternative, {
         foreignKey: 'question_id',
       });
 
-      this.belongsTo(SQL_quiz_chapter, {
+      this.belongsTo(Db_quiz_chapter, {
         foreignKey: { name: 'chapter_id'},
         as: 'chapter'
       });
 
     }
   }
-  SQL_quiz_question.init({
+  Db_quiz_question.init({
     text: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -34,8 +34,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'SQL_quiz_question',
-    tableName: 'sql_quiz_questions'
+    timestamps: false,
+    modelName: 'Db_quiz_question',
+    tableName: 'Db_quiz_questions'
   });
-  return SQL_quiz_question;
+  return Db_quiz_question;
 };

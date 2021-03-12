@@ -5,8 +5,8 @@ module.exports = {
     const resources = [];
 
     resources.push({
-        question_id: 5,
-        resource_id: 1
+      question_id: 5,
+      resource_id: 1
     });
     resources.push({
       question_id: 6,
@@ -21,11 +21,11 @@ module.exports = {
       resource_id: 1
     });
 
-    await queryInterface.bulkInsert('sql_question_has_resources', resources, {});
+    await queryInterface.bulkInsert('quiz_question_has_resources', resources, {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('sql_question_has_resources', null, {});
-    await queryInterface.sequelize.query('ALTER TABLE sql_question_has_resources AUTO_INCREMENT = 1');
+    await queryInterface.bulkDelete('quiz_question_has_resources', null, {});
+    await queryInterface.sequelize.query('ALTER TABLE quiz_question_has_resources AUTO_INCREMENT = 1');
   }
 };

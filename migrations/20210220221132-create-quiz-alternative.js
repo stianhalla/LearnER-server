@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
-    await queryInterface.createTable('sql_quiz_alternatives', {
+    await queryInterface.createTable('db_quiz_alternatives', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -20,7 +20,7 @@ module.exports = {
       question_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'sql_quiz_questions',
+          model: 'db_quiz_questions',
           key: 'id'
         },
         allowNull: false,
@@ -33,7 +33,7 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('sql_quiz_alternatives');
+    await queryInterface.dropTable('db_quiz_alternatives');
   }
 
 

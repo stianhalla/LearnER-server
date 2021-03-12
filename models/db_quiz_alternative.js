@@ -4,11 +4,11 @@ const {Model} = require('sequelize');
 const { notNullMsg, notEmptyMsg, isBoolean} = require('../config/validations');
 
 module.exports = (sequelize, DataTypes) => {
-  class SQL_quiz_alternative extends Model {
+  class Db_quiz_alternative extends Model {
 
-    static associate({SQL_quiz_question}) {
+    static associate({Db_quiz_question}) {
 
-      this.belongsTo(SQL_quiz_question, {
+      this.belongsTo(Db_quiz_question, {
         foreignKey: { name: 'question_id'},
         as: 'question'
       })
@@ -16,14 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 
-  SQL_quiz_alternative.init({
-    alternative_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: {msg: notNullMsg}
-      }
-    },
+  Db_quiz_alternative.init({
     value: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -51,8 +44,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'SQL_quiz_alternative',
-    tableName: 'sql_quiz_alternatives'
+    timestamps: false,
+    modelName: 'Db_quiz_alternative',
+    tableName: 'db_quiz_alternatives'
   });
-  return SQL_quiz_alternative;
+  return Db_quiz_alternative;
 };
