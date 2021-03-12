@@ -1,4 +1,4 @@
-    /**
+/**
  * Kontroller for å håndtere bruker requests
  * */
 
