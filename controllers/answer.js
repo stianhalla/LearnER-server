@@ -141,8 +141,9 @@ exports.save = (req, res, next) => {
         if(!answer || answer.length === 0){return res.status(404).json(notFoundErr);}
 
         const reqBody = {
-            answer: req.body.answer
-        }
+            answer: req.body.answer,
+            progression: parseInt(req.body.progression) // Todo Oppdater api dokumentsjon
+        };
 
         // Lager json besvarelse
         const updatedAnswer = await answer.update(reqBody)
@@ -166,7 +167,7 @@ exports.update = (req, res, next) => {
         if(!answer || answer.length === 0){return res.status(404).json(notFoundErr);}
 
         let times_checked = answer.times_checked;
-        let hint_used = answer.hint_used
+        let hint_used = answer.hint_used;
 
         if(req.body.hint_cliked){
             hint_used = true;
@@ -178,10 +179,10 @@ exports.update = (req, res, next) => {
         const reqBody = {
             times_checked,
             hint_used
-        }
+        };
 
         // Oppdatere besvarelse
-        const updatedAnswer = await answer.update(reqBody)
+        const updatedAnswer = await answer.update(reqBody);
         return res.json(new SuccRes('Answer updated', updatedAnswer))
 
     }).catch(err => {
