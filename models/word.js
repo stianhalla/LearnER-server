@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 
       this.hasMany(Synonym, {
         foreignKey: 'word_id',
+        as: 'synonyms'
       });
 
     }
