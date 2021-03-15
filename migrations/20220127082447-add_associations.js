@@ -117,6 +117,23 @@ module.exports = {
                 }
             )
         })
+            .then(async () => {
+                // 10. synonym belongsTo word || Word hasMany synonyms
+                await queryInterface.addColumn(
+                    'synonyms',
+                    'word_id',
+                    {
+                        type: Sequelize.INTEGER,
+                        references: {
+                            model: 'words',
+                            key: 'id'
+                        },
+                        allowNull: false,
+                        onDelete: 'CASCADE' // Slett alle synomymer knyttet til ett ord, hvis ordet slettes
+                    }
+                )
+            })
+        // 11 og 12 i i create-exercise-has-word (n:m)
     },
 
     down: async (queryInterface, Sequelize) => {
@@ -159,6 +176,12 @@ module.exports = {
             await queryInterface.removeColumn(
                 'logins',
                 'user_id'
+            )
+        }).then(async () => {
+            // 10
+            await queryInterface.removeColumn(
+                'synonyms',
+                'word_id'
             )
         })
     }
