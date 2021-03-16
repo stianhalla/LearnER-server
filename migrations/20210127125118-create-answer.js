@@ -31,6 +31,11 @@ module.exports = {
         allowNull: false,
         defaultValue: false
       },
+      submitted: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
       progression: {
         type: Sequelize.INTEGER,
         allowNull: false,

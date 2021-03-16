@@ -70,6 +70,16 @@ module.exports = (sequelize, DataTypes) => {
         isBoolean
       }
     },
+    submitted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isBoolean
+      }
+    },
     progression: {
       type: DataTypes.INTEGER,
       allowNull: false,
