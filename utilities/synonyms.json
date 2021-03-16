@@ -1,0 +1,31 @@
+[
+  {
+    "word": "Tittel" ,
+    "synonyms": ["overskrift"]
+  },
+  {
+    "word": "Person" ,
+    "synonyms": ["menneske"]
+  },
+  {
+    "word": "Fornavn" ,
+    "synonyms": ["egenavn"]
+  },
+  {
+    "word": "Etternavn" ,
+    "synonyms": ["familienavn", "slektsnavn"]
+  },
+  {
+    "word": "Artist" ,
+    "synonyms": ["musiker", "sanger"]
+  },
+  {
+    "word": "Epost" ,
+    "synonyms": ["email", "mail"]
+  },
+  {
+    "word": "Fottur" ,
+    "synonyms": ["tur"]
+  }
+]
+

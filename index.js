@@ -1,6 +1,7 @@
 /**
  * Startpunkt for server (første som kjører av kode)
  * */
+
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
