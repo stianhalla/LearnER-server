@@ -126,7 +126,7 @@ module.exports = {
     });
     alternatives.push({
       question_id: 6,
-      value: 'd',
+      value: 'a',
       text: 'Kategori = \'Verktøy\', \'Småting\'',
       correct: false
     });
@@ -186,7 +186,7 @@ module.exports = {
     });
     alternatives.push({
       question_id: 8,
-      value: 'd',
+      value: 'c',
       text: 'SELECT Id, Kategori FROM Vare',
       correct: false
     });
