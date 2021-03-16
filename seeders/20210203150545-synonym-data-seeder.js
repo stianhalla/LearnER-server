@@ -68,12 +68,7 @@ module.exports = {
         if(wordId > 0) {
           const synonyms = lex.synonyms;
           synonyms.forEach(synonym => {
-            synonymsData.push({
-              word_id: wordId,
-              synonym: synonym,
-              created_at: new Date(),
-              updated_at: new Date()
-            })
+            addSynonym(synonymsData, wordId, synonym);
           })
         }
       });
@@ -105,18 +100,15 @@ module.exports = {
   }
 };
 
-function indexOf(array, value) {
-  let count = 1;
-  for(let elemnt of array) {
-    if(elemnt.word.toLowerCase() === value.toLowerCase()) {
-      return count;
-    } else {
-      count++;
-    }
-  }
-  return -1;
-}
 
+function addSynonym(array, wordId, synonym) {
+  array.push({
+    word_id: wordId,
+    synonym: synonym,
+    created_at: new Date(),
+    updated_at: new Date()
+  })
+}
 
 function addWord(array, word) {
   array.push({
@@ -134,6 +126,18 @@ function addExerciseHasWords(array, word_id, exercise_id, type) {
     created_at: new Date(),
     updated_at: new Date()
   })
+}
+
+function indexOf(array, value) {
+  let count = 1;
+  for(let elemnt of array) {
+    if(elemnt.word.toLowerCase() === value.toLowerCase()) {
+      return count;
+    } else {
+      count++;
+    }
+  }
+  return -1;
 }
 
 // Legger til ord i ordboken med metainformasjon
@@ -174,13 +178,6 @@ class Meta {
   }
 
   addType(type, id) {
-    const typeSet = this.type.get(type);
-    if(typeSet) {
-      typeSet.add(id)
-    } else {
-      const set = new Set();
-      set.add(id);
-      this.type.set(type, set)
-    }
+    addToMap(this.type, type, id);
   }
 }
