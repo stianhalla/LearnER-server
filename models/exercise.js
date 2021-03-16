@@ -32,6 +32,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'exercise_id',
         as: 'words'
       })
+
+      // Kobling direkte til statistikk tabell (brukes får finne ut hvilke brukere som har fullført oppgaven)
+      this.hasMany(User_exercise_stat, {
+        foreignKey: 'exercise_id',
+        as: 'stats'
+      })
     }
     // Fjerner valgte felter fra json objektet ved json response
     toJSON() {

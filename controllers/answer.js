@@ -68,7 +68,7 @@ exports.create = (req, res, next) => {
 
     Answer.create(reqBody).then( async answer => {
         if(!answer || answer.length === 0){return res.status(404).json(notFoundErr);}
-
+        
         await onAnswerCreated(answer); // Incrementer antall forsøk i statisikk tabell
 
         return res.json(new SuccRes('Answer created', answer));
@@ -142,7 +142,11 @@ exports.save = (req, res, next) => {
 
         const reqBody = {
             answer: req.body.answer,
-            progression: parseInt(req.body.progression) // Todo Oppdater api dokumentsjon
+            progression: parseInt(req.body.progression),
+            points: parseInt(req.body.points),
+            penalty_recived: parseInt(req.body.penalty_recived),
+            hint_used: req.body.hint_used, // TODO Ingen funksjonalitet ennå
+            times_checked: parseInt(req.body.times_checked)
         };
 
         // Lager json besvarelse
