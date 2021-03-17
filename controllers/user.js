@@ -127,6 +127,27 @@ exports.destroy = (req, res, next) => {
     })
 }
 
+// Henter en topliste med gitt antall brukere
+exports.leaderboard = (req, res, next) => {
+
+    console.log("Hei verden, limit: ", req.query.limit)
+
+    User.findAll({
+        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}],
+        order: [['score', 'DESC']],
+        limit: parseInt(req.query.limit)
+    }).then(users => {
+
+        if (!users || users.length === 0) {return res.status(404).json(new ErrRes('Not Found',['Can not find any users']));}
+
+        return res.json(new SuccRes('Leaderboard fetched', users));
+    })
+    .catch(err => {
+        if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
+        return res.status(422).json(new ErrRes(err.message,err.errors.map(error => error.message)));
+    })
+}
+
 /**
  * Hjelpe metoder
  * */
