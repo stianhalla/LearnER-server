@@ -17,6 +17,12 @@ module.exports = {
       })
     }
 
+    data[0].attempts = 5
+    data[1].attempts = 7
+    data[2].attempts = 10
+    data[3].attempts = 12
+    data[4].attempts = 15
+
     await queryInterface.bulkInsert('difficulty_levels', data, {});
   },
 

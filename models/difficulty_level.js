@@ -37,6 +37,15 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {msg: notEmptyMsg},
         isInt: {msg: isIntMsg}
       }
+    },
+    attempts: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg}
+      }
     }
   }, {
     sequelize,
