@@ -130,12 +130,12 @@ exports.destroy = (req, res, next) => {
 // Henter en topliste med gitt antall brukere
 exports.leaderboard = (req, res, next) => {
 
-    console.log("Hei verden, limit: ", req.query.limit)
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10; // Hvis ikke query parameter er oppgitt, så bruk 10
 
     User.findAll({
         include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}],
         order: [['score', 'DESC']],
-        limit: parseInt(req.query.limit)
+        limit: limit
     }).then(users => {
 
         if (!users || users.length === 0) {return res.status(404).json(new ErrRes('Not Found',['Can not find any users']));}
