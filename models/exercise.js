@@ -1,6 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 const { notNullMsg, notEmptyMsg, isJSON, isBoolean, isIntMsg} = require('../config/validations')
+const {encrypt} = require('../utilities/crypting');
 
 module.exports = (sequelize, DataTypes) => {
   class Exercise extends Model {
@@ -43,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     toJSON() {
       return {
         ...this.get(),
+        solution: encrypt(this.solution), // krypterer fasit svaret
         difficulty_level_id: undefined,
         author_id: undefined,
         created_at: undefined,
@@ -132,3 +134,4 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Exercise;
 };
+

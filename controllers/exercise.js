@@ -51,5 +51,3 @@ exports.show = (req, res, next) => {
     })
 }
 
-
-
