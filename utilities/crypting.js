@@ -1,7 +1,6 @@
 /**
- * Kryptering
- * @param input
- * @returns {string}
+ * @author Espen Helgerud
+ * Brukes til å kryptere fasit
  */
 
 exports.encrypt = (input) => {
@@ -20,6 +19,8 @@ exports.encrypt = (input) => {
     return encryptedString;
 };
 
+
+// Blir brukt på klient siden
 function decrypt(encryptedString) {
     const NUMBER_OF_SHIFTS = 1;
 
