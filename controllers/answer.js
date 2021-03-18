@@ -109,7 +109,7 @@ exports.evaluate = async (req, res, next) => {
         user.score += answer.points;
 
         // Sjekker om bruker har gått opp i rank
-        const rankUp = await setRank(user);
+        const rank = await setRank(user);
 
         // Lagrer endringer i bruker
         await user.save();
@@ -121,7 +121,7 @@ exports.evaluate = async (req, res, next) => {
         await onExerciseCompleted(answer);
 
         // Bygger tilbakemeding til klient
-        const resMessage = buildEvaluationResponse(user, answer, maxPoints, rankUp );
+        const resMessage = buildEvaluationResponse(user, answer, maxPoints, rank );
 
         // Returnerer resultat til klient
         return res.json(resMessage);
@@ -238,7 +238,18 @@ setRank = async (user) => {
 
     user.rank_id = newRank.id;
 
-    return oldRank !== newRank.id;
+    let avatars = null;
+
+    // Henter nyeste avatar, hvis bruker har godt opp i rank
+    if(oldRank !== newRank.id){
+        avatars = await newRank.getAvatars({order: [['id', 'desc']], joinTableAttributes: []});
+    }
+
+    return {
+        rankUp: oldRank !== newRank.id,
+        avatars: avatars,
+        newRank: oldRank !== newRank.id ? newRank : null
+    } ;
 }
 
 /**
@@ -246,21 +257,24 @@ setRank = async (user) => {
  * @param user -> User model objekt
  * @param answer -> Answer js objekt
  * @param maxPoints -> maksimalt mulige poeng på oppgaven
- * @param rankUp -> om bruker har gått opp i rank (boolean)
+ * @param rank -> js objekt som inneholder info on bruker har gått opp i rank
  * */
-buildEvaluationResponse = (user, answer, maxPoints, rankUp) =>{
-    const resMessage = {status: 'success', name: 'Evaluation succeeded', message: ["Hei verden"]}; // Objekt som skal returneres til klient med nyttig status melding
+buildEvaluationResponse = (user, answer, maxPoints, rank) =>{
+    const resMessage = {status: 'success', name: 'Evaluation succeeded', data: {}}; // Objekt som skal returneres til klient med nyttig status melding
 
-    // respons meldinger
-    // resMessage.message.push('Congratulations, you have completed this exercise!');
-    // resMessage.message.push(`Maximum possible points: ${maxPoints}`);
-    // resMessage.message.push(`Your points: ${answer.points}`);
-    // resMessage.message.push(`You pressed 'check' ${answer.times_checked} times`);
-    // resMessage.message.push(answer.hint_used ? 'You used hint to solve this exercise' : 'You solved this exercise without using hint');
-    // resMessage.message.push(`Penalty received: ${answer.penalty_recived} points`);
-    // if(rankUp){resMessage.message.push('Congratulations you have a new rank');}
+    resMessage.data = {
+        maximumPoints: maxPoints,
+        yourPoints: answer.points,
+        penalty: answer.penalty_recived,
+        timesChecked: answer.times_checked,
+        hintUsed: answer.hint_used, // Ikke i bruk ennå
+        rankUp: rank.rankUp,
+        avatars: rank.avatars,
+        newRank: rank.newRank
+    }
 
-    return new SuccRes(resMessage.name, resMessage.message);
+
+    return new SuccRes(resMessage.name, resMessage.data);
 }
 
 
