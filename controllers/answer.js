@@ -1,12 +1,14 @@
 /**
+ * @author Stian Helgerud
  * Kontroller som håndterer besvarelser
  * */
 
+const { Op } = require("sequelize")
+const { onExerciseCompleted } = require('../utilities/statistic')
 const ErrRes = require('../config/ErrorResponse')
 const SuccRes = require('../config/SuccessResponse')
-const { Answer } = require('../models')
+const { Answer, Exercise, Difficulty_level, Rank } = require('../models')
 const { notFoundErr } = require('../config/validations')
-const { onJsonAnswerRecived } = require('../utilities/gamification')
 const { onAnswerCreated } = require('../utilities/statistic')
 
 // Henter alle besvarelsene til innlogget bruker
@@ -78,34 +80,56 @@ exports.create = (req, res, next) => {
     })
 }
 
-// Sjekker om besvarelse kan evalueres til completed, og eventulet oppdaterer databsen
-exports.evaluate = (req, res, next) => {
+// Sjekker besvaresle og markerer besvarelse om levert, låser opp ranks hvis bruker går opp i rank
+exports.evaluate = async (req, res, next) => {
 
-    const answerId = parseInt(req.params.id);
+    try{
+        const user = req.user;
+        const answer = req.body;
+        const exercise = await Exercise.findOne({
+            where: {id: answer.exercise_id},
+            include: [{model: Difficulty_level, as: 'difficulty_level'}]
+        });
+        const maxPoints = exercise.extra_points + exercise.difficulty_level.points;
 
-    Answer.findOne({
-        where: {id: answerId, user_id: req.user.id}
-    }).then( async answer => {
-
-        if(!answer || answer.length === 0){return res.status(404).json(notFoundErr);}
-
-        if(!req.body.answer){res.status(404).json(new ErrRes('Not found', ['Request does not contain a JSON answer']))}
-
-        answer.answer = req.body.answer;
-        const resMessage = await onJsonAnswerRecived(req.user, answer); // Om alt går som det skal, så oppdaterer metoden databasen automatiks.
-
-        if(resMessage.status === 'error'){
-            return res.status(422).json(new ErrRes(resMessage.name, resMessage.message));
+        // Sjekker etter fusk
+        if(answer.points > maxPoints){ // Hvis poengene fra klienten er mer enn det er mulig å få på oppgaven, så er det noe galt
+            return res.status(422).json(new ErrRes("Evaluation failed", ["Evaluation failed because your points are grater then the maximum possible points on this exercise"]));
         }
 
-        if(resMessage.status === 'success') {
-            return res.json(new SuccRes(resMessage.name, resMessage.message));
+        if (answer.points < 0){
+            return res.status(422).json(new ErrRes("Evaluation failed", ["Evaluation failed because your points are negative"]))
         }
 
-    }).catch(err => {
+        if(answer.user_id !== parseInt(req.user.id)){ // Forsåk på å evaluere besvarelsen til noen andre
+            return res.status(422).json(new ErrRes("Evaluation failed", ["You can't evaluate a answer that is not yours"]));
+        }
+
+        // Oppdaterer brukers score
+        user.score += answer.points;
+
+        // Sjekker om bruker har gått opp i rank
+        const rankUp = await setRank(user);
+
+        // Lagrer endringer i bruker
+        await user.save();
+
+        // Markerer besvarelsen som levert og lagrer besvarelsen i databsen
+        await Answer.update({...answer, submitted: true}, {where: {id: answer.id}})
+
+        // Setter completed til true og completed_at til nå i statistikk tabell
+        await onExerciseCompleted(answer);
+
+        // Bygger tilbakemeding til klient
+        const resMessage = buildEvaluationResponse(user, answer, maxPoints, rankUp );
+
+        // Returnerer resultat til klient
+        return res.json(resMessage);
+    }catch (err){
         if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
         return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
-    }) // Fanger feil ved leting etter besvarelse
+    }
+
 }
 
 // Fjerner valgt besvarelse tilknyttet inlogget bruker 
@@ -194,6 +218,51 @@ exports.update = (req, res, next) => {
         return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
     }) // Fanger feil
 }
+
+/***********************************************************************************************************************
+ ***********************************************Hjelpe metoder**********************************************************
+ **********************************************************************************************************************/
+
+/**
+ * Funksjon som oppdaterer ranken til en bruker
+ * Obs! Bruker må ha fått ny score før denne funksjonen kalles
+ * @param user -> User model objekt
+ * returns boolean -> Om bruker har gått opp i rank eller ikke
+ * */
+setRank = async (user) => {
+    const oldRank = user.rank_id;
+    const newRank = await Rank.findOne({
+        where: { points_required: { [Op.lte] : user.score }},
+        order: [['id', 'desc']]
+    })
+
+    user.rank_id = newRank.id;
+
+    return oldRank !== newRank.id;
+}
+
+/**
+ * Funksjon som bygger opp tilbakemelding til klienten
+ * @param user -> User model objekt
+ * @param answer -> Answer js objekt
+ * @param maxPoints -> maksimalt mulige poeng på oppgaven
+ * @param rankUp -> om bruker har gått opp i rank (boolean)
+ * */
+buildEvaluationResponse = (user, answer, maxPoints, rankUp) =>{
+    const resMessage = {status: 'success', name: 'Evaluation succeeded', message: ["Hei verden"]}; // Objekt som skal returneres til klient med nyttig status melding
+
+    // respons meldinger
+    // resMessage.message.push('Congratulations, you have completed this exercise!');
+    // resMessage.message.push(`Maximum possible points: ${maxPoints}`);
+    // resMessage.message.push(`Your points: ${answer.points}`);
+    // resMessage.message.push(`You pressed 'check' ${answer.times_checked} times`);
+    // resMessage.message.push(answer.hint_used ? 'You used hint to solve this exercise' : 'You solved this exercise without using hint');
+    // resMessage.message.push(`Penalty received: ${answer.penalty_recived} points`);
+    // if(rankUp){resMessage.message.push('Congratulations you have a new rank');}
+
+    return new SuccRes(resMessage.name, resMessage.message);
+}
+
 
 
 

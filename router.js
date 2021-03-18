@@ -53,9 +53,9 @@ const router = (app) => {
     app.get(ANSWERS + "/:id", requireUserPrivileges, AnswerController.show)
     app.get(ANSWERS + "/with/:exercise_id", requireUserPrivileges, AnswerController.showByExerciseId)
     app.post(ANSWERS, requireUserPrivileges, AnswerController.create)
+    app.post(ANSWERS + "/evaluate", requireUserPrivileges, AnswerController.evaluate)
     app.patch(ANSWERS + "/:id", requireUserPrivileges, AnswerController.update)
     app.patch(ANSWERS + "/:id/save", requireUserPrivileges, AnswerController.save)
-    app.post(ANSWERS + "/:id/evaluate", requireUserPrivileges, AnswerController.evaluate)
     app.delete(ANSWERS + "/:id", requireUserPrivileges, AnswerController.destroy)
 
     // AVATARS
