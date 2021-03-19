@@ -97,7 +97,7 @@ exports.update = async (req, res, next) => {
     }
 
     // Oppdaterer bruker
-    user.update(resBody, {raw: true}).then(async updatedUser => {
+    user.update(resBody).then(async updatedUser => {
 
         if(!updatedUser || updatedUser === 0){return res.status(404).json(notFoundErr)}
 
