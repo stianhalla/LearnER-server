@@ -63,11 +63,13 @@ exports.update = async (req, res, next) => {
 
     const user = req.user;
     const candidateId = parseInt(req.params.id)
+    const body = req.body;
+    const resBody = {}; // Body som skal oppdatere databasen
 
     // Bruker kan bare endre data om seg selv
     if (user.id !== candidateId) {return res.sendStatus(401);}
 
-    if(!isValidPassword(req)){
+    if(!isValidPassword(req, resBody)){
        return res.status(422).json(new ErrRes('Validation Error', ['Passwords needs to be identical']))
     }
 
@@ -78,20 +80,24 @@ exports.update = async (req, res, next) => {
     // Fant ikke noe rad (ikke gyldig avatar)
     if(!validAvatar) {
         return res.status(422).json(new ErrRes('Validation Error', ['You have not unlocked this avatar']))
+    }else { // Gyldig avatar
+        resBody.avatar_id = body.avatar_id;
     }
 
-    // Sender bare med data som skal kunne endres av bruker
-    const body = req.body;
-    const reqBody = {
-        username: body.username,
-        password: body.password_1,
-        email: body.email,
-        selected_notation: body.selected_notation,
-        avatar_id: body.avatar_id
+    if(body.username){
+        resBody.username = body.username;
+    }
+
+    if(body.email){
+        resBody.email = body.email;
+    }
+
+    if(body.selected_notation){
+        resBody.selected_notation = body.selected_notation;
     }
 
     // Oppdaterer bruker
-    user.update(reqBody).then(updatedUser => {
+    user.update(resBody).then(updatedUser => {
 
         if(!updatedUser || updatedUser === 0){return res.status(404).json(notFoundErr)}
 
@@ -151,10 +157,13 @@ exports.leaderboard = (req, res, next) => {
 /**
  * Hjelpe metoder
  * */
-const isValidPassword = (req) => {
+const isValidPassword = (req, resBody) => {
     // Hvis det ikke er oppgitt noe passord
     if (!req.body.password_1 && !req.body.password_2){ return true}
-    if(req.body.password_1 === req.body.password_2) { return true}
+    if(req.body.password_1 === req.body.password_2) {
+        resBody.password = req.password_1 // Setter passord i request body
+        return true;
+    }
     return false;
 }
 
