@@ -97,12 +97,19 @@ exports.update = async (req, res, next) => {
     }
 
     // Oppdaterer bruker
-    user.update(resBody).then(updatedUser => {
+    user.update(resBody, {raw: true}).then(async updatedUser => {
 
         if(!updatedUser || updatedUser === 0){return res.status(404).json(notFoundErr)}
 
+        const resUser = updatedUser.toJSON();
+        const rank = await updatedUser.getRank();
+        const avatar = await updatedUser.getAvatar();
+
+        resUser.rank = rank;
+        resUser.avatar = avatar;
+
         // Bruker oppdatert
-        return res.json(new SuccRes('User updated', updatedUser))
+        return res.json(new SuccRes('User updated', resUser ));
     }).catch(err => {
         if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
         return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
