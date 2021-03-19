@@ -14,28 +14,28 @@ module.exports = {
       ranks.push({
           id: 2,
           name: "Amatør",
-          points_required: 20000,
+          points_required: 3000,
           created_at: new Date(),
           updated_at: new Date()
       });
       ranks.push({
           id: 3,
           name: "Dyktig",
-          points_required: 40000,
+          points_required: 10000,
           created_at: new Date(),
           updated_at: new Date()
       });
       ranks.push({
           id: 4,
           name: "Ekspert",
-          points_required: 70000,
+          points_required: 25000,
           created_at: new Date(),
           updated_at: new Date()
       });
       ranks.push({
           id: 5,
           name: "Mester",
-          points_required: 100000,
+          points_required: 70000,
           created_at: new Date(),
           updated_at: new Date()
       });
