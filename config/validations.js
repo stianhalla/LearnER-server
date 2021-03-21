@@ -16,7 +16,7 @@ module.exports.lenPwdMsg = 'Password needs to be at least 8 characters';
 // Egendefinerete valideringer
 module.exports.isNotation = (val) => {
     if( ![notation.ER, notation.UML, notation.SIMPLIFIED_ER].includes(val) ){
-        throw new Error(`Wrong value for user type, valid values is ${notation.ER}, ${notation.UML} and ${notation.SIMPLIFIED_ER} `)
+        throw new Error(`Wrong value for notation, valid values is ${notation.ER}, ${notation.SIMPLIFIED_ER} and ${notation.UML}`)
     }
 }
 module.exports.isUserType = (val) => {
