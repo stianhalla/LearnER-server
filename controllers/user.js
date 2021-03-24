@@ -41,7 +41,7 @@ exports.show = (req, res, next) => {
     })
 }
 
-// Henter innloget bruker
+// Henter innloget bruker TODO Trenger ikke bruke findByPk når user allerede er i req.user
 exports.me = (req, res, next) => {
 
     User.findByPk(req.user.id, {

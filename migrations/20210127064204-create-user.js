@@ -33,7 +33,7 @@ module.exports = {
         allowNull: false,
         defaultValue: defaultValue.VERIFIED
       },
-      selected_notation: { // 1 = ER, 2 = UML 3 = forenklet ER, 4 er til utviddelse
+      selected_notation: { // 1 = ER, 2 = forenklet ER, 3 = UML, 4 er til utviddelse
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: defaultValue.NOTATION

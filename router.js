@@ -9,6 +9,7 @@ const UserController = require('./controllers/user')
 const AnswerController = require('./controllers/answer')
 const AvatarController = require('./controllers/avatar')
 const ExerciseController = require('./controllers/exercise')
+const StatisticController = require('./controllers/statistic')
 const ChapterController = require('./controllers/chapter')
 const QuestionController = require('./controllers/question')
 const QuestionResourceController = require('./controllers/question_resource')
@@ -18,6 +19,7 @@ const USERS = '/api/users'
 const ANSWERS = '/api/answers'
 const AVATARS = '/api/avatars'
 const EXERCISES = '/api/exercises'
+const STATS = '/api/stats'
 const TEST = '/api/test'
 const CHAPTERS = '/api/chapters'
 const QUESTIONS = '/api/questions'
@@ -65,6 +67,9 @@ const router = (app) => {
     // EXERCISES
     app.get(EXERCISES, requireUserPrivileges, ExerciseController.index)
     app.get(EXERCISES + "/:id", requireUserPrivileges, ExerciseController.show)
+
+    // STATS
+    app.get(STATS, requireUserPrivileges, StatisticController.dashboard)
 
     //CHAPTERS
     app.get(CHAPTERS, requireUserPrivileges, ChapterController.index)
