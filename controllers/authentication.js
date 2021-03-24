@@ -102,4 +102,15 @@ exports.verify = async (req, res, next) => {
     }
 }
 
+// Finner ut hvilke type feil som gjør att ikke bruker kan logge seg inn (Må gjøres manuelt, da passport ikke sender like 401 meldinger)
+exports.error = async (req, res, next) => {
+    const user = await User.findOne({where: {email: req.body.email}});
+
+    // Fant ikke bruker - epost er feil
+    if(!user){ return res.status(401).json(new ErrRes("Unauthenticated", ['Feil brukernavn eller passord'])) }
+    // Feil passord
+    if(!user.comparePassword(req.body.password)) { return res.status(401).json(new ErrRes("Unauthenticated", ['Feil brukernavn eller passord'])) }
+    // Bruker har ikke verifisert seg
+    if (!user.verified){ return res.status(401).json(new ErrRes("Unauthenticated", ['E-post er ikke bekreftet'])) }
+}
 

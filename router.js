@@ -42,6 +42,7 @@ const router = (app) => {
     app.post(AUTH + '/signin', requireSignin, AuthController.signin)
     app.post(AUTH + '/signup', AuthController.signup)
     app.post(AUTH + '/verify', AuthController.verify)
+    app.post(AUTH + '/error', AuthController.error)
 
     // USERS
     app.get(USERS, requireUserPrivileges ,UserController.index)
