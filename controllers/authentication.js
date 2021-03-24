@@ -1,4 +1,5 @@
 /**
+ * @author Stian Helgerud
  * Kontroller som håndterer autentisering
  * */
 
@@ -43,9 +44,11 @@ exports.signup = (req, res, next) =>{
                 console.log("Fikk ikke logget innlogginen til datasen")
             }
 
+            // TODO Send epost til bruker
+
             return res.json(new SuccRes(
                 'User created',
-                { token: tokenForUser(user), user: jsonUser }
+                { message: `Confirm your email address before you can sign in`, user: jsonUser }
             ))
         })
         .catch(err =>  {
@@ -80,6 +83,23 @@ exports.signin = async (req, res, next) => {
         'User signed in',
         { token: tokenForUser(user), user : jsonUser }
     ));
+}
+
+// Verifiserer bruker fra email
+exports.verify = async (req, res, next) => {
+    try{
+        const user = await User.findByPk(req.body.user_id) // finner bruker som skal verifiseres
+
+        await user.update({ verified: true });
+
+        return res.json(new SuccRes(
+            'Email confirmed',
+            { message: 'You can now sign in to the application' }
+        ));
+    }catch (err){
+        if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
+        return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
+    }
 }
 
 

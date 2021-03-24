@@ -2,7 +2,7 @@
 
 const { Model } = require('sequelize');
 const bcrypt = require('bcrypt')
-const { defaultValue} = require('../config/types')
+const { defaultValue } = require('../config/types')
 const { lenPwdMsg, isIntMsg, isEmailMsg, notNullMsg, notEmptyMsg, isNotation, isUserType, isBoolean, isUsername} = require('../config/validations')
 
 
@@ -63,6 +63,7 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         notNull: {msg: notNullMsg},
         notEmpty: {msg: notEmptyMsg},

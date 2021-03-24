@@ -1,4 +1,5 @@
 /**
+ * @author Stian Helgerud
  * Autentiseringslag
  * */
 const passport = require('passport')
@@ -47,6 +48,8 @@ const localSignIn = new LocalStrategy(localOptions, (email, password, done) => {
     User.findOne({ where: { email }}) // Ser om email finnes i databasen
         .then(async user => {
             if(!user){ return done(null, false) }
+
+            if(!user.verified){ return done(null, false) } // Bruker har ikke verifisert epost
 
             const isValid = await user.comparePassword(password) // Venter på svar fra bcrypt sjekk
             if(!isValid) { return done(null, false)}
