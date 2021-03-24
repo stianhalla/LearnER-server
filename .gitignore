@@ -116,6 +116,6 @@ dist
 .vscode-test
 
 # Egen config fil
-# onfig.js
+ config.js
 
 # End of https://www.toptal.com/developers/gitignore/api/node
