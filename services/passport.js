@@ -17,7 +17,7 @@ const jwtOptions = {
 
 // Setter opp  valg for local strategi
 const localOptions = {
-    usernameField: 'email', // Bruker email istede for brukernavn (default)
+    usernameField: 'username',
 }
 
 // Setter opp JWT for å autentisere en bruker
@@ -44,8 +44,8 @@ const jwtTeacher = new JwtStrategy(jwtOptions, (payload, done) => {
 })
 
 // Setter opp lokal strategi (for autenisering av email og passord)
-const localSignIn = new LocalStrategy(localOptions, (email, password, done) => {
-    User.findOne({ where: { email }}) // Ser om email finnes i databasen
+const localSignIn = new LocalStrategy(localOptions, (username, password, done) => {
+    User.findOne({ where: { username }}) // Ser om email finnes i databasen
         .then(async user => {
             if(!user){ return done(null, false) }
 
