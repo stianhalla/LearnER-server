@@ -7,12 +7,11 @@ const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
 const LocalStrategy = require('passport-local')
 const { User } = require('../models')
-const config = require('../config')
 
 // Setter opp valg for JWT strategier
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromHeader('authorization'), // Hvor i requesten ligger jwt token
-    secretOrKey: config.secret
+    secretOrKey: process.env.SECRET
 }
 
 // Setter opp  valg for local strategi

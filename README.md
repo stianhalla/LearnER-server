@@ -19,14 +19,10 @@ EMAIL_PASSWORD=
 EMAIL_SERVICE=Outlook365
 API_URL=http://localhost:3090/api
 CLIENT_HOMEPAGE=http://localhost:3000
+SECRET=enTilfeldigLangString
 
 ```
-### 3. Lag config.js fil (hjemmekatalog)
-```
-module.exports = { secret : 'enTilfeldigLangString' } 
-```
-secret må byttes ut med egen **hemmelig** string
-### 4. Bygge database med dummy data 
+### 3. Bygge database med dummy data 
 ```
 sequelize db:migrate 
 sequelize db:seed:all

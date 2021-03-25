@@ -5,7 +5,6 @@
 
 const jwt = require('jwt-simple')
 const nodemailer = require("nodemailer");
-const config = require('../config')
 const { User, Login } = require('../models')
 const ErrRes = require('../config/ErrorResponse')
 const SuccRes = require('../config/SuccessResponse')
@@ -14,12 +13,12 @@ const { notFoundErr } = require('../config/validations')
 // Genererer en jwt-token
 const tokenForUser = (user) => {
     const timestamp = new Date().getTime() // Tidspunkt token ble laget
-    return jwt.encode({ sub: user.id, iat: timestamp}, config.secret)
+    return jwt.encode({ sub: user.id, iat: timestamp}, process.env.SECRET)
 }
 
 // Genererer en jwt-token
 const tokenForEmail = (userId) => {
-    return jwt.encode(userId, config.secret);
+    return jwt.encode(userId, process.env.SECRET);
 }
 
 // Email sender
@@ -97,7 +96,7 @@ exports.signin = async (req, res, next) => {
 // Verifiserer bruker fra email
 exports.verify = async (req, res, next) => {
 
-    const userId = jwt.decode(req.params.token, config.secret);
+    const userId = jwt.decode(req.params.token, process.env.SECRET);
 
     try{
         await User.update({verified: true}, {where: {id: userId}}) // finner bruker og verifiserer
