@@ -90,9 +90,6 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: {
-        msg: uniqueEmailMsg
-      },
       validate:{
         notNull: {msg: notNullMsg},
         notEmpty: {msg: notEmptyMsg},
