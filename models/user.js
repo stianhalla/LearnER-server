@@ -165,7 +165,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     createdAt: 'created_at',
     hooks: {
-      beforeSave: async (user) => {
+      beforeCreate: async (user) => {
           const salt = await bcrypt.genSalt(10)
           user.password = await bcrypt.hash(user.password, salt); // Hasher passord
           user.email = await bcrypt.hash(user.email, salt);       // Hasher e-post
