@@ -6,14 +6,19 @@ npm install
 ```
 ### 2. Lag .env fil (hjemmekatalog)
 ```
-DB_HOST=
-DB_USER=
+DB_HOST=127.0.0.1
+DB_USER=root
 DB_PASSWORD=
 DB_NAME=
-DB_PORT=
-DB_DIALECT=
+DB_PORT=3306
+DB_DIALECT=mysql
 NODE_ENV=development
 PORT=3090
+EMAIL=
+EMAIL_PASSWORD=
+EMAIL_SERVICE=Outlook365
+API_URL=http://localhost:3090/api
+
 ```
 ### 3. Lag config.js fil (hjemmekatalog)
 ```
