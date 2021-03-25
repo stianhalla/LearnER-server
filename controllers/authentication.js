@@ -107,11 +107,14 @@ exports.verify = async (req, res, next) => {
                 <html lang="en">
                 <head>
                     <meta charset="UTF-8">
+                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
                     <title>LearnER Verifikasjon</title>
                 </head>
                 <body>
-                    <h1>Gratulerer. Din brukerkonto er nå aktivert.</h1>
-                    <h1>Logg inn: <a href="${process.env.CLIENT_HOMEPAGE}">${process.env.CLIENT_HOMEPAGE}</a></h1>
+                <div class="container mt-5" > 
+                    <h4>Gratulerer. Din brukerkonto er nå aktivert.</h4>
+                    <h4>Logg inn: <a href="${process.env.CLIENT_HOMEPAGE}">${process.env.CLIENT_HOMEPAGE}</a></h4>
+                </div>
                 </body>
             </html>
         `
@@ -125,9 +128,9 @@ exports.verify = async (req, res, next) => {
 
 // Finner ut hvilke type feil som gjør att ikke bruker kan logge seg inn (Må gjøres manuelt, da passport ikke sender like 401 meldinger)
 exports.error = async (req, res, next) => {
-    const user = await User.findOne({where: {email: req.body.email}});
+    const user = await User.findOne({where: {username: req.body.username}});
 
-    // Fant ikke bruker - epost er feil
+    // Fant ikke bruker - brukernavn er feil
     if(!user){ return res.status(401).json(new ErrRes("Unauthenticated", ['Feil brukernavn eller passord'])) }
     // Feil passord
     if(!user.comparePassword(req.body.password)) { return res.status(401).json(new ErrRes("Unauthenticated", ['Feil brukernavn eller passord'])) }
