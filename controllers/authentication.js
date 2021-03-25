@@ -52,13 +52,6 @@ exports.signup = (req, res, next) =>{
                 console.log("Fikk ikke hentet ut avatar og rank fra database")
             }
 
-            try {
-                // Bruker logges automatiks på, så logges innloggingen i logins tabell
-                await Login.create({user_id: user.id})
-            }catch (err){
-                console.log("Fikk ikke logget innlogginen til datasen")
-            }
-
             // Sender e-post til bruker
             sendMail(email, user.id); // Venter ikke på att emailen skal sendes (ikke await)
 
