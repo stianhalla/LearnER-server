@@ -97,12 +97,6 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {msg: notNullMsg},
         notEmpty: {msg: notEmptyMsg},
         isEmail: {msg: isEmailMsg},
-      },
-      hooks: {
-        beforeSave: async (user) => { // Hasher e-post
-          const salt = await bcrypt.genSalt(10)
-          user.email = await bcrypt.hash(user.email, salt);
-        }
       }
     },
     type: {
@@ -174,9 +168,10 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     createdAt: 'created_at',
     hooks: {
-      beforeSave: async (user) => { // Hasher passord
+      beforeSave: async (user) => {
           const salt = await bcrypt.genSalt(10)
-          user.password = await bcrypt.hash(user.password, salt);
+          user.password = await bcrypt.hash(user.password, salt); // Hasher passord
+          user.email = await bcrypt.hash(user.email, salt);       // Hasher e-post
       }
     }
   });
