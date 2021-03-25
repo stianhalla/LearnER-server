@@ -41,8 +41,8 @@ const router = (app) => {
     // AUTH
     app.post(AUTH + '/signin', requireSignin, AuthController.signin)
     app.post(AUTH + '/signup', AuthController.signup)
-    app.post(AUTH + '/verify', AuthController.verify)
     app.post(AUTH + '/error', AuthController.error)
+    app.get(AUTH + '/verify/:token', AuthController.verify)
 
     // USERS
     app.get(USERS, requireUserPrivileges ,UserController.index)

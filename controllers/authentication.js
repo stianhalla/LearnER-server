@@ -4,6 +4,7 @@
  * */
 
 const jwt = require('jwt-simple')
+const nodemailer = require("nodemailer");
 const config = require('../config')
 const { User, Login } = require('../models')
 const ErrRes = require('../config/ErrorResponse')
@@ -15,6 +16,20 @@ const tokenForUser = (user) => {
     const timestamp = new Date().getTime() // Tidspunkt token ble laget
     return jwt.encode({ sub: user.id, iat: timestamp}, config.secret)
 }
+
+// Genererer en jwt-token
+const tokenForEmail = (userId) => {
+    return jwt.encode(userId, config.secret);
+}
+
+// Email sender
+const transporter = nodemailer.createTransport({
+    service: process.env.EMAIL_SERVICE,
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+    },
+});
 
 // Oppretter en ny bruker og logger den inn
 exports.signup = (req, res, next) =>{
@@ -44,7 +59,8 @@ exports.signup = (req, res, next) =>{
                 console.log("Fikk ikke logget innlogginen til datasen")
             }
 
-            // TODO Send epost til bruker
+            // Sender e-post til bruker
+            sendMail(email, user.id); // Venter ikke på att emailen skal sendes (ikke await)
 
             return res.json(new SuccRes(
                 'User created',
@@ -87,14 +103,16 @@ exports.signin = async (req, res, next) => {
 
 // Verifiserer bruker fra email
 exports.verify = async (req, res, next) => {
+
+    const userId = jwt.decode(req.params.token, config.secret);
+
     try{
-        const user = await User.findByPk(req.body.user_id) // finner bruker som skal verifiseres
+        await User.update({verified: true}, {where: {id: userId}}) // finner bruker og verifiserer
 
-        await user.update({ verified: true });
-
+        // TODO returner bruker til egen side for å vise att mail er verifisert
         return res.json(new SuccRes(
             'Email confirmed',
-            { message: 'You can now sign in to the application' }
+            { message: 'You can now sign in to the application'}
         ));
     }catch (err){
         if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
@@ -112,5 +130,25 @@ exports.error = async (req, res, next) => {
     if(!user.comparePassword(req.body.password)) { return res.status(401).json(new ErrRes("Unauthenticated", ['Feil brukernavn eller passord'])) }
     // Bruker har ikke verifisert seg
     if (!user.verified){ return res.status(401).json(new ErrRes("Unauthenticated", ['E-post er ikke bekreftet'])) }
+}
+
+/**
+ * Hjelpefunksjon som sender mail
+ * @param email -> e-post adresse som mailen skal sendes til
+ * @param userId -> bruker id som brukes for å sette opp url som kal verifisere bruker
+ * */
+async function sendMail(email, userId){
+
+    const emailToken = tokenForEmail(userId)
+    const url = `${process.env.API_URL}/auth/verify/${emailToken}`
+
+    // send mail with defined transport object
+    transporter.sendMail({
+        from: process.env.EMAIL,
+        to: email, // list of receivers
+        subject: "Konto-verifikasjon: LearnER", // Subject line
+        html: "Hei. <br/> Velkommen som bruker av denne applikasjonen. <br/> Klikk på linken under for å aktivere kontoen din eller kopier og lim inn hvis den ikke er klikkbar. <br/> Aktiveringslink: " +
+            `<a href="${url}">${url}</a>`
+    });
 }
 
