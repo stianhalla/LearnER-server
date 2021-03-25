@@ -3,7 +3,7 @@
 const { Model } = require('sequelize');
 const bcrypt = require('bcrypt')
 const { defaultValue } = require('../config/types')
-const { lenPwdMsg, isIntMsg, isEmailMsg, notNullMsg, notEmptyMsg, isNotation, isUserType, isBoolean, isUsername} = require('../config/validations')
+const { lenPwdMsg, isIntMsg, isEmailMsg, notNullMsg, notEmptyMsg, uniqueUsernameMsg, uniqueEmailMsg, isNotation, isUserType, isBoolean, isUsername} = require('../config/validations')
 
 
 module.exports = (sequelize, DataTypes) => {
@@ -69,7 +69,9 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        msg: uniqueUsernameMsg
+      },
       validate: {
         notNull: {msg: notNullMsg},
         notEmpty: {msg: notEmptyMsg},
@@ -88,7 +90,9 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        msg: uniqueEmailMsg
+      },
       validate:{
         notNull: {msg: notNullMsg},
         notEmpty: {msg: notEmptyMsg},
