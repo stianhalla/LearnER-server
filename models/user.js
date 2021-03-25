@@ -46,6 +46,11 @@ module.exports = (sequelize, DataTypes) => {
       return bcrypt.compare(candidatePassword, this.password);
     }
 
+    // Metode for å sjekke e-post
+    async compareEmail(candidateEmail){
+      return bcrypt.compare(candidateEmail, this.email);
+    }
+
     // Fjerner valgte felter fra json objektet ved json response
     toJSON() {
       return {
@@ -88,6 +93,12 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {msg: notNullMsg},
         notEmpty: {msg: notEmptyMsg},
         isEmail: {msg: isEmailMsg},
+      },
+      hooks: {
+        beforeSave: async (user) => { // Hasher e-post
+          const salt = await bcrypt.genSalt(10)
+          user.email = await bcrypt.hash(user.email, salt);
+        }
       }
     },
     type: {
@@ -159,13 +170,9 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     createdAt: 'created_at',
     hooks: {
-      beforeSave: async (user) => {
-        try{
+      beforeSave: async (user) => { // Hasher passord
           const salt = await bcrypt.genSalt(10)
           user.password = await bcrypt.hash(user.password, salt);
-        }catch (err){
-          console.log("Feil ved hashing av passord...")
-        }
       }
     }
   });
