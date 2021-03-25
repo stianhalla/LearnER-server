@@ -50,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     toJSON() {
       return {
         ...this.get(),
+        email: undefined,
         password: undefined,
         rank_id: undefined,
         avatar_id: undefined,
