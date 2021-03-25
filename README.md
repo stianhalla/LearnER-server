@@ -18,6 +18,7 @@ EMAIL=
 EMAIL_PASSWORD=
 EMAIL_SERVICE=Outlook365
 API_URL=http://localhost:3090/api
+CLIENT_HOMEPAGE=http://localhost:3000
 
 ```
 ### 3. Lag config.js fil (hjemmekatalog)

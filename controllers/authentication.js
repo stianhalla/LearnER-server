@@ -102,11 +102,21 @@ exports.verify = async (req, res, next) => {
     try{
         await User.update({verified: true}, {where: {id: userId}}) // finner bruker og verifiserer
 
-        // TODO returner bruker til egen side for å vise att mail er verifisert
-        return res.json(new SuccRes(
-            'Email confirmed',
-            { message: 'You can now sign in to the application'}
-        ));
+        const html = `
+            <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>LearnER Verifikasjon</title>
+                </head>
+                <body>
+                    <h1>Gratulerer. Din brukerkonto er nå aktivert.</h1>
+                    <h1>Logg inn: <a href="${process.env.CLIENT_HOMEPAGE}">${process.env.CLIENT_HOMEPAGE}</a></h1>
+                </body>
+            </html>
+        `
+        // returner bruker til egen side for å vise att mail er verifisert
+        return res.send(html);
     }catch (err){
         if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
         return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
