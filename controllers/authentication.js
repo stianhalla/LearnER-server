@@ -124,7 +124,7 @@ exports.verify = async (req, res, next) => {
         if (!err.errors) {return res.status(500).json(new ErrRes(err.name, [err.message]));}
         return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
     }
-}
+};
 
 // Finner ut hvilke type feil som gjør att ikke bruker kan logge seg inn (Må gjøres manuelt, da passport ikke sender like 401 meldinger)
 exports.error = async (req, res, next) => {
@@ -133,10 +133,12 @@ exports.error = async (req, res, next) => {
     // Fant ikke bruker - brukernavn er feil
     if(!user){ return res.status(401).json(new ErrRes("Unauthenticated", ['Feil brukernavn eller passord'])) }
     // Feil passord
-    if(!user.comparePassword(req.body.password)) { return res.status(401).json(new ErrRes("Unauthenticated", ['Feil brukernavn eller passord'])) }
+    if(!await user.comparePassword(req.body.password)) { return res.status(401).json(new ErrRes("Unauthenticated", ['Feil brukernavn eller passord'])) }
     // Bruker har ikke verifisert seg
     if (!user.verified){ return res.status(401).json(new ErrRes("Unauthenticated", ['E-post er ikke bekreftet'])) }
-}
+
+    return res.status(503).json(new ErrRes("Server error", ['No galt med serveren']))
+};
 
 /**
  * Hjelpefunksjon som sender mail
