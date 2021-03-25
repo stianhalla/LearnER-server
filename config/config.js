@@ -2,6 +2,9 @@
  * @author Stian Helgerud
  * Brukes for å enkelt skille mellom development og production
  * */
+
+require('dotenv').config();
+
 const config = {
   development: {
     username: process.env.DB_USER,
