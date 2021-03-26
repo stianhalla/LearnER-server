@@ -61,6 +61,9 @@ exports.me = (req, res, next) => {
 // Oppdaterer en valgt bruker
 exports.update = async (req, res, next) => {
 
+
+    console.log(res)
+
     const user = req.user;
     const candidateId = parseInt(req.params.id)
     const body = req.body;
@@ -73,15 +76,17 @@ exports.update = async (req, res, next) => {
        return res.status(422).json(new ErrRes('Validation Error', ['Passwords needs to be identical']))
     }
 
-    const validAvatar = await Rank_has_avatar.findOne({
-        where: {rank_id: req.user.rank_id, avatar_id: req.body.avatar_id}
-    })
 
-    // Fant ikke noe rad (ikke gyldig avatar)
-    if(!validAvatar) {
-        return res.status(422).json(new ErrRes('Validation Error', ['You have not unlocked this avatar']))
-    }else { // Gyldig avatar
-        resBody.avatar_id = body.avatar_id;
+    if(req.body.avatar_id) {
+            const validAvatar = await Rank_has_avatar.findOne({
+                where: {rank_id: req.user.rank_id, avatar_id: req.body.avatar_id}
+            });
+        // Fant ikke noe rad (ikke gyldig avatar)
+        if(!validAvatar) {
+            return res.status(422).json(new ErrRes('Validation Error', ['You have not unlocked this avatar']))
+        }else { // Gyldig avatar
+            resBody.avatar_id = body.avatar_id;
+        }
     }
 
     if(body.username){
