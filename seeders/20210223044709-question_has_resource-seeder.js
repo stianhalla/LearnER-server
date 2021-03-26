@@ -5,20 +5,24 @@ module.exports = {
     const resources = [];
 
     resources.push({
-      question_id: 5,
+      question_id: 1,
       resource_id: 1
     });
     resources.push({
-      question_id: 6,
+      question_id: 2,
       resource_id: 1
     });
     resources.push({
-      question_id: 7,
+      question_id: 3,
       resource_id: 1
     });
     resources.push({
-      question_id: 8,
+      question_id: 4,
       resource_id: 1
+    });
+    resources.push({
+      question_id: 2,
+      resource_id: 2
     });
 
     await queryInterface.bulkInsert('quiz_question_has_resources', resources, {});

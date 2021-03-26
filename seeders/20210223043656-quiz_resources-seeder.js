@@ -45,6 +45,19 @@ module.exports = {
           '</tbody></table>'
     });
 
+    resources.push({
+      title: "Bilde test",
+      text: '<div class="container">\n' +
+          '<a name="eksempel"></a>\n' +
+          '<h3>Datamodell Fotball</h3>\n' +
+          '\n' +
+          '<div style="text-align: center;">\n' +
+          '<img src="fotball.PNG" width="60%" border="1">\n' +
+          '</div>\n' +
+          '<p>&nbsp;</p>\n' +
+          '</div>'
+    });
+
     await queryInterface.bulkInsert('db_quiz_resources', resources, {});
 
   },
