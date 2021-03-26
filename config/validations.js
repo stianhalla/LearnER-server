@@ -12,6 +12,8 @@ module.exports.isIntMsg = 'Field must be of type Integer';
 module.exports.isDateMsg = 'Date must be in correct format';
 module.exports.lenMsg = 'Field input must fall within specified range';
 module.exports.lenPwdMsg = 'Password needs to be at least 8 characters';
+module.exports.uniqueEmailMsg = 'E-post finnes allerede';
+module.exports.uniqueUsernameMsg = 'Brukernavn er allerede i bruk';
 
 // Egendefinerete valideringer
 module.exports.isNotation = (val) => {

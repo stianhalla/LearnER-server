@@ -2,6 +2,9 @@
  * Startpunkt for server (første som kjører av kode)
  * */
 
+// Gjør .env fil tilgjengelig
+require('dotenv').config();
+
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');

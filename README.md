@@ -6,21 +6,23 @@ npm install
 ```
 ### 2. Lag .env fil (hjemmekatalog)
 ```
-DB_HOST=
-DB_USER=
+DB_HOST=127.0.0.1
+DB_USER=root
 DB_PASSWORD=
 DB_NAME=
-DB_PORT=
-DB_DIALECT=
+DB_PORT=3306
+DB_DIALECT=mysql
 NODE_ENV=development
 PORT=3090
+EMAIL=
+EMAIL_PASSWORD=
+EMAIL_SERVICE=Outlook365
+API_URL=http://localhost:3090/api
+CLIENT_HOMEPAGE=http://localhost:3000
+SECRET=enTilfeldigLangString
+
 ```
-### 3. Lag config.js fil (hjemmekatalog)
-```
-module.exports = { secret : 'enTilfeldigLangString' } 
-```
-secret må byttes ut med egen **hemmelig** string
-### 4. Bygge database med dummy data 
+### 3. Bygge database med dummy data 
 ```
 sequelize db:migrate 
 sequelize db:seed:all

@@ -7,17 +7,16 @@ const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
 const LocalStrategy = require('passport-local')
 const { User } = require('../models')
-const config = require('../config')
 
 // Setter opp valg for JWT strategier
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromHeader('authorization'), // Hvor i requesten ligger jwt token
-    secretOrKey: config.secret
+    secretOrKey: process.env.SECRET
 }
 
 // Setter opp  valg for local strategi
 const localOptions = {
-    usernameField: 'email', // Bruker email istede for brukernavn (default)
+    usernameField: 'username',
 }
 
 // Setter opp JWT for å autentisere en bruker
@@ -44,8 +43,8 @@ const jwtTeacher = new JwtStrategy(jwtOptions, (payload, done) => {
 })
 
 // Setter opp lokal strategi (for autenisering av email og passord)
-const localSignIn = new LocalStrategy(localOptions, (email, password, done) => {
-    User.findOne({ where: { email }}) // Ser om email finnes i databasen
+const localSignIn = new LocalStrategy(localOptions, (username, password, done) => {
+    User.findOne({ where: { username }}) // Ser om email finnes i databasen
         .then(async user => {
             if(!user){ return done(null, false) }
 

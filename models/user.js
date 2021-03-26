@@ -3,7 +3,7 @@
 const { Model } = require('sequelize');
 const bcrypt = require('bcrypt')
 const { defaultValue } = require('../config/types')
-const { lenPwdMsg, isIntMsg, isEmailMsg, notNullMsg, notEmptyMsg, isNotation, isUserType, isBoolean, isUsername} = require('../config/validations')
+const { lenPwdMsg, isIntMsg, isEmailMsg, notNullMsg, notEmptyMsg, uniqueUsernameMsg, uniqueEmailMsg, isNotation, isUserType, isBoolean, isUsername} = require('../config/validations')
 
 
 module.exports = (sequelize, DataTypes) => {
@@ -46,10 +46,16 @@ module.exports = (sequelize, DataTypes) => {
       return bcrypt.compare(candidatePassword, this.password);
     }
 
+    // Metode for å sjekke e-post
+    async compareEmail(candidateEmail){
+      return bcrypt.compare(candidateEmail, this.email);
+    }
+
     // Fjerner valgte felter fra json objektet ved json response
     toJSON() {
       return {
         ...this.get(),
+        email: undefined,
         password: undefined,
         rank_id: undefined,
         avatar_id: undefined,
@@ -63,7 +69,9 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        msg: uniqueUsernameMsg
+      },
       validate: {
         notNull: {msg: notNullMsg},
         notEmpty: {msg: notEmptyMsg},
@@ -82,7 +90,6 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate:{
         notNull: {msg: notNullMsg},
         notEmpty: {msg: notEmptyMsg},
@@ -158,13 +165,10 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     createdAt: 'created_at',
     hooks: {
-      beforeSave: async (user) => {
-        try{
+      beforeCreate: async (user) => {
           const salt = await bcrypt.genSalt(10)
-          user.password = await bcrypt.hash(user.password, salt);
-        }catch (err){
-          console.log("Feil ved hashing av passord...")
-        }
+          user.password = await bcrypt.hash(user.password, salt); // Hasher passord
+          user.email = await bcrypt.hash(user.email, salt);       // Hasher e-post
       }
     }
   });
