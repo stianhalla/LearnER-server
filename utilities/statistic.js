@@ -1,4 +1,5 @@
 /**
+ * @author Stian Helgerud
  * Fil for å håndtere automatiks oppdatering av user_exercise_stats tabell
  * */
 

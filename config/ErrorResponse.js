@@ -1,3 +1,8 @@
+/**
+ * @author Stian Helgerud
+ * Klasse som brukes til å sende error respons til klient
+ * */
+
 class ErrorResponse{
     constructor(message, errors) {
         this.status = 'error';

@@ -1,3 +1,8 @@
+/**
+ * @author Stian Helgerud
+ * DB Model grensesnitt klasse for å representere vanskelighetsgrader
+ * */
+
 'use strict';
 const { Model } = require('sequelize');
 const { notNullMsg, notEmptyMsg, isIntMsg} = require('../config/validations')

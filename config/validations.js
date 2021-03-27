@@ -1,6 +1,8 @@
 /**
+ * @author Stian Helgerud
  * Her kan man endre teksten på validerings melllinger.
  * */
+
 const {userType, notation} = require('./types')
 const ErrRes = require('./ErrorResponse')
 

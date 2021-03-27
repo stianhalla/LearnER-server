@@ -1,3 +1,9 @@
+/**
+ * @author Stian Helgerud
+ * DB Model grensesnitt klasse for å representere melldinger
+ * NB! Blir foreløpig ikke brukt
+ * */
+
 'use strict';
 const { Model } = require('sequelize');
 const { isIntMsg, lenMsg } = require('../config/validations')

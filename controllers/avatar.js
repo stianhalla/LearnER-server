@@ -1,4 +1,5 @@
 /**
+ * @author Stian Helgerud
  * Kontroller som håndterer avatarer
  * */
 

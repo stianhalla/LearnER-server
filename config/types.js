@@ -1,6 +1,8 @@
 /**
+ * @author Stian Helgerud
  * Fil med konstanter
  * */
+
 const notation = { ER: 1, SIMPLIFIED_ER: 2, UML: 3 };
 const userType = { STUDENT: 1, TEACHER: 2};
 const defaultValue = {

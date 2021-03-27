@@ -1,3 +1,8 @@
+/**
+ * @author Stian Helgerud
+ * DB Model grensesnitt klasse for å representere ord i en oppgave
+ * */
+
 'use strict';
 const {notEmptyMsg} = require("../config/validations");
 const {notNullMsg} = require("../config/validations");
