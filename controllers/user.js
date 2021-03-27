@@ -7,11 +7,12 @@ const ErrRes = require('../config/ErrorResponse')
 const SuccRes = require('../config/SuccessResponse')
 const { notFoundErr } = require('../config/validations')
 
-// Henter alle brukere
+// Henter alle brukere som er verifisert
 exports.index = (req, res, next) => {
 
     User.findAll({
-        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}]
+        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}],
+        where: { verified: true }
     }).then(users => {
 
         if (!users || users.length === 0) {return res.status(404).json(new ErrRes('Not Found',['Can not find any users']));}
@@ -24,11 +25,12 @@ exports.index = (req, res, next) => {
     })
 }
 
-// Henter en valgt bruker
+// Henter en valgt bruker hvis verifisert
 exports.show = (req, res, next) => {
 
     User.findByPk(req.params.id, {
-        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}]
+        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}],
+        where: { verified: true }
     }).then(user => {
 
         if (!user || user.length === 0) {return res.status(404).json(new ErrRes('Not Found',['Can not find user']));}
@@ -61,7 +63,6 @@ exports.me = (req, res, next) => {
 // Oppdaterer en valgt bruker
 exports.update = async (req, res, next) => {
 
-
     console.log(res)
 
     const user = req.user;
@@ -75,7 +76,6 @@ exports.update = async (req, res, next) => {
     if(!isValidPassword(req, resBody)){
        return res.status(422).json(new ErrRes('Validation Error', ['Passwords needs to be identical']))
     }
-
 
     if(req.body.avatar_id) {
             const validAvatar = await Rank_has_avatar.findOne({
@@ -145,7 +145,7 @@ exports.destroy = (req, res, next) => {
     })
 }
 
-// Henter en topliste med gitt antall brukere
+// Henter en topliste med gitt antall brukere (kun verifiserte brukere)
 exports.leaderboard = (req, res, next) => {
 
     const limit = req.query.limit ? parseInt(req.query.limit) : 10; // Hvis ikke query parameter er oppgitt, så bruk 10
@@ -153,7 +153,8 @@ exports.leaderboard = (req, res, next) => {
     User.findAll({
         include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}],
         order: [['score', 'DESC']],
-        limit: limit
+        limit: limit,
+        where: { verified: true }
     }).then(users => {
 
         if (!users || users.length === 0) {return res.status(404).json(new ErrRes('Not Found',['Can not find any users']));}

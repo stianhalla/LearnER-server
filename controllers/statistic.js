@@ -17,7 +17,12 @@ exports.dashboard = async (req, res, next) => {
     const user = await createUserWithStats(req.user);
 
     // Henter top 3 brukere
-    const topThree = await User.findAll({order: [['score', 'desc']], limit: 3, include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}] });
+    const topThree = await User.findAll({
+        order: [['score', 'desc']],
+        limit: 3,
+        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}],
+        where: { verified: true }
+    });
 
 
     return res.json({user, topThree});
@@ -31,7 +36,7 @@ exports.dashboard = async (req, res, next) => {
 async function createUserWithStats(user){
     // Finner rangeringen til brukern
     const userPlacement = await User.count({
-        where: { score: { [Op.gt] : user.score }},
+        where: { score: { [Op.gt] : user.score }, verified: true},
     }) + 1;
 
     // Henter ut rank og avatar
