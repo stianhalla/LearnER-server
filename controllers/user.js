@@ -63,8 +63,6 @@ exports.me = (req, res, next) => {
 // Oppdaterer en valgt bruker
 exports.update = async (req, res, next) => {
 
-    console.log(res)
-
     const user = req.user;
     const candidateId = parseInt(req.params.id)
     const body = req.body;
@@ -174,9 +172,9 @@ const isValidPassword = (req, resBody) => {
     // Hvis det ikke er oppgitt noe passord
     if (!req.body.password_1 && !req.body.password_2){ return true}
     if(req.body.password_1 === req.body.password_2) {
-        resBody.password = req.password_1 // Setter passord i request body
+        resBody.password = req.body.password_1; // Setter passord i request body
         return true;
     }
     return false;
-}
+};
 
