@@ -22,8 +22,11 @@ exports.dashboard = async (req, res, next) => {
         where: { verified: true }
     });
 
+    // Henter ut den siste avataren
+    const lastAvatar = await Avatar.findOne({order: [["id", "desc"]]})
 
-    return res.json({user, topFive});
+
+    return res.json({user, topFive, lastAvatar});
 }
 
 /**
