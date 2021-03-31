@@ -77,9 +77,9 @@ exports.update = async (req, res, next) => {
     }
 
     if(req.body.avatar_id) {
-            const validAvatar = await Rank_has_avatar.findOne({
-                where: {rank_id: req.user.rank_id, avatar_id: req.body.avatar_id}
-            });
+        const validAvatar = await Rank_has_avatar.findOne({
+            where: {rank_id: req.user.rank_id, avatar_id: req.body.avatar_id}
+        });
         // Fant ikke noe rad (ikke gyldig avatar)
         if(!validAvatar) {
             return res.status(422).json(new ErrRes('Validation Error', ['You have not unlocked this avatar']))
