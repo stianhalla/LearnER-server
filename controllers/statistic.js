@@ -3,8 +3,6 @@
  * Kontroller som håndterer statisitkk
  * */
 
-const ErrRes = require('../config/ErrorResponse')
-const SuccRes = require('../config/SuccessResponse')
 const {Op} = require("sequelize");
 const { User, Avatar, Rank } = require('../models')
 
@@ -16,16 +14,16 @@ exports.dashboard = async (req, res, next) => {
     // Henter først bruker og gjør den om til ett json objekt, så vi kan legge til elementer
     const user = await createUserWithStats(req.user);
 
-    // Henter top 3 brukere
-    const topThree = await User.findAll({
+    // Henter top 5 brukere
+    const topFive = await User.findAll({
         order: [['score', 'desc']],
-        limit: 3,
+        limit: 5,
         include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}],
         where: { verified: true }
     });
 
 
-    return res.json({user, topThree});
+    return res.json({user, topFive});
 }
 
 /**
@@ -43,8 +41,12 @@ async function createUserWithStats(user){
     const rank = await user.getRank();
     const avatar = await user.getAvatar();
 
-    // Henter ut neste rank bruker kan låse opp
-    const nextRank = await Rank.findOne({where: { id: rank.id + 1 }});
+    let nextRank = await Rank.findOne({where: { id: rank.id + 1 }});
+    if(nextRank){
+        const avatarUnlocked = await nextRank.getAvatars({ order: [['id', 'desc']], joinTableAttributes: []});
+        nextRank = nextRank.toJSON();
+        nextRank.avatarUnlocked = avatarUnlocked[0];
+    }
 
     // Gjør om til json objekt
     const userJSON = user.toJSON();
