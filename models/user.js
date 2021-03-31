@@ -51,9 +51,19 @@ module.exports = (sequelize, DataTypes) => {
       return bcrypt.compare(candidatePassword, this.password);
     }
 
+    async setPassword(candidatePassword){
+      const salt = await bcrypt.genSalt(10)
+      this.password = await bcrypt.hash(candidatePassword, salt); // Hasher passord
+    }
+
     // Metode for å sjekke e-post
     async compareEmail(candidateEmail){
       return bcrypt.compare(candidateEmail, this.email);
+    }
+
+    async setEmail(candidateEmail){
+      const salt = await bcrypt.genSalt(10)
+      this.email = await bcrypt.hash(candidateEmail, salt); // Hasher passord
     }
 
     // Fjerner valgte felter fra json objektet ved json response
@@ -171,9 +181,8 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: 'created_at',
     hooks: {
       beforeCreate: async (user) => {
-          const salt = await bcrypt.genSalt(10)
-          user.password = await bcrypt.hash(user.password, salt); // Hasher passord
-          user.email = await bcrypt.hash(user.email, salt);       // Hasher e-post
+          await user.setPassword(user.password); // Hasher passord;
+          await user.setEmail(user.email); // Hasher emial
       }
     }
   });

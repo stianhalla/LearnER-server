@@ -2,6 +2,7 @@
  * Kontroller for å håndtere bruker requests
  * */
 
+const bcrypt = require('bcrypt')
 const {User, Avatar, Rank, Rank_has_avatar} = require('../models')
 const ErrRes = require('../config/ErrorResponse')
 const SuccRes = require('../config/SuccessResponse')
@@ -71,7 +72,7 @@ exports.update = async (req, res, next) => {
     // Bruker kan bare endre data om seg selv
     if (user.id !== candidateId) {return res.sendStatus(401);}
 
-    if(!isValidPassword(req, resBody)){
+    if(! await isValidPassword(req, resBody)){
        return res.status(422).json(new ErrRes('Validation Error', ['Passwords needs to be identical']))
     }
 
@@ -89,10 +90,6 @@ exports.update = async (req, res, next) => {
 
     if(body.username){
         resBody.username = body.username;
-    }
-
-    if(body.email){
-        resBody.email = body.email;
     }
 
     if(body.selected_notation){
@@ -168,11 +165,12 @@ exports.leaderboard = (req, res, next) => {
 /**
  * Hjelpe metoder
  * */
-const isValidPassword = (req, resBody) => {
+const isValidPassword = async (req, resBody) => {
     // Hvis det ikke er oppgitt noe passord
     if (!req.body.password_1 && !req.body.password_2){ return true}
-    if(req.body.password_1 === req.body.password_2) {
-        resBody.password = req.body.password_1; // Setter passord i request body
+    if(req.body.password_1 === req.body.password_2) { // Passordet stemmer
+        const salt = await bcrypt.genSalt(10)
+        resBody.password = await bcrypt.hash(req.body.password_1, salt); // Setter passord i request body (hashet)
         return true;
     }
     return false;
