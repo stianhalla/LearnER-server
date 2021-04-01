@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
         password: undefined,
         rank_id: undefined,
         avatar_id: undefined,
-        created_at: undefined,
+        // created_at: undefined,
         updated_at: undefined
       }
     }
