@@ -130,5 +130,64 @@ async function createChartData(userId){
         }]
     });
 
-    return {labels, userData: [2,2,3,0,0] , averageData: [1,2,3,0,0]};
+    // Tabell som inneholder en tablell for hver vanklighetsgrad med da om hvor mange ganger noen har trykker sjekk
+    const averageData = new Array(labels.length);
+    const userData = new Array(labels.length);
+
+    // Fyller tabell med data
+    data.forEach(answer => {
+        const idx = answer.exercise.difficulty_level.id - 1;
+        const timesChecked = answer.times_checked;
+        if(!averageData[idx]){
+            averageData[idx] = [];
+            averageData[idx].push(timesChecked);
+        }else {
+            averageData[idx].push(timesChecked);
+        }
+
+        // Hvis denne besvarelsen også er brukern sin, så tar vi det med i egen tabell
+        if (answer.user_id === userId){
+            if(!userData[idx]){
+                userData[idx] = [];
+                userData[idx].push(timesChecked);
+            }else {
+                userData.push(timesChecked);
+            }
+        }
+
+    });
+
+    // tabeller som skal returneres
+    const averageDataReturn = new Array(averageData.length);
+    const userDataReturn = new Array(averageData.length);
+
+    for (let i = 0 ; i < averageData.length; i++){
+
+        if (!averageData[i]){ break ; }
+
+        let sum = 0;
+        let total = averageData[i].length;
+        averageData[i].forEach(num => {
+            sum += num;
+        })
+
+        // Legger til gjennomsnittet i retur tabell
+        averageDataReturn[i] = sum / total;
+    }
+
+    for (let i = 0 ; i < userData.length; i++){
+
+        if (!userData[i]){ break ; }
+
+        let sum = 0;
+        let total = userData[i].length;
+        userData[i].forEach(num => {
+            sum += num;
+        })
+
+        // Legger til gjennomsnittet i retur tabell
+        userDataReturn[i] = sum / total;
+    }
+
+    return {labels, userData: userDataReturn , averageData: averageDataReturn };
 }
