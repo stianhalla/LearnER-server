@@ -4,7 +4,7 @@
  * */
 
 const {Op} = require("sequelize");
-const { User, Avatar, Rank } = require('../models')
+const { User, Avatar, Rank, Login, Answer, Exercise, User_exercise_stat, Difficulty_level } = require('../models')
 
 /**
  * Returnerer all nødvendig data som skal vises på dashboard siden
@@ -25,8 +25,16 @@ exports.dashboard = async (req, res, next) => {
     // Henter ut den siste avataren
     const lastAvatar = await Avatar.findOne({order: [["id", "desc"]]})
 
+    // Henter Oppgave statisitkk
+    const exercisesStats = await createExercisesStats(req.user.id);
 
-    return res.json({user, topFive, lastAvatar});
+    // Henter Innlogginger
+    const logins = await createLoginStats(req.user.id);
+
+    // Henter data som skal vises i grafen
+    const chart = await createChartData(req.user.id);
+
+    return res.json({user, topFive, lastAvatar, exercisesStats, logins, chart});
 }
 
 /**
@@ -60,4 +68,67 @@ async function createUserWithStats(user){
     userJSON.nextRank = nextRank;
 
     return userJSON;
+}
+
+/**
+ * Hjelpe funksjon som setter opp ett json objekt med statistikk egenskaper
+ * @param userId -> Brukerens id
+ * */
+async function createExercisesStats(userId){
+    const stats = await User_exercise_stat.findAll({ where: {user_id: userId} });
+
+    if(!stats){ return null; }
+
+    let completed = 0;
+    let started = 0;
+
+    stats.forEach(stat => {
+        if(stat.completed){
+            completed++;
+        }else {
+            started++;
+        }
+    });
+
+    return {completed, started, total: stats.length};
+}
+
+/**
+ * Hjelpe funksjon som setter opp ett json objekt med statistikk egenskaper
+ * @param userId -> Brukerens id
+ * */
+async function createLoginStats(userId){
+    const logins = await Login.findAll({ where: { user_id: userId } });
+    if(!logins){ return null; } // Fant ingen inlogginger knyttet til bruker
+
+    const dateOptions = {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric',
+        timeZone: 'utc',
+        hour12: false,
+    }
+    const date = new Intl.DateTimeFormat('no-NO', dateOptions).format(logins[0].signed_in_at)
+
+    return { firstLogin: date, totalLogins: logins.length };
+}
+
+/**
+ * Hjelpe funksjon som setter opp ett json objekt med statistikk egenskaper
+ * @param userId -> Brukerens id
+ * */
+async function createChartData(userId){
+    let labels = await Difficulty_level.findAll();
+
+    if (labels){
+        labels = labels.map(diff => diff.name);
+    }
+
+    let data = await Answer.findAll({
+        include: [{
+            model: Exercise, as: 'exercise',
+            include: [{model: Difficulty_level, as: 'difficulty_level'}]
+        }]
+    });
+
+    return {labels, userData: [2,2,3,0,0] , averageData: [1,2,3,0,0]};
 }

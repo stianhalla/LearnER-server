@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       this.belongsTo(Exercise, {
-        foreignKey: 'exercise_id'
+        foreignKey: 'exercise_id',
+        as: 'exercise'
       })
     }
     // Fjerner valgte felter fra json objektet ved json response
