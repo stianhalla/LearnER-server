@@ -31,14 +31,22 @@ exports.index = (req, res, next) => {
     })
 }
 
-// Viser alle avatarer som finnes i databasen
+// Viser alle Ranks som finnes i databasen med tillhørende avatar
 exports.indexAll = (req, res, next) => {
 
-    Avatar.findAll().then(async avatars => {
+    Rank.findAll().then(async ranks => {
 
-        if(!avatars || avatars.length === 0){return res.status(404).json(notFoundErr);}
+        if(!ranks || ranks.length === 0){return res.status(404).json(notFoundErr);}
 
-        return res.json(new SuccRes('Avatars fetched', avatars))
+        const jsonRanks = [];
+        for (const rank of ranks){
+            const avatars = await rank.getAvatars({ order: [['id', 'desc']], joinTableAttributes: []});
+            const jsonRank = rank.toJSON();
+            jsonRank.avatar = avatars[0];
+            jsonRanks.push(jsonRank);
+        }
+
+        return res.json(new SuccRes('Ranks fetched', jsonRanks))
     }).catch(err => {
         if (!err.errors){return res.status(500).json(new ErrRes(err.name, [err.message]));}
         return res.status(422).json(new ErrRes(err.name,err.errors.map(error => error.message)));
