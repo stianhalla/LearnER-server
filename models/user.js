@@ -14,7 +14,7 @@ const { lenPwdMsg, isIntMsg, isEmailMsg, notNullMsg, notEmptyMsg, uniqueUsername
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
 
-    static associate({ Exercise, Avatar, Answer, Login, Rank, User_exercise_stat }) {
+    static associate({ Achievement, Exercise, Avatar, Answer, Login, Rank, User_exercise_stat }) {
 
       // En bruker kan være forfatter for mange oppgaver
       this.hasMany(Exercise, {
@@ -43,6 +43,12 @@ module.exports = (sequelize, DataTypes) => {
         through: User_exercise_stat,
         foreignKey: 'user_id',
         as: 'exercises'
+      })
+
+      this.belongsToMany(Achievement, {
+        through: 'user_has_achievements',
+        foreignKey: 'user_id',
+        as: 'achievements'
       })
     }
 
@@ -183,6 +189,14 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate: async (user) => {
           await user.setPassword(user.password); // Hasher passord;
           await user.setEmail(user.email); // Hasher emial
+      },
+      afterCreate: async (user) => { // Kobler sammen bruker til achivements
+         const { Achievement } = sequelize.models;
+         const achievements = await Achievement.findAll();
+         // Fyller koblingstabell
+        if(achievements){
+          user.setAchievements(achievements);
+        }
       }
     }
   });

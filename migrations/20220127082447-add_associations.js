@@ -134,6 +134,7 @@ module.exports = {
                 )
             })
         // 11 og 12 i i create-exercise-has-word (n:m)
+        // 13 og 14 i i create-user-has-achievement (n:m)
     },
 
     down: async (queryInterface, Sequelize) => {

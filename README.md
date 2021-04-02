@@ -36,7 +36,7 @@ npm run dev
 SQL:
 ```
 SET foreign_key_checks = 0;
-drop table avatars, exercises, ranks, sequelizemeta, users,difficulty_levels, answers, rank_has_avatars, logins, user_exercise_stats, messages, synonyms, exercise_has_words, words, quiz_question_has_resources, db_quiz_alternatives, db_quiz_chapters, db_quiz_questions, db_quiz_resources;
+drop table avatars, exercises, ranks, sequelizemeta, users,difficulty_levels, answers, rank_has_avatars, logins, user_exercise_stats, messages, synonyms, exercise_has_words, words, user_has_achievements, achievements ,quiz_question_has_resources, db_quiz_alternatives, db_quiz_chapters, db_quiz_questions, db_quiz_resources;
 SET foreign_key_checks = 1;
 ```
 Sequelize:
