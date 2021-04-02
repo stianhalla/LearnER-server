@@ -42,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {msg: notEmptyMsg},
       }
     },
+    image:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+      }
+    },
     description:{
       type: DataTypes.STRING,
       allowNull: false,

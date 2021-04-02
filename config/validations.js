@@ -29,8 +29,8 @@ module.exports.isUserType = (val) => {
     }
 }
 module.exports.isAchievementType = (val) => {
-    if( ![achievementType.COMPLETED_EXERCISES, achievementType.DAYS_IN_A_ROW].includes(val) ){
-        throw new Error(`Wrong value for achievement type, valid values is ${achievementType.COMPLETED_EXERCISES} and ${achievementType.DAYS_IN_A_ROW}`)
+    if( ![achievementType.COMPLETED_EXERCISES, achievementType.WITHOUT_CHECK].includes(val) ){
+        throw new Error(`Wrong value for achievement type, valid values is ${achievementType.COMPLETED_EXERCISES} and ${achievementType.WITHOUT_CHECK}`)
     }
 }
 module.exports.isBoolean = (val) => {

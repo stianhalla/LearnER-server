@@ -11,6 +11,7 @@ module.exports = {
           type: 1,
           reward: 0,
           condition: 10,
+          image: "trophy_3.png",
           created_at: new Date(),
           updated_at: new Date()
       });
