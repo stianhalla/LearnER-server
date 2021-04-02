@@ -9,7 +9,8 @@ module.exports = {
           title: 'Hei verden',
           description: 'ikke prøv',
           type: 1,
-          points: 0,
+          reward: 0,
+          requires: 10,
           created_at: new Date(),
           updated_at: new Date()
       })

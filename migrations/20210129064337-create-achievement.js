@@ -22,7 +22,12 @@ module.exports = {
         allowNull: false,
         default: defaultValue.ACHIEVEMENT_TYPE
       },
-      points: {
+      reward: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        default: 0
+      },
+      requires: {
         type: Sequelize.INTEGER,
         allowNull: false,
         default: 0

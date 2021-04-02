@@ -61,7 +61,17 @@ module.exports = (sequelize, DataTypes) => {
         isAchievementType
       }
     },
-    points:{
+    reward:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: {
+        notNull: {msg: notNullMsg},
+        notEmpty: {msg: notEmptyMsg},
+        isInt: {msg: isIntMsg},
+      }
+    },
+    requires:{
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
