@@ -64,6 +64,7 @@ const router = (app) => {
 
     // AVATARS
     app.get(AVATARS, requireUserPrivileges, AvatarController.index)
+    app.get(AVATARS + "/all",  AvatarController.indexAll)
     app.get(AVATARS + "/:id", requireUserPrivileges, AvatarController.show)
 
     // EXERCISES
