@@ -1,16 +1,14 @@
 'use strict';
 
 const faker = require('faker');
-const { Rank, Achievement } = require('../models');
+const { Rank } = require('../models');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
     const data = [];
-    const data2 = [];
 
     const ranks = (await Rank.findAll()).map(rank => rank.points_required);
-    const achievements = await Achievement.findAll();
 
     for (let i = 0; i < 10; i++ ){
         data.push({
@@ -26,17 +24,8 @@ module.exports = {
           created_at: new Date(),
           updated_at: new Date()
         });
-
-        const dataAchi = [];
-        achievements.forEach(achi => {
-          dataAchi.push({ user_id: i + 1, achievement_id: achi.id, created_at: new Date(), updated_at: new Date()})
-        })
-        data2.push(dataAchi);
     }
     await queryInterface.bulkInsert('users', data, {});
-    for (const dataAchi of data2) {
-      await queryInterface.bulkInsert('user_has_achievements', dataAchi, {});
-    }
   },
 
   down: async (queryInterface, Sequelize) => {

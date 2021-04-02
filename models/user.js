@@ -189,14 +189,6 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate: async (user) => {
           await user.setPassword(user.password); // Hasher passord;
           await user.setEmail(user.email); // Hasher emial
-      },
-      afterCreate: async (user) => { // Kobler sammen bruker til achivements
-         const { Achievement } = sequelize.models;
-         const achievements = await Achievement.findAll();
-         // Fyller koblingstabell
-        if(achievements){
-          user.setAchievements(achievements);
-        }
       }
     }
   });

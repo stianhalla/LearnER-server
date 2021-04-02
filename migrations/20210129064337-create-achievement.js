@@ -27,7 +27,7 @@ module.exports = {
         allowNull: false,
         default: 0
       },
-      requires: {
+      condition: {
         type: Sequelize.INTEGER,
         allowNull: false,
         default: 0

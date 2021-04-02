@@ -71,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
         isInt: {msg: isIntMsg},
       }
     },
-    requires:{
+    condition:{
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,

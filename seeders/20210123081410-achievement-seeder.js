@@ -1,4 +1,4 @@
-'use strict';
+    'use strict';
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -10,10 +10,10 @@ module.exports = {
           description: 'ikke prøv',
           type: 1,
           reward: 0,
-          requires: 10,
+          condition: 10,
           created_at: new Date(),
           updated_at: new Date()
-      })
+      });
 
      await queryInterface.bulkInsert('achievements', data, {});
   },

@@ -22,12 +22,7 @@ module.exports = {
           key: 'id'
         },
       },
-      completed: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-      },
-      points_retrieved: {
+      reward_retrieved: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false

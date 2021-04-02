@@ -36,17 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.INTEGER,
       primaryKey: true
     },
-    completed:{
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-      validate: {
-        notNull: {msg: notNullMsg},
-        notEmpty: {msg: notEmptyMsg},
-        isBoolean
-      }
-    },
-    points_retrieved: {
+    reward_retrieved: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
