@@ -99,7 +99,7 @@ async function createExercisesStats(userId){
  * */
 async function createLoginStats(userId){
     const logins = await Login.findAll({ where: { user_id: userId } });
-    if(!logins){ return null; } // Fant ingen inlogginger knyttet til bruker
+    if(!logins || logins.length === 0){ return null; } // Fant ingen inlogginger knyttet til bruker
 
     const dateOptions = {
         year: 'numeric', month: 'numeric', day: 'numeric',
