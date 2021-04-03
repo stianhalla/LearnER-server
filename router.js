@@ -73,6 +73,8 @@ const router = (app) => {
 
     // STATS
     app.get(STATS, requireUserPrivileges, StatisticController.dashboard)
+    app.get(STATS + "/achievements", requireUserPrivileges, StatisticController.achievements)
+    app.post(STATS + "/achievements/:id", requireUserPrivileges, StatisticController.retrieveReward)
 
     //CHAPTERS
     app.get(CHAPTERS, requireUserPrivileges, ChapterController.index)
