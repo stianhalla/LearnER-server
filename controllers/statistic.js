@@ -43,7 +43,7 @@ exports.dashboard = async (req, res, next) => {
 /**
  * Returnerer all nødvendig informasjon for å vise achievements på profil siden
  * */
-exports.achievements = async (req, res, next) => { // TODO Dokumenter i postman
+exports.achievements = async (req, res, next) => {
 
     // Henter ut alle achievements
     const achievements = await Achievement.findAll();
@@ -60,7 +60,7 @@ exports.achievements = async (req, res, next) => { // TODO Dokumenter i postman
 /**
  * Henter poeng for å fullføre en achivment
  * */
-exports.retrieveReward = async (req, res, next) => { // TODO dokumneter i postman
+exports.retrieveReward = async (req, res, next) => {
     try{
         const user = req.user;
         const achi =  await Achievement.findByPk(req.params.id);
@@ -375,7 +375,8 @@ buildResponse = (user, achi, rank) =>{
         rewardRetrieved: achi.reward,
         rankUp: rank.rankUp,
         avatars: rank.avatars,
-        newRank: rank.newRank
+        newRank: rank.newRank,
+        newUserScore: user.score
     }
 
 

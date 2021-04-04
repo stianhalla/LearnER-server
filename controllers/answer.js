@@ -272,7 +272,8 @@ buildEvaluationResponse = (user, answer, maxPoints, rank) =>{
         hintUsed: answer.hint_used, // Ikke i bruk ennå
         rankUp: rank.rankUp,
         avatars: rank.avatars,
-        newRank: rank.newRank
+        newRank: rank.newRank,
+        newUserScore: user.score
     }
 
 
