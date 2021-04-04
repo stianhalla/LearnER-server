@@ -375,7 +375,8 @@ buildResponse = (user, achi, rank) =>{
         rewardRetrieved: achi.reward,
         rankUp: rank.rankUp,
         avatars: rank.avatars,
-        newRank: rank.newRank
+        newRank: rank.newRank,
+        newUserScore: user.score
     }
 
 
