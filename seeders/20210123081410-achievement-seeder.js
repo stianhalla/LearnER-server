@@ -5,8 +5,10 @@ module.exports = {
 
       const data = [];
 
+      // Bruker kjenete placholder navn som tittel
+
       data.push({
-          title: 'Hei verden',
+          title: 'Foo',
           description: 'Fullfør 5 forskjellige ER-modellerings oppgaver',
           type: 1,
           reward: 250,
@@ -17,29 +19,29 @@ module.exports = {
       });
 
       data.push({
-          title: 'Ted',
+          title: 'Bar',
           description: 'Fullfør 10 forskjellige ER-modellerings oppgaver',
           type: 1,
           reward: 500,
           condition: 10,
-          image: "trophy_3.png",
+          image: "trophy_2.png",
           created_at: new Date(),
           updated_at: new Date()
       });
 
       data.push({
-          title: 'Edgar Codd',
+          title: 'Baz',
           description: 'Fullfør 15 forskjellige ER-modellerings oppgaver',
           type: 1,
           reward: 1000,
           condition: 15,
-          image: "trophy_3.png",
+          image: "trophy_1.png",
           created_at: new Date(),
           updated_at: new Date()
       });
 
       data.push({
-          title: 'Av med støttehjul',
+          title: 'Qux',
           description: 'Fullfør 5 ER-modellerings oppgaver uten å trykke "sjekk"',
           type: 2,
           reward: 250,
@@ -50,23 +52,23 @@ module.exports = {
       });
 
       data.push({
-          title: 'Full kontroll',
+          title: 'Acme',
           description: 'Fullfør 10 ER-modellerings oppgaver uten å trykke "sjekk"',
           type: 2,
           reward: 500,
           condition: 10,
-          image: "trophy_3.png",
+          image: "trophy_2.png",
           created_at: new Date(),
           updated_at: new Date()
       });
 
       data.push({
-          title: 'Daredevil',
+          title: 'Xyzzy',
           description: 'Fullfør 15 ER-modellerings oppgaver uten å trykke "sjekk"',
           type: 2,
           reward: 1000,
           condition: 15,
-          image: "trophy_3.png",
+          image: "trophy_1.png",
           created_at: new Date(),
           updated_at: new Date()
       });
