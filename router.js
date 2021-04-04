@@ -13,6 +13,7 @@ const StatisticController = require('./controllers/statistic')
 const ChapterController = require('./controllers/chapter')
 const QuestionController = require('./controllers/question')
 const QuestionResourceController = require('./controllers/question_resource')
+const QuizController = require('./controllers/quiz')
 
 const AUTH = '/api/auth' // Eneste route uten flertall
 const USERS = '/api/users'
@@ -24,6 +25,7 @@ const TEST = '/api/test'
 const CHAPTERS = '/api/chapters'
 const QUESTIONS = '/api/questions'
 const QUESTION_RESOURCE = '/api/questionResource'
+const QUIZ = '/api/quiz'
 
 
 // Middleware for å sette på autentisering på routes
@@ -84,6 +86,9 @@ const router = (app) => {
 
     //QUESTION_RESOURCE
     app.get(QUESTION_RESOURCE + "/:question_id", requireUserPrivileges, QuestionResourceController.index)
+
+    //QUIZ
+    app.post(QUIZ, requireUserPrivileges, QuizController.submit) // Body = { points: x }
 
     //404 Route (Alltid behold denne som siste route)
     app.get('*', function(req, res){
