@@ -167,8 +167,11 @@ async function checkAchievement(achi, user){
     }
 
     if (type === achievementType.WITHOUT_CHECK){
-        const exercisesCompletedWithoutCheck = Answer.count({where: { user_id: user.id, submitted: true, times_checked: 0 }});
+        const exercisesCompletedWithoutCheck = await Answer.count({where: { user_id: user.id, submitted: true, times_checked: 0 }});
         const achievementUnlocked = exercisesCompletedWithoutCheck >= achi.condition;
+        if(achievementUnlocked){ // Oppdaterer database
+            await user.addAchievement(achi);
+        }
         return {...achi.toJSON(), done: Number.isInteger(exercisesCompletedWithoutCheck) ? exercisesCompletedWithoutCheck : 0 , unlocked: achievementUnlocked, reward_retrieved: false};
     }
 
