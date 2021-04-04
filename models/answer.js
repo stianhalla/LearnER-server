@@ -1,3 +1,8 @@
+/**
+ * @author Stian Helgerud
+ * DB Model grensesnitt klasse for å representere besvarelser
+ * */
+
 'use strict';
 const { Model } = require('sequelize');
 const { isJSON, notNullMsg, isIntMsg, notEmptyMsg, isBoolean, lenMsg } = require('../config/validations')
@@ -12,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       this.belongsTo(Exercise, {
-        foreignKey: 'exercise_id'
+        foreignKey: 'exercise_id',
+        as: 'exercise'
       })
     }
     // Fjerner valgte felter fra json objektet ved json response

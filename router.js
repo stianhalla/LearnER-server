@@ -64,6 +64,7 @@ const router = (app) => {
 
     // AVATARS
     app.get(AVATARS, requireUserPrivileges, AvatarController.index)
+    app.get(AVATARS + "/all",  AvatarController.indexAll)
     app.get(AVATARS + "/:id", requireUserPrivileges, AvatarController.show)
 
     // EXERCISES
@@ -72,6 +73,8 @@ const router = (app) => {
 
     // STATS
     app.get(STATS, requireUserPrivileges, StatisticController.dashboard)
+    app.get(STATS + "/achievements", requireUserPrivileges, StatisticController.achievements)
+    app.post(STATS + "/achievements/:id", requireUserPrivileges, StatisticController.retrieveReward)
 
     //CHAPTERS
     app.get(CHAPTERS, requireUserPrivileges, ChapterController.index)

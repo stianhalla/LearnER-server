@@ -25,12 +25,13 @@ module.exports = {
           updated_at: new Date()
         });
     }
-
     await queryInterface.bulkInsert('users', data, {});
   },
 
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkDelete('user_has_achievements', null, {});
     await queryInterface.bulkDelete('users', null, {});
+    await queryInterface.sequelize.query('ALTER TABLE user_has_achievements AUTO_INCREMENT = 1');
     await queryInterface.sequelize.query('ALTER TABLE users AUTO_INCREMENT = 1');
   }
 };

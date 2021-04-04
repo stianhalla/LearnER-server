@@ -1,3 +1,8 @@
+/**
+ * @author Stian Helgerud
+ * Sequlize inngangs fil (setter opp database og database modell klasser)
+ * */
+
 'use strict';
 
 const fs = require('fs');

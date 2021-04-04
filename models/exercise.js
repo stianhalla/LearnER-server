@@ -1,3 +1,8 @@
+/**
+ * @author Stian Helgerud
+ * DB Model grensesnitt klasse for å representere oppgaver
+ * */
+
 'use strict';
 const { Model } = require('sequelize');
 const { notNullMsg, notEmptyMsg, isJSON, isBoolean, isIntMsg} = require('../config/validations')

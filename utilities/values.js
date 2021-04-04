@@ -1,4 +1,5 @@
 /**
+ * @author Stian Helgerud og Espen Helgerud
  * Fil med verdier
  * */
 

@@ -2,16 +2,18 @@
  * Kontroller for å håndtere bruker requests
  * */
 
+const bcrypt = require('bcrypt')
 const {User, Avatar, Rank, Rank_has_avatar} = require('../models')
 const ErrRes = require('../config/ErrorResponse')
 const SuccRes = require('../config/SuccessResponse')
 const { notFoundErr } = require('../config/validations')
 
-// Henter alle brukere
+// Henter alle brukere som er verifisert
 exports.index = (req, res, next) => {
 
     User.findAll({
-        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}]
+        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}],
+        where: { verified: true }
     }).then(users => {
 
         if (!users || users.length === 0) {return res.status(404).json(new ErrRes('Not Found',['Can not find any users']));}
@@ -24,11 +26,12 @@ exports.index = (req, res, next) => {
     })
 }
 
-// Henter en valgt bruker
+// Henter en valgt bruker hvis verifisert
 exports.show = (req, res, next) => {
 
     User.findByPk(req.params.id, {
-        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}]
+        include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}],
+        where: { verified: true }
     }).then(user => {
 
         if (!user || user.length === 0) {return res.status(404).json(new ErrRes('Not Found',['Can not find user']));}
@@ -69,27 +72,24 @@ exports.update = async (req, res, next) => {
     // Bruker kan bare endre data om seg selv
     if (user.id !== candidateId) {return res.sendStatus(401);}
 
-    if(!isValidPassword(req, resBody)){
+    if(! await isValidPassword(req, resBody)){
        return res.status(422).json(new ErrRes('Validation Error', ['Passwords needs to be identical']))
     }
 
-    const validAvatar = await Rank_has_avatar.findOne({
-        where: {rank_id: req.user.rank_id, avatar_id: req.body.avatar_id}
-    })
-
-    // Fant ikke noe rad (ikke gyldig avatar)
-    if(!validAvatar) {
-        return res.status(422).json(new ErrRes('Validation Error', ['You have not unlocked this avatar']))
-    }else { // Gyldig avatar
-        resBody.avatar_id = body.avatar_id;
+    if(req.body.avatar_id) {
+        const validAvatar = await Rank_has_avatar.findOne({
+            where: {rank_id: req.user.rank_id, avatar_id: req.body.avatar_id}
+        });
+        // Fant ikke noe rad (ikke gyldig avatar)
+        if(!validAvatar) {
+            return res.status(422).json(new ErrRes('Validation Error', ['You have not unlocked this avatar']))
+        }else { // Gyldig avatar
+            resBody.avatar_id = body.avatar_id;
+        }
     }
 
     if(body.username){
         resBody.username = body.username;
-    }
-
-    if(body.email){
-        resBody.email = body.email;
     }
 
     if(body.selected_notation){
@@ -140,7 +140,7 @@ exports.destroy = (req, res, next) => {
     })
 }
 
-// Henter en topliste med gitt antall brukere
+// Henter en topliste med gitt antall brukere (kun verifiserte brukere)
 exports.leaderboard = (req, res, next) => {
 
     const limit = req.query.limit ? parseInt(req.query.limit) : 10; // Hvis ikke query parameter er oppgitt, så bruk 10
@@ -148,7 +148,8 @@ exports.leaderboard = (req, res, next) => {
     User.findAll({
         include: [{model: Avatar, as: 'avatar'}, {model: Rank, as: 'rank'}],
         order: [['score', 'DESC']],
-        limit: limit
+        limit: limit,
+        where: { verified: true }
     }).then(users => {
 
         if (!users || users.length === 0) {return res.status(404).json(new ErrRes('Not Found',['Can not find any users']));}
@@ -164,13 +165,14 @@ exports.leaderboard = (req, res, next) => {
 /**
  * Hjelpe metoder
  * */
-const isValidPassword = (req, resBody) => {
+const isValidPassword = async (req, resBody) => {
     // Hvis det ikke er oppgitt noe passord
     if (!req.body.password_1 && !req.body.password_2){ return true}
-    if(req.body.password_1 === req.body.password_2) {
-        resBody.password = req.password_1 // Setter passord i request body
+    if(req.body.password_1 === req.body.password_2) { // Passordet stemmer
+        const salt = await bcrypt.genSalt(10)
+        resBody.password = await bcrypt.hash(req.body.password_1, salt); // Setter passord i request body (hashet)
         return true;
     }
     return false;
-}
+};
 

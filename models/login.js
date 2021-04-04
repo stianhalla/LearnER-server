@@ -1,3 +1,8 @@
+/**
+ * @author Stian Helgerud
+ * DB Model grensesnitt klasse for å representere tabell med inlogginger
+ * */
+
 'use strict';
 const { Model } = require('sequelize');
 

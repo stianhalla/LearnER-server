@@ -1,3 +1,8 @@
+/**
+ * @author Stian Helgerud
+ * DB Model grensesnitt klasse for å representere brukere
+ * */
+
 'use strict';
 
 const { Model } = require('sequelize');
@@ -9,7 +14,7 @@ const { lenPwdMsg, isIntMsg, isEmailMsg, notNullMsg, notEmptyMsg, uniqueUsername
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
 
-    static associate({ Exercise, Avatar, Answer, Login, Rank, User_exercise_stat }) {
+    static associate({ Achievement, Exercise, Avatar, Answer, Login, Rank, User_exercise_stat }) {
 
       // En bruker kan være forfatter for mange oppgaver
       this.hasMany(Exercise, {
@@ -39,6 +44,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id',
         as: 'exercises'
       })
+
+      this.belongsToMany(Achievement, {
+        through: 'user_has_achievements',
+        foreignKey: 'user_id',
+        as: 'achievements'
+      })
     }
 
     // Metode for å sjekke passord
@@ -46,9 +57,19 @@ module.exports = (sequelize, DataTypes) => {
       return bcrypt.compare(candidatePassword, this.password);
     }
 
+    async setPassword(candidatePassword){
+      const salt = await bcrypt.genSalt(10)
+      this.password = await bcrypt.hash(candidatePassword, salt); // Hasher passord
+    }
+
     // Metode for å sjekke e-post
     async compareEmail(candidateEmail){
       return bcrypt.compare(candidateEmail, this.email);
+    }
+
+    async setEmail(candidateEmail){
+      const salt = await bcrypt.genSalt(10)
+      this.email = await bcrypt.hash(candidateEmail, salt); // Hasher passord
     }
 
     // Fjerner valgte felter fra json objektet ved json response
@@ -59,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
         password: undefined,
         rank_id: undefined,
         avatar_id: undefined,
-        created_at: undefined,
+        // created_at: undefined,
         updated_at: undefined
       }
     }
@@ -166,9 +187,8 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: 'created_at',
     hooks: {
       beforeCreate: async (user) => {
-          const salt = await bcrypt.genSalt(10)
-          user.password = await bcrypt.hash(user.password, salt); // Hasher passord
-          user.email = await bcrypt.hash(user.email, salt);       // Hasher e-post
+          await user.setPassword(user.password); // Hasher passord;
+          await user.setEmail(user.email); // Hasher emial
       }
     }
   });

@@ -1,7 +1,9 @@
 /**
+ * @author Stian Helgerud
  * Her kan man endre teksten på validerings melllinger.
  * */
-const {userType, notation} = require('./types')
+
+const {userType, notation, achievementType} = require('./types')
 const ErrRes = require('./ErrorResponse')
 
 // Validerings tekster (for built-in validation msg felt)
@@ -24,6 +26,11 @@ module.exports.isNotation = (val) => {
 module.exports.isUserType = (val) => {
     if( ![userType.STUDENT, userType.TEACHER].includes(val) ){
         throw new Error(`Wrong value for user type, valid values is ${userType.STUDENT} and ${userType.TEACHER}`)
+    }
+}
+module.exports.isAchievementType = (val) => {
+    if( ![achievementType.COMPLETED_EXERCISES, achievementType.WITHOUT_CHECK].includes(val) ){
+        throw new Error(`Wrong value for achievement type, valid values is ${achievementType.COMPLETED_EXERCISES} and ${achievementType.WITHOUT_CHECK}`)
     }
 }
 module.exports.isBoolean = (val) => {

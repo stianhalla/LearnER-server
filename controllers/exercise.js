@@ -1,4 +1,5 @@
 /**
+ * @author Stian Helgerud
  * Kontroller for oppgaver
  * */
 
@@ -12,7 +13,7 @@ exports.index = (req, res, next) => {
     Exercise.findAll({
         include: [
             {model: User, as: 'author', attributes: ['username']},
-            {model: Difficulty_level, as: 'difficulty_level', attributes: ['name', 'points', 'attempts']},
+            {model: Difficulty_level, as: 'difficulty_level', attributes: ['id', 'name', 'points', 'attempts']},
             {model: User_exercise_stat, as: 'stats', where: {user_id: req.user.id}, attributes: ['completed', 'attempts'], required: false},
             {
                 model: Word,
