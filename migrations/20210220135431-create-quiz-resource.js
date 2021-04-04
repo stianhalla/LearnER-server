@@ -12,9 +12,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      text: {
-        allowNull: false,
+      html: {
         type: Sequelize.TEXT
+      },
+      url: {
+        type: Sequelize.STRING
       }
     });
   },

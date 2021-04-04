@@ -6,7 +6,7 @@ const { Quiz_question_has_resource, Db_quiz_resource } = require('../models')
 exports.index = (req, res, next) => {
     const quesId = parseInt(req.params.question_id)
     Quiz_question_has_resource.findAll({
-        include: [{model:Db_quiz_resource, as: 'resource', attributes: ['title', 'text']}],
+        include: [{model:Db_quiz_resource, as: 'resource', attributes: ['title', 'html','url']}],
         where: {question_id: quesId},
         }).then(resource => {
         if(!resource || resource.length === 0){return res.status(404).json(new ErrRes('Not Found',['Cannot find question']));}

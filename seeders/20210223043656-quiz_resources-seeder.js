@@ -6,7 +6,7 @@ module.exports = {
 
     resources.push({
       title: 'Tabell Vare',
-      text: '<table class="table table-hover lead">' +
+      html: '<table class="table table-hover lead">' +
           '  <tbody><tr class="success">\n' +
           '    <th>Id</th>\n' +
           '\t<th>Navn</th>\n' +
@@ -47,15 +47,7 @@ module.exports = {
 
     resources.push({
       title: "Bilde test",
-      text: '<div class="container">\n' +
-          '<a name="eksempel"></a>\n' +
-          '<h3>Datamodell Fotball</h3>\n' +
-          '\n' +
-          '<div style="text-align: center;">\n' +
-          '<img src="fotball.PNG" width="60%" border="1">\n' +
-          '</div>\n' +
-          '<p>&nbsp;</p>\n' +
-          '</div>'
+      url: "fotball.png"
     });
 
     await queryInterface.bulkInsert('db_quiz_resources', resources, {});

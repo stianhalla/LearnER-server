@@ -22,13 +22,11 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {msg: notNullMsg},
         notEmpty: {msg: notEmptyMsg}
       },
-      text: {
+      html: {
         type: DataTypes.TEXT,
-        allowNull: false,
-        validate: {
-          notNull: {msg: notNullMsg},
-          notEmpty: {msg: notEmptyMsg}
-        }
+      },
+      url: {
+        type: DataTypes.STRING
       }
     }
   }, {
