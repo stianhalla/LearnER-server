@@ -86,7 +86,7 @@ exports.retrieveReward = async (req, res, next) => { // TODO dokumneter i postma
         await User_has_achievement.update( {reward_retrieved: true} , { where: {user_id: user.id, achievement_id: achi.id} });
 
         // Bygger tilbakemeding til klient
-        const resMessage = buildEvaluationResponse(user, achi, rank);
+        const resMessage = buildResponse(user, achi, rank);
 
         // Returnerer resultat til klient
         return res.json(resMessage);
@@ -368,7 +368,7 @@ setRank = async (user) => {
  * @param achi -> Achivment
  * @param rank -> js objekt som inneholder info on bruker har gått opp i rank
  * */
-buildEvaluationResponse = (user, achi, rank) =>{
+buildResponse = (user, achi, rank) =>{
     const resMessage = {status: 'success', name: 'Evaluation succeeded', data: {}}; // Objekt som skal returneres til klient med nyttig status melding
 
     resMessage.data = {
