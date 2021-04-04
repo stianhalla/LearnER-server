@@ -1,3 +1,7 @@
+/**
+ * @author Ala Mehersia
+ * klasse for kobling mellom spørsmål og ressurser
+ * */
 'use strict';
 const {Model} = require('sequelize');
 const { notNullMsg} = require('../config/validations');
