@@ -1,5 +1,8 @@
+/**
+ * @author Ala Mehersia
+ * klasse for quiz alternativer
+ * */
 'use strict';
-
 const {Model} = require('sequelize');
 const { notNullMsg, notEmptyMsg, isBoolean} = require('../config/validations');
 
