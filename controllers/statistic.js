@@ -245,7 +245,6 @@ async function createLoginStats(userId){
     const dateOptions = {
         year: 'numeric', month: 'numeric', day: 'numeric',
         hour: 'numeric', minute: 'numeric', second: 'numeric',
-        timeZone: 'utc',
         hour12: false,
     }
     const date = new Intl.DateTimeFormat('no-NO', dateOptions).format(logins[0].signed_in_at)
