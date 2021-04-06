@@ -9,7 +9,7 @@ module.exports = {
 
       data.push({
           title: 'Foo',
-          description: 'Fullfør 5 forskjellige ER-modellerings oppgaver',
+          description: 'Fullfør 5 forskjellige ER-oppgaver',
           type: 1,
           reward: 250,
           condition: 5,
@@ -20,7 +20,7 @@ module.exports = {
 
       data.push({
           title: 'Bar',
-          description: 'Fullfør 10 forskjellige ER-modellerings oppgaver',
+          description: 'Fullfør 10 forskjellige ER-oppgaver',
           type: 1,
           reward: 500,
           condition: 10,
@@ -31,7 +31,7 @@ module.exports = {
 
       data.push({
           title: 'Baz',
-          description: 'Fullfør 15 forskjellige ER-modellerings oppgaver',
+          description: 'Fullfør 15 forskjellige ER-oppgaver',
           type: 1,
           reward: 1000,
           condition: 15,
@@ -42,7 +42,7 @@ module.exports = {
 
       data.push({
           title: 'Qux',
-          description: 'Fullfør 5 ER-modellerings oppgaver uten å trykke "sjekk"',
+          description: 'Fullfør 5 ER-oppgaver uten å trykke "sjekk"',
           type: 2,
           reward: 250,
           condition: 5,
@@ -53,7 +53,7 @@ module.exports = {
 
       data.push({
           title: 'Acme',
-          description: 'Fullfør 10 ER-modellerings oppgaver uten å trykke "sjekk"',
+          description: 'Fullfør 10 ER-oppgaver uten å trykke "sjekk"',
           type: 2,
           reward: 500,
           condition: 10,
@@ -64,7 +64,7 @@ module.exports = {
 
       data.push({
           title: 'Xyzzy',
-          description: 'Fullfør 15 ER-modellerings oppgaver uten å trykke "sjekk"',
+          description: 'Fullfør 15 ER-oppgaver uten å trykke "sjekk"',
           type: 2,
           reward: 1000,
           condition: 15,
