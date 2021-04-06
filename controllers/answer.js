@@ -86,7 +86,7 @@ exports.evaluate = async (req, res, next) => {
     try{
         const user = req.user;
         const answer = req.body;
-        answer.points = Math.round(answer.points); // Forsikring om att poengene er av typen integer
+        answer.points = parseInt(answer.points); // Forsikring om att poengene er av typen integer
 
         const exercise = await Exercise.findOne({
             where: {id: answer.exercise_id},
