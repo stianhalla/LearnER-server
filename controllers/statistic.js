@@ -267,7 +267,8 @@ async function createChartData(userId){
         include: [{
             model: Exercise, as: 'exercise',
             include: [{model: Difficulty_level, as: 'difficulty_level'}]
-        }]
+        }],
+        where: {submitted: true}
     });
 
     // Tabell som inneholder en tablell for hver vanklighetsgrad med da om hvor mange ganger noen har trykker sjekk
@@ -291,7 +292,7 @@ async function createChartData(userId){
                 userData[idx] = [];
                 userData[idx].push(timesChecked);
             }else {
-                userData.push(timesChecked);
+                userData[idx].push(timesChecked);
             }
         }
 
@@ -302,8 +303,7 @@ async function createChartData(userId){
     const userDataReturn = new Array(averageData.length);
 
     for (let i = 0 ; i < averageData.length; i++){
-
-        if (!averageData[i]){ break ; }
+        if (!averageData[i]){ continue ; }
 
         let sum = 0;
         let total = averageData[i].length;
@@ -316,8 +316,7 @@ async function createChartData(userId){
     }
 
     for (let i = 0 ; i < userData.length; i++){
-
-        if (!userData[i]){ break ; }
+        if (!userData[i]){ continue ; }
 
         let sum = 0;
         let total = userData[i].length;
@@ -328,7 +327,7 @@ async function createChartData(userId){
         // Legger til gjennomsnittet i retur tabell
         userDataReturn[i] = sum / total;
     }
-
+    
     return {labels, userData: userDataReturn , averageData: averageDataReturn };
 }
 
