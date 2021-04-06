@@ -9,11 +9,11 @@
   },
   {
     "word": "Fornavn" ,
-    "synonyms": ["egenavn"]
+    "synonyms": ["egenavn", "FNavn"]
   },
   {
     "word": "Etternavn" ,
-    "synonyms": ["familienavn", "slektsnavn"]
+    "synonyms": ["familienavn", "slektsnavn", "ENavn"]
   },
   {
     "word": "Artist" ,
@@ -26,6 +26,90 @@
   {
     "word": "Fottur" ,
     "synonyms": ["tur"]
+  },
+  {
+    "word": "Turrute" ,
+    "synonyms": ["rute"]
+  },
+  {
+    "word": "X" ,
+    "synonyms": ["XKoordinat", "XKoord"]
+  },
+  {
+    "word": "Y" ,
+    "synonyms": ["YKoordinat", "YKoord"]
+  },
+  {
+    "word": "MNr" ,
+    "synonyms": ["MåleNr", "MålingsNr"]
+  },
+  {
+    "word": "Nedbør" ,
+    "synonyms": ["MåltNedbør"]
+  },
+  {
+    "word": "Temperatur" ,
+    "synonyms": ["Temp", "MåltTemp"]
+  },
+  {
+    "word": "LuftFuktighet" ,
+    "synonyms": ["Fuktighet"]
+  },
+  {
+    "word": "TelefonNr" ,
+    "synonyms": ["TlfNr"]
+  },
+  {
+    "word": "Varenavn" ,
+    "synonyms": ["VNavn"]
+  },
+  {
+    "word": "VareNr" ,
+    "synonyms": ["VNr"]
+  },
+  {
+    "word": "Pris" ,
+    "synonyms": ["PrisPrEnhet", "Varepris", "Turpris"]
+  },
+  {
+    "word": "AntallEnheter" ,
+    "synonyms": ["Antall", "AntEnheter"]
+  },
+  {
+    "word": "KategoriNavn" ,
+    "synonyms": ["KatNavn"]
+  },
+  {
+    "word": "KategoriNr" ,
+    "synonyms": ["KatNr"]
+  },
+  {
+    "word": "HytteNavn" ,
+    "synonyms": ["Navn"]
+  },
+  {
+    "word": "AntallSenger" ,
+    "synonyms": ["AntSenger", "Sengeplasser"]
+  },
+  {
+    "word": "HarDusj" ,
+    "synonyms": ["MedDusj", "Dusj"]
+  },
+  {
+    "word": "Hyttetype" ,
+    "synonyms": ["Type"]
+  },
+  {
+    "word": "AntallDager" ,
+    "synonyms": ["AntDager"]
+  },
+  {
+    "word": "AnsattNr" ,
+    "synonyms": ["AnsNr", "ANr", "AnsId"]
+  },
+  {
+    "word": "RuteNr" ,
+    "synonyms": ["RNr"]
   }
 ]
 
