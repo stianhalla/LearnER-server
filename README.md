@@ -66,3 +66,7 @@ sequelize db:seed:all
 # legg inn gamle brukere 
 alter table users auto_increment = 5
 # oppdater author_id i oppgaver
+
+# Oppdatere synonymer
+sequelize db:seed:undo --seed 20210203150545-synonym-data-seeder.js
+sequelize db:seed --seed 20210203150545-synonym-data-seeder.js
