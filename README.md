@@ -48,3 +48,21 @@ sequelize db:migrate:undo:all
 ```
 sequelize db:seed --seed file1 file2 fileN
 ```
+
+
+### DEPLOYMENT
+heroku login
+git push heroku master
+
+heroku run bash
+npm install -g sequelize-cli
+
+sequelize db:seed:undo:all
+sequelize db:migrate:undo:all
+sequelize db:migrate 
+sequelize db:seed:all
+
+# slett alle brukere
+# legg inn gamle brukere 
+alter table users auto_increment = 5
+# oppdater author_id i oppgaver
