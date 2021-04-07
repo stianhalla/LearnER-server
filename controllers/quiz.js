@@ -9,7 +9,7 @@ exports.submit = async (req, res, next) => {
     const points = req.body.points;
 
     // Hvor mange poeng det maksimalt er mulig å få på en quiz
-    const maxPoints = 2000; // TODO Her må du endre Ale :)
+    const maxPoints = 2300;
 
     // Sjekker etter fusk
     if (points > maxPoints){
