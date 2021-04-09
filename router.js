@@ -80,6 +80,8 @@ const router = (app) => {
 
     //CHAPTERS
     app.get(CHAPTERS, requireUserPrivileges, ChapterController.index)
+    app.patch(CHAPTERS + "/:id", requireUserPrivileges, ChapterController.update)
+    app.patch(CHAPTERS + "/increment/:id", requireUserPrivileges, ChapterController.incrementAttempts)
 
     //QUESTIONS WITH ALTERNATIVES
     app.get(QUESTIONS + "/:chapter_id", requireUserPrivileges, QuestionController.index)

@@ -11,6 +11,13 @@ module.exports = {
       title: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      best_attempt: {
+        type: Sequelize.JSON
+      },
+      num_attempts: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       }
     });
   },

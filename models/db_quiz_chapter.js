@@ -24,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {msg: notNullMsg},
         notEmpty: {msg: notEmptyMsg}
       }
+    },
+    best_attempt:{
+      type: DataTypes.JSON
+    },
+    num_attempts: {
+      type: DataTypes.INTEGER
     }
   }, {
     sequelize,

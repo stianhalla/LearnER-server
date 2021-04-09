@@ -4,13 +4,13 @@ const { Db_quiz_question, Db_quiz_alternative } = require('../models')
 
 
 exports.index = (req, res, next) => {
-    const quesId = parseInt(req.params.chapter_id)
+    const chapterId = parseInt(req.params.chapter_id)
     Db_quiz_question.findAll({
         include: [{
            model: Db_quiz_alternative,
            required: true
         }],
-        where: {chapter_id: quesId},
+        where: {chapter_id: chapterId},
     }).then(question =>{
         if(!question || question.length === 0){return res.status(404).json(new ErrRes('Not Found',['Cannot find question']));}
 
