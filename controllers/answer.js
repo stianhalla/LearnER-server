@@ -87,6 +87,7 @@ exports.evaluate = async (req, res, next) => {
         const user = req.user;
         const answer = req.body;
         answer.points = parseInt(answer.points); // Forsikring om att poengene er av typen integer
+        answer.penalty_recived = parseInt(answer.penalty_recived) // Forsikring om att straffepoengene er av typen integer
 
         const exercise = await Exercise.findOne({
             where: {id: answer.exercise_id},
