@@ -1,11 +1,14 @@
 'use strict';
 
+
+const {avatarType} = require("../config/types");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
       const data = [];
 
-      for(let i = 1; i < 6; i++){
+      for(let i = 1; i < avatarType.NUMBER_OF_AVATARS; i++){
           data.push({
               id: i,
               filename: `rank${i}.png`,
@@ -14,6 +17,13 @@ module.exports = {
           })
       }
 
+      // Legger til administrator avatar
+      data.push({
+          id: avatarType.ADMIN_AVATAR.id,
+          filename: avatarType.ADMIN_AVATAR.filename,
+          created_at: new Date(),
+          updated_at: new Date()
+      });
 
       await queryInterface.bulkInsert('avatars', data, {});
   },

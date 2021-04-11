@@ -3,10 +3,12 @@
  * Kontroller som håndterer avatarer
  * */
 
-const ErrRes = require('../config/ErrorResponse')
-const SuccRes = require('../config/SuccessResponse')
-const { Avatar, Rank } = require('../models')
-const { notFoundErr } = require('../config/validations')
+
+const ErrRes = require('../config/ErrorResponse');
+const SuccRes = require('../config/SuccessResponse');
+const { Avatar, Rank } = require('../models');
+const { notFoundErr } = require('../config/validations');
+const {userType, avatarType} = require("../config/types");
 
 // Viser alle avatarer som bruker har låst opp
 exports.index = (req, res, next) => {
@@ -22,6 +24,11 @@ exports.index = (req, res, next) => {
         // Hvis rank ikke kan kobles til noe avatar, så er det noe galt
         if(!avatars || avatars.length === 0){
             return res.status(500).json(new ErrRes('Server error', [`Rank '${rank.name}' dos not have any avatars`]))
+        }
+
+        // Hvis admistrator legg til admin avatar
+        if(req.user.type === userType.TEACHER) {
+            avatars.push(avatarType.ADMIN_AVATAR);
         }
 
         return res.json(new SuccRes('Avatars fetched', avatars))
