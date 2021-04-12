@@ -2,11 +2,14 @@
  * Kontroller for å håndtere bruker requests
  * */
 
-const bcrypt = require('bcrypt')
-const {User, Avatar, Rank, Rank_has_avatar} = require('../models')
-const ErrRes = require('../config/ErrorResponse')
-const SuccRes = require('../config/SuccessResponse')
-const { notFoundErr } = require('../config/validations')
+
+const bcrypt = require('bcrypt');
+const {User, Avatar, Rank, Rank_has_avatar} = require('../models');
+const ErrRes = require('../config/ErrorResponse');
+const SuccRes = require('../config/SuccessResponse');
+const { notFoundErr } = require('../config/validations');
+const {userType, avatarType} = require("../config/types");
+
 
 // Henter alle brukere som er verifisert
 exports.index = (req, res, next) => {
@@ -80,8 +83,9 @@ exports.update = async (req, res, next) => {
         const validAvatar = await Rank_has_avatar.findOne({
             where: {rank_id: req.user.rank_id, avatar_id: req.body.avatar_id}
         });
-        // Fant ikke noe rad (ikke gyldig avatar)
-        if(!validAvatar) {
+
+        // Fant ikke noe rad (ikke gyldig avatar) / avatar id 6 er admin id
+        if(!validAvatar && !(req.user.type === userType.TEACHER && req.body.avatar_id === avatarType.ADMIN_AVATAR.id)) {
             return res.status(422).json(new ErrRes('Validation Error', ['You have not unlocked this avatar']))
         }else { // Gyldig avatar
             resBody.avatar_id = body.avatar_id;
