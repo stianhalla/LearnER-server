@@ -2,30 +2,8 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const resources = [];
 
-    resources.push({
-      question_id: 1,
-      resource_id: 1
-    });
-    resources.push({
-      question_id: 2,
-      resource_id: 1
-    });
-    resources.push({
-      question_id: 3,
-      resource_id: 1
-    });
-    resources.push({
-      question_id: 4,
-      resource_id: 1
-    });
-    resources.push({
-      question_id: 2,
-      resource_id: 2
-    });
-
-    await queryInterface.bulkInsert('quiz_question_has_resources', resources, {});
+    await queryInterface.sequelize.query("INSERT INTO `quiz_question_has_resources` VALUES (10,1),(11,1),(43,1),(58,2),(59,2),(60,2),(61,2),(62,2),(65,2),(67,2),(37,3),(38,3),(40,3),(41,3),(47,3),(139,3),(140,3),(40,4),(41,4),(50,4),(138,4),(37,5),(38,5),(39,5),(40,5),(41,5),(47,5),(49,5),(50,5),(44,6),(47,7),(47,8),(49,9),(50,10),(51,11),(52,11),(53,11),(55,11),(56,11),(51,12),(52,12),(53,12),(55,12),(56,12),(73,13),(74,13),(75,13),(76,13),(81,14),(82,14),(83,14),(84,14),(85,14),(86,14),(79,15),(87,15),(88,15),(89,15),(92,16),(93,16),(94,16),(95,16),(122,17),(123,18),(124,19),(128,20),(129,20),(134,21),(134,22),(134,23),(138,24),(139,25),(140,25),(138,26),(139,27),(140,28);");
   },
 
   down: async (queryInterface, Sequelize) => {

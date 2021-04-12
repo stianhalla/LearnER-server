@@ -2,58 +2,8 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const questions = [];
 
-    questions.push({
-      chapter_id: 1,
-      text: 'Hvordan blir data organisert i et relasjonsdatabasesystem?'
-    });
-    questions.push({
-      chapter_id: 1,
-      text: 'Hva er SQL?'
-    });
-    questions.push({
-      chapter_id: 1,
-      text: 'Hvor mange forskjellige verdier kan lagres i en byte?'
-    });
-    questions.push({
-      chapter_id: 1,
-      text: 'Tallet 23 i titallsystemet tilsvarer hvilket tall i totallsystemet?'
-    });
-    questions.push({
-      chapter_id: 2,
-      text: 'Hva inneholder WHERE-delen av en SELECT-spørring?'
-    });
-    questions.push({
-      chapter_id: 2,
-      text: 'Velg WHERE-betingelse for å vise alle varer i kategoriene Verktøy og Småting.'
-    });
-    questions.push({
-      chapter_id: 2,
-      text: 'Hvilket uttrykk betyr det samme som NOT (Kategori=\'Verktøy\' AND Pris>30) ?'
-    });
-    questions.push({
-      chapter_id: 2,
-      text: 'Hvilken av følgende spørringer viser samtlige kategorier nøyaktig én gang?'
-    });
-    questions.push({
-      chapter_id: 3,
-      text: 'Hva er en primærnøkkel?'
-    });
-    questions.push({
-      chapter_id: 3,
-      text: 'Hva er kravene til en fremmednøkkel?'
-    });
-    questions.push({
-      chapter_id: 3,
-      text: 'Hvilken SQL-kommando brukes for å sette inn nye rader i en tabell?'
-    });
-    questions.push({
-      chapter_id: 3,
-      text: 'Anta alle registreringsnumre som skal lagres i en bildatabase består av 2 bokstaver og 5 siffer. Hvilken datatype er mest hensiktsmessig å bruke?'
-    });
-
-    await queryInterface.bulkInsert('db_quiz_questions', questions, {});
+    await queryInterface.sequelize.query("INSERT INTO `db_quiz_questions` VALUES (1,1,'Hvordan blir data organisert i et relasjonsdatabasesystem?'),(2,1,'Hva er SQL?'),(3,1,'Hvor mange forskjellige verdier kan lagres i en byte?'),(4,1,'Tallet 23 i titallsystemet tilsvarer hvilket tall i totallsystemet?'),(5,1,'Hvilken datamengde er størst?'),(6,2,'Hva inneholder WHERE-delen av en SELECT-spørring?'),(7,2,'Velg WHERE-betingelse for å vise alle varer i kategoriene Verktøy og Småting.'),(8,2,'Hvilket uttrykk betyr det samme som NOT (Kategori=\\'Verktøy\\' AND Pris>30) ?'),(9,2,'Hvilken av følgende spørringer viser samtlige kategorier nøyaktig én gang?'),(10,2,'Hvilken sortering må brukes for å vise varene i Id-rekkefølge 1014 -  1013 - 1029 - 1003?'),(11,2,'Hvilken WHERE-betingelse vil være sann for varen med Id = 1003 ?'),(12,2,'Hvilken del av en utvalgsspørring bestemmer antall kolonner i spørreresultatet ?'),(13,2,'AND, OR og NOT er eksempler på ... ?'),(14,2,'... OR ... blir til false.'),(15,2,'Hvilken tekst passer ikke med (matcher ikke) mønsteret \\'ab_c%\\'.'),(16,2,'I hvilken SQL-kommando bruker vi det reserverte ordet VALUES?'),(17,2,'Hvilken WHERE-betingelse betyr det samme som Pris &lt; 50 ?'),(18,3,'Hva er en primærnøkkel?'),(19,3,'Hva er kravene til en fremmednøkkel?'),(20,3,'Hvilken SQL-kommando brukes for å sette inn nye rader i en tabell?'),(21,3,'Anta alle registreringsnumre som skal lagres i en bildatabase består av 2 bokstaver og 5 siffer. Hvilken datatype er mest hensiktsmessig å bruke?'),(22,3,'Hva skjer hvis du utfører en bestemt CREATE TABLE kommando to ganger?'),(23,3,'Hvordan kan vi hindre at det blir registrert to like verdier i en bestemt kolonne?'),(24,3,'Hvordan kan vi slette alle rader i Vare som har Id = 1003 ?'),(25,3,'Nevn en mulig teknikk for å sikre at alle verdiene i en kolonne alltid er én av verdiene 7, 11, 15 eller 18?'),(26,3,'Hvor oppnår vi med å skrive NOT NULL i en kolonnedefinisjon?'),(27,3,'Hvordan kan vi redusere antall på lager med 5 enheter for varen med Id = 1003 ?'),(28,3,'Hva er korrekt å si om primærnøkler?'),(29,3,'Hva er korrekt å si om fremmednøkler?'),(30,3,'Hva er effekten av UPDATE Vare SET Pris=Pris+1003 ?'),(31,3,'Hvilken av følgende datatyper er mest hensiktsmessig å bruke for å lagre kronebeløp?'),(32,3,'I hvilken SQL-kommando bruker vi UNIQUE?'),(33,3,'Hvilken SQL-kommando brukes for å slette en tabell?'),(34,4,'Hvor mange rader gir en spørring som grupperer tabellen Reservasjon med hensyn på kolonnen Nr ?'),(35,4,'Når må du bruke gruppering?'),(36,4,'I hvilken situasjon må du bruke likekobling?'),(37,4,'Hvor mange rader gir spørringen SELECT * FROM Rom, Reservasjon?'),(38,4,'Hvor mange rader gir spørringen SELECT * FROM Rom, Reservasjon WHERE Rom.Nr=Reservasjon.Nr?'),(39,4,'Hvor mange rader gir spørringen SELECT Nr, COUNT(*) FROM Reservasjon GROUP BY Nr ?'),(40,4,'Hvor mange rader gir spørringen SELECT * FROM Rom, Bedrift, Reservasjon ?'),(41,4,'Hvor mange kolonner gir spørringen SELECT * FROM Rom, Bedrift, Reservasjon ?'),(42,5,'Når må du bruke en delspørring?'),(43,5,'Hva blir resultatet av spørringen SELECT SUM(IF(Pris &lt; 60, Pris, 0)) FROM Vare ?'),(44,5,'Hvor mange rader gir spørringen SELECT * FROM Vare WHERE Id IN (SELECT DISTINCT Id FROM PrisEndring'),(45,5,'Lag en spørring som viser varer som er dyrere enn gjennomsnittet.'),(46,5,'Når må du bruke en ytre kobling?'),(47,5,'Hvilken visning (view) er oppdaterbar ?'),(48,5,'Hva er en visning (view) ?'),(49,5,'Hvilken spørring gir samme resultat som spørring 1 ?'),(50,5,'Hvilken spørring gir samme resultat som spørring 2 ?'),(51,6,'Hvor mange tupler gir uttrykket &prod;<sub>nr</sub>(A) &cup; &prod;<sub>nr</sub>(&sigma;<sub>test=10</sub>(B)) ?'),(52,6,'Hvor mange tupler gir uttrykket &prod;<sub>nr</sub>(A) &cap; &prod;<sub>nr</sub>(&sigma;<sub>test=10</sub>(B)) ?'),(53,6,'Hvor mange tupler gir uttrykket A &times; B ?'),(54,6,'Hvordan er begrepet relasjon definert i relasjonsmodellen?'),(55,6,'Hvor mange tupler gir uttrykket A &otimes; B ?'),(56,6,'Hva menes med en relasjon mellom A og B i relasjonsmodellen?'),(57,7,'Hva er en identifikator (primærnøkkel) ?'),(58,7,'Hvor mange lag kan en spiller maksimalt være knyttet til ?'),(59,7,'Hva er den nedre grensen for antall spillere pr. lag ?'),(60,7,'Diagrammet inneholder én fremmednøkkel. Hvilken ?'),(61,7,'Hvilket attributt er definert som identifikator (primærnøkkel) for entitet Spiller ?'),(62,7,'Databasen skal også ta vare på kampresultater. Hvordan bør datamodellen endres ?'),(63,7,'Entiteter svarer til tabeller og attributter svarer til ___ ?'),(64,7,'Hva er korrekt ?'),(65,7,'Hva skjer når man tegner et mange-til-mange forhold mellom entiteter A og B i MySQL Workbench ?'),(66,7,'Databasen skal ta vare på draktnummeret til hver spiller. Hvordan kan det håndteres?'),(67,8,'Hva er en svak entitet ?'),(68,8,'Hva er korrekt å si om subtyper ?'),(69,8,'Hva kan vi bruke i stedet for svake entiteter ?'),(70,8,'Hvordan blir et mange-til-mange forhold representert i databasen ?'),(71,8,'Hvordan blir et en-til-mange forhold representert i databasen ?'),(72,8,'Hvilken entitet er svak ?'),(73,8,'Følgende kolonner i deltakelse er fremmednøkler:'),(74,8,'Hvilken kolonne ble lagt til når mange-til-en forholdet mellom ansatt og avdeling ble laget ?'),(75,8,'Hvilken kolonne ble lagt til når en-til-en forholdet mellom ansatt og avdeling ble laget ?'),(76,8,'Hvert prosjekt har en leder. En ansatt kan lede flere prosjekter. Hvordan bør dette modelleres ?'),(77,8,'Hva menes med redundans?'),(78,8,'Hva er korrekt?'),(79,8,'Hva menes med at det er en funksjonell avhengighet fra en kolonne X til en kolonne Y?'),(80,8,'Hva er sammenhengen mellom begrepene supernøkkel og kandidatnøkkel?'),(81,8,'Angi kandidatnøkler til tabell Kommune.'),(82,8,'Angi normalform for tabell Kommune.'),(83,8,'Normalisering av tabell Kommune gir:'),(84,8,'Angi kandidatnøkler til tabell Måling.'),(85,8,'Angi normalform for tabell Måling.'),(86,8,'Normalisering av tabell Måling gir:'),(87,8,'Angi kandidatnøkler til tabell A.'),(88,8,'Angi normalform for tabell A.'),(89,8,'Normalisering av tabell A gir:'),(90,9,'Hvor mange pekere inneholder en tett indeks ?'),(91,9,'Hva er riktig å si om indekser ?'),(92,9,'Det trengs minimum ___ antall blokker for å lagre tabellen Vare.'),(93,9,'Hvor mange blokker må vi i gjennomsnitt lese ved søk på navn ?'),(94,9,'Hvor mange blokker må vi lese ved søk på vnr ?'),(95,9,'Hvordan oppretter man en indeks på vnr med SQL ?'),(96,9,'Hvor mange sammenligninger trengs i verste fall for å finne et tall med binærsøk i en sortert liste med 400 tall ?'),(97,9,'Hva er et B-tre ?'),(98,10,'Hva står A i forkortelsen ACID for ?'),(99,10,'I et serialiserbart forløp ___'),(100,10,'Hvilket av følgende utsagn om låser er korrekt ?'),(101,10,'Hva er korrekt å si om leselåser og skrivelåser ?'),(102,10,'I tofaselåsing må en transaksjon:'),(103,10,'Hva gjør kommandoen COMMIT ?'),(104,10,'Hvordan kan DBHS oppdage en vranglås ?'),(105,10,'Hva er korrekt å si om to-faselåsing ?'),(106,10,'Hvilke opplysninger blir lagret i en transaksjonslogg ?'),(107,10,'Hva står ACID for ?'),(108,10,'Hva er effekten av kommandoen COMMIT ?'),(109,10,'Hva kan transaksjonsloggen brukes til ?'),(110,10,'Hva gjør kommandoen ROLLBACK ?'),(111,11,'Hva gjør vi ved hjelp av kommandoen GRANT ?'),(112,11,'Hva menes med horisontal fragmentering i et distribuert databasesystem ?'),(113,11,'Hva menes med replikering i et distribuert databasesystem ?'),(114,11,'Følgende er eksempler på hva en regelbasert spørreoptimalisator gjør:'),(115,11,'Hva er forskjellen på objektrettigheter og systemrettigheter ?'),(116,11,'Hva er effekten av å bruke WITH GRANT OPTION i en GRANT-kommando ?'),(117,11,'Hva er effekten av kommandoen AUDIT UPDATE ON Kunde ?'),(118,11,'En fordel ved bruk av roller:'),(119,11,'Hvordan kan vi gi bruker per retten til å slette data fra tabellen Vare ?'),(120,11,'Hva kan være nyttig å bruke ved gjenoppbygging (recovery) etter feil ?'),(121,11,'Hvilken kommando brukes for å trekke tilbake rettigheter ?'),(122,12,'Hva blir skrevet ut i listing 1 ?'),(123,12,'Hva blir skrevet ut i listing 2 ?'),(124,12,'Hva blir skrevet ut i listing 3 ?'),(125,12,'Hva skjer når en bruker klikker på en lenke til et PHP-skript ?'),(126,12,'Hvilken PHP-funksjon brukes for å utføre SQL-spørringer ?'),(127,12,'Hvordan kan vi bruke PHP for å hente ut alle radene i et SQL spørreresultat ?'),(128,12,'Hva blir skrevet ut i listing 4 ?'),(129,12,'Hva skal sendes med som 4. parameter til funksjonen mysqli_connect ?'),(130,12,'Hva brukes funksjonen mysqli_fetch_assoc til ?'),(131,12,'Hva menes med at PHP brukes til å lage dynamiske nettsider ?'),(132,12,'Hvordan knyttes et HTML-skjema til et PHP-skript ?'),(133,12,'Hva er forskjellen på bruk av GET og POST i et HTML-skjema ?'),(134,12,'Hvilken SQL-spørring blir utført hvis brukeren skriver Ha i tekstfeltet ?'),(135,12,'Hvilken PHP-funksjon kan brukes for å hente ut en rad fra et spørreresultat ?'),(136,13,'Hva er en trigger ?'),(137,13,'Til hva kan vi bruke en AFTER rad-trigger ?'),(138,13,'Hva skjer når spørring 1 blir utført, gitt at trigger 1 er opprettet ?'),(139,13,'Hva skjer når spørring 2 blir utført, gitt at trigger 2 er opprettet ?'),(140,13,'Hvor mange ganger blir trigger 2 utført når spørring 3 blir utført ?'),(141,13,'Til hva kan vi bruke en BEFORE rad-trigger ?');\n")
 
   },
 
