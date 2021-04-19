@@ -4,7 +4,7 @@
  */
 
 exports.encrypt = (input) => {
-    const NUMBER_OF_SHIFTS = 1;
+    const KEY = 42;
 
     if(typeof input !== 'string')
         input = JSON.stringify(input);
@@ -13,7 +13,7 @@ exports.encrypt = (input) => {
     if (input.length === 0) return encryptedString;
 
     for (let i = 0; i < input.length; i++) {
-        const charCode = input.charCodeAt(i) + NUMBER_OF_SHIFTS;
+        const charCode = input.charCodeAt(i) + KEY;
         encryptedString  +=  String.fromCharCode(charCode);
     }
     return encryptedString;
@@ -22,13 +22,13 @@ exports.encrypt = (input) => {
 
 // Blir brukt på klient siden
 function decrypt(encryptedString) {
-    const NUMBER_OF_SHIFTS = 1;
+    const KEY = 42;
 
     let decryptedString = '';
     if (encryptedString.length === 0) return decryptedString;
 
     for (let i = 0; i < encryptedString.length; i++) {
-        const charCode   = encryptedString.charCodeAt(i) - NUMBER_OF_SHIFTS;
+        const charCode   = encryptedString.charCodeAt(i) - KEY;
         decryptedString  = decryptedString += String.fromCharCode(charCode);
     }
 
